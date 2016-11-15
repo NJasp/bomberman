@@ -1,0 +1,9 @@
+# exclude everything but c and header files
+/*
+*~
+!.gitignore
+!*.c
+!*.cpp
+!*.cc
+!*.h
+!*.ino
