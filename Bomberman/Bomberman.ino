@@ -37,9 +37,8 @@ int main() {
 		joy_x_axis = nunchuck_buf[0];
 		joy_y_axis = nunchuck_buf[1];
 
-		
-
 		lcd.fillCircle(joy_x_axis, joy_y_axis, 5, RGB(255, 0, 0));			//Draw on screen with joystick variables
+		_delay_ms(5);
 		lcd.fillCircle(joy_x_axis, joy_y_axis, 5, RGB(255, 255, 255));
 	}
 	return 0;
