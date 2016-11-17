@@ -54,8 +54,8 @@ int main() {
 
 		
 
-		lcd.fillCircle(joy_x_axis, joy_y_axis, 5, RGB(255, 0, 0));			//Draw on screen with joystick variables
-		lcd.fillCircle(joy_x_axis, joy_y_axis, 5, RGB(255, 255, 255));
+		lcd.fillCircle(x, y, 5, RGB(255, 0, 0));			//Draw on screen with joystick variables
+		lcd.fillCircle(x, y, 5, RGB(255, 255, 255));
 	}
 	return 0;
 }
