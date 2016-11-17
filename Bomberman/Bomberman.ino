@@ -7,20 +7,11 @@
 
 MI0283QT9 lcd;
 int joy_x_axis, joy_y_axis;
-//uint8_t teller = 0;
-//volatile uint8_t seconden = 0;
-
-
 
 static uint8_t nunchuck_buf[6];
 
 int main() {
 	init();												//INITIALIZE (SETUP)
-	/*TIMSK2 |= (1 << TOIE2);
-	TCNT2 = 0;											//SET TIMER 2 AAN (Prescaling 1/1024)
-	TCCR2B |= (1 << CS22) | (1 << CS20) | (1 << CS21);
-	sei();*/
-
 	lcd.begin(8);
 	lcd.fillScreen(RGB(255, 255, 255));
 	lcd.setOrientation(0);
@@ -52,8 +43,6 @@ int main() {
 		lcd.fillCircle(joy_x_axis, joy_y_axis, 5, RGB(255, 0, 0));			//Draw on screen with joystick variables
 		lcd.drawLine(0, joy_y_axis, 320, joy_y_axis, RGB(0, 0, 0));
 		lcd.drawLine(joy_x_axis, 0, joy_x_axis, 240, RGB(0, 0, 0));
-		//lcd.drawText(5, 230, "Time: ", RGB(0, 0, 0), RGB(255, 255, 255), 1);
-		//lcd.drawInteger(50, 230, seconden, DEC, RGB(0, 0, 0), RGB(255, 255, 255), 1);
 		delay(25);
 		lcd.fillCircle(joy_x_axis, joy_y_axis, 5, RGB(255, 255, 255));
 		lcd.drawLine(0, joy_y_axis, 320, joy_y_axis, RGB(255, 255, 255));
@@ -61,13 +50,4 @@ int main() {
 	}
 	return 0;
 }
-
-/*ISR(TIMER2_OVF_vect) {		//seconden++ every second
-	teller++;
-	if (teller >= 60)
-	{
-		seconden++;
-		teller = 0;
-	}
-}*/
 
