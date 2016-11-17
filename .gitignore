@@ -1,6 +1,7 @@
 # exclude everything but c and header files
 /*
 *~
+/*/*
 !.gitignore
 !*.c
 !/*/*.c
