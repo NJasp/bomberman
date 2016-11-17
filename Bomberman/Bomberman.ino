@@ -41,12 +41,8 @@ int main() {
 		joy_y_axis = map(joy_y_axis, 33, 228, 240, 0);
 
 		lcd.fillCircle(joy_x_axis, joy_y_axis, 5, RGB(255, 0, 0));			//Draw on screen with joystick variables
-		lcd.drawLine(0, joy_y_axis, 320, joy_y_axis, RGB(0, 0, 0));
-		lcd.drawLine(joy_x_axis, 0, joy_x_axis, 240, RGB(0, 0, 0));
 		delay(25);
 		lcd.fillCircle(joy_x_axis, joy_y_axis, 5, RGB(255, 255, 255));
-		lcd.drawLine(0, joy_y_axis, 320, joy_y_axis, RGB(255, 255, 255));
-		lcd.drawLine(joy_x_axis, 0, joy_x_axis, 240, RGB(255, 255, 255));
 	}
 	return 0;
 }
