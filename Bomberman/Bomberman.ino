@@ -5,7 +5,7 @@
 #include <Arduino.h>
 #include <MI0283QT9.h>
 
-//comment
+//comment 2
 
 MI0283QT9 lcd;
 int joy_x_axis, joy_y_axis;
