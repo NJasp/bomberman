@@ -52,8 +52,8 @@ int main() {
 		lcd.fillCircle(joy_x_axis, joy_y_axis, 5, RGB(255, 0, 0));			//Draw on screen with joystick variables
 		lcd.drawLine(0, joy_y_axis, 320, joy_y_axis, RGB(0, 0, 0));
 		lcd.drawLine(joy_x_axis, 0, joy_x_axis, 240, RGB(0, 0, 0));
-		lcd.drawText(5, 230, "Time: ", RGB(0, 0, 0), RGB(255, 255, 255), 1);
-		lcd.drawInteger(50, 230, seconden, DEC, RGB(0, 0, 0), RGB(255, 255, 255), 1);
+		//lcd.drawText(5, 230, "Time: ", RGB(0, 0, 0), RGB(255, 255, 255), 1);
+		//lcd.drawInteger(50, 230, seconden, DEC, RGB(0, 0, 0), RGB(255, 255, 255), 1);
 		delay(25);
 		lcd.fillCircle(joy_x_axis, joy_y_axis, 5, RGB(255, 255, 255));
 		lcd.drawLine(0, joy_y_axis, 320, joy_y_axis, RGB(255, 255, 255));
