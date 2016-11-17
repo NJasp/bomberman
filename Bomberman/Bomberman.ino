@@ -7,8 +7,8 @@
 
 MI0283QT9 lcd;
 int joy_x_axis, joy_y_axis;
-uint8_t teller = 0;
-volatile uint8_t seconden = 0;
+//uint8_t teller = 0;
+//volatile uint8_t seconden = 0;
 
 
 
@@ -16,10 +16,10 @@ static uint8_t nunchuck_buf[6];
 
 int main() {
 	init();												//INITIALIZE (SETUP)
-	TIMSK2 |= (1 << TOIE2);
+	/*TIMSK2 |= (1 << TOIE2);
 	TCNT2 = 0;											//SET TIMER 2 AAN (Prescaling 1/1024)
 	TCCR2B |= (1 << CS22) | (1 << CS20) | (1 << CS21);
-	sei();
+	sei();*/
 
 	lcd.begin(8);
 	lcd.fillScreen(RGB(255, 255, 255));
@@ -62,12 +62,12 @@ int main() {
 	return 0;
 }
 
-ISR(TIMER2_OVF_vect) {		//seconden++ every second
+/*ISR(TIMER2_OVF_vect) {		//seconden++ every second
 	teller++;
 	if (teller >= 60)
 	{
 		seconden++;
 		teller = 0;
 	}
-}
+}*/
 
