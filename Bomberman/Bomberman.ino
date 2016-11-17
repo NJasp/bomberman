@@ -5,6 +5,8 @@
 #include <Arduino.h>
 #include <MI0283QT9.h>
 
+//comment 2
+
 MI0283QT9 lcd;
 int joy_x_axis, joy_y_axis;
 uint8_t teller = 0;
