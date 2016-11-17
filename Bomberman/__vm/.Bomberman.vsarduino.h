@@ -12,8 +12,9 @@
 #define _VSARDUINO_H_
 #define __AVR_ATmega328p__
 #define __AVR_ATmega328P__
+#define _VMDEBUG 1
 #define F_CPU 16000000L
-#define ARDUINO 106011
+#define ARDUINO 10609
 #define ARDUINO_AVR_UNO
 #define ARDUINO_ARCH_AVR
 #define __cplusplus 201103L
@@ -51,5 +52,4 @@ extern "C" void __cxa_pure_virtual() {;}
 #undef PSTR
 #define PSTR(string_literal) ((const PROGMEM char *)(string_literal))")
 #include "Bomberman.ino"
-#include "..\..\..\Documents\Libraries\ADS7846\examples\Example\Example.ino"
 #endif
