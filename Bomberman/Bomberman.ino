@@ -6,7 +6,10 @@
 #include <MI0283QT9.h>
 
 MI0283QT9 lcd;
-int joy_x_axis, joy_y_axis;
+uint8_t joy_x_axis, joy_y_axis;
+uint16_t x = 160;
+uint8_t y = 120;
+
 
 static uint8_t nunchuck_buf[6];
 
@@ -36,11 +39,24 @@ int main() {
 		Wire.endTransmission();
 		joy_x_axis = nunchuck_buf[0];
 		joy_y_axis = nunchuck_buf[1];
+		if (joy_x_axis > 132) {
+			x++;
+		}
+		if (joy_x_axis < 122) {
+			x--;
+		}
+		if (joy_y_axis > 132) {
+			y--;
+		}
+		if (joy_y_axis < 122) {
+			y++;
+		}
 
 		
 
-		lcd.fillCircle(joy_x_axis, joy_y_axis, 5, RGB(255, 0, 0));			//Draw on screen with joystick variables
-		lcd.fillCircle(joy_x_axis, joy_y_axis, 5, RGB(255, 255, 255));
+		lcd.fillCircle(x, y, 5, RGB(255, 0, 0));			//Draw on screen with joystick variables
+		_delay_ms(10);
+		lcd.fillCircle(x, y, 5, RGB(255, 255, 255));
 	}
 	return 0;
 }
