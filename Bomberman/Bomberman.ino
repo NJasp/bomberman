@@ -2,7 +2,6 @@
 #include <avr/interrupt.h>
 #include <stdint.h>
 #include <Wire.h>
-#include <Arduino.h>
 #include <MI0283QT9.h>
 
 MI0283QT9 lcd;
@@ -13,8 +12,7 @@ uint8_t y = 120;
 
 static uint8_t nunchuck_buf[6];
 
-int main() {
-	init();												//INITIALIZE (SETUP)
+int main() {											//INITIALIZE (SETUP)
 	lcd.begin(8);
 	lcd.fillScreen(RGB(255, 255, 255));
 	lcd.setOrientation(0);
@@ -60,6 +58,7 @@ int main() {
 		}
 
 		lcd.fillCircle(x, y, 5, RGB(255, 0, 0));			//Draw on screen with joystick variables
+
 		//_delay_ms(10);
 		lcd.fillCircle(x, y, 5, RGB(255, 255, 255));
 	}
