@@ -2,19 +2,17 @@
 #include <avr/interrupt.h>
 #include <stdint.h>
 #include <Wire.h>
-#include <Arduino.h>
 #include <MI0283QT9.h>
 
 MI0283QT9 lcd;
 uint8_t joy_x_axis, joy_y_axis;
-uint16_t x = 160, Xsreen = 320;
-uint8_t y = 120, Yscreen = 240;
+uint16_t x = 160;
+uint8_t y = 120;
 
 
 static uint8_t nunchuck_buf[6];
 
-int main() {
-	init();												//INITIALIZE (SETUP)
+int main() {											//INITIALIZE (SETUP)
 	lcd.begin(8);
 	lcd.fillScreen(RGB(255, 255, 255));
 	lcd.setOrientation(0);
