@@ -2,17 +2,19 @@
 #include <avr/interrupt.h>
 #include <stdint.h>
 #include <Wire.h>
+#include <Arduino.h>
 #include <MI0283QT9.h>
 
 MI0283QT9 lcd;
 uint8_t joy_x_axis, joy_y_axis;
-uint16_t x = 160;
-uint8_t y = 120;
+uint16_t x = 5;
+uint8_t y = 5;
 
 
 static uint8_t nunchuck_buf[6];
 
-int main() {											//INITIALIZE (SETUP)
+int main() {
+	init();												//INITIALIZE (SETUP)
 	lcd.begin(8);
 	lcd.fillScreen(RGB(255, 255, 255));
 	lcd.setOrientation(0);
@@ -26,11 +28,11 @@ int main() {											//INITIALIZE (SETUP)
 	Wire.endTransmission();
 
 	// draw grid
-//	uint16_t gridCounter;
-//	for(gridCounter = 0; gridCounter <= lcd.lcd_width; gridCounter+=15){
-//		lcd.drawLine(0, gridCounter, lcd.lcd_width, gridCounter, RGB(0, 255, 0));
-//		lcd.drawLine(gridCounter, 0, gridCounter, lcd.lcd_width, RGB(0,255,0));
-//	}
+	uint16_t gridCounter;
+	for(gridCounter = 0; gridCounter <= lcd.lcd_width; gridCounter+=15){
+		lcd.drawLine(0, gridCounter, lcd.lcd_width, gridCounter, RGB(0, 0, 0));
+		lcd.drawLine(gridCounter, 0, gridCounter, lcd.lcd_width, RGB(0, 0, 0));
+	}
 
 	for (;;) {											// MAIN LOOP								
 		int i = 0;
@@ -58,7 +60,6 @@ int main() {											//INITIALIZE (SETUP)
 		}
 
 		lcd.fillCircle(x, y, 5, RGB(255, 0, 0));			//Draw on screen with joystick variables
-
 		//_delay_ms(10);
 		lcd.fillCircle(x, y, 5, RGB(255, 255, 255));
 	}
