@@ -26,11 +26,11 @@ int main() {											//INITIALIZE (SETUP)
 	Wire.endTransmission();
 
 	// draw grid
-	uint16_t gridCounter;
-	for(gridCounter = 0; gridCounter <= lcd.lcd_width; gridCounter+=15){
-		lcd.drawLine(0, gridCounter, lcd.lcd_width, gridCounter, RGB(0, 255, 0));
-		lcd.drawLine(gridCounter, 0, gridCounter, lcd.lcd_width, RGB(0,255,0));
-	}
+//	uint16_t gridCounter;
+//	for(gridCounter = 0; gridCounter <= lcd.lcd_width; gridCounter+=15){
+//		lcd.drawLine(0, gridCounter, lcd.lcd_width, gridCounter, RGB(0, 255, 0));
+//		lcd.drawLine(gridCounter, 0, gridCounter, lcd.lcd_width, RGB(0,255,0));
+//	}
 
 	for (;;) {											// MAIN LOOP								
 		int i = 0;
