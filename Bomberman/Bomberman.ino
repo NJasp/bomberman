@@ -6,21 +6,18 @@
 #include <MI0283QT9.h>
 
 MI0283QT9 lcd;
-int joy_x_axis, joy_y_axis;
-uint8_t teller = 0;
-volatile uint8_t seconden = 0;
-
+int blockArrayX[5000] = {};
+int blockArrayY[5000] = {};
+int a = 10, b = 10, c = 10, d = 10;
+uint8_t joy_x_axis, joy_y_axis;
+uint16_t x = 10;
+uint8_t y = 10;
 
 
 static uint8_t nunchuck_buf[6];
 
 int main() {
 	init();												//INITIALIZE (SETUP)
-	TIMSK2 |= (1 << TOIE2);
-	TCNT2 = 0;											//SET TIMER 2 AAN (Prescaling 1/1024)
-	TCCR2B |= (1 << CS22) | (1 << CS20) | (1 << CS21);
-	sei();
-
 	lcd.begin(8);
 	lcd.fillScreen(RGB(255, 255, 255));
 	lcd.setOrientation(0);
@@ -32,6 +29,17 @@ int main() {
 	Wire.write(0x40);
 	Wire.write(0x00);
 	Wire.endTransmission();
+
+	// draw grid
+	uint16_t gridCounter;
+	int count;
+	for(gridCounter = 0; gridCounter <= lcd.lcd_width; gridCounter+=20){
+		lcd.drawLine(0, gridCounter, lcd.lcd_width, gridCounter, RGB(0, 0, 0));
+		blockArrayX[count] = gridCounter;
+		lcd.drawLine(gridCounter, 0, gridCounter, lcd.lcd_width, RGB(0, 0, 0));
+		blockArrayY[count] = gridCounter;
+		count++;
+	}
 
 	for (;;) {											// MAIN LOOP								
 		int i = 0;
@@ -45,29 +53,28 @@ int main() {
 		Wire.endTransmission();
 		joy_x_axis = nunchuck_buf[0];
 		joy_y_axis = nunchuck_buf[1];
+		if (joy_x_axis > 132 && (joy_y_axis <= 170 && joy_y_axis >= 90)) {
+			x = blockArrayX[a];
+			a++;
+				
+		}
+		if (joy_x_axis < 122 && (joy_y_axis <= 170 && joy_y_axis >= 90)) {
+			x = blockArrayX[b - 1];
+			b++;
+		}
+		if (joy_y_axis > 132 && (joy_x_axis <= 170 && joy_x_axis >= 90)) {
+			y = blockArrayY[c-1];
+			c++;
+		}
+		if (joy_y_axis < 122 && (joy_x_axis <= 170 && joy_x_axis >= 90)) {
+			y = blockArrayY[c];
+			c++;
+		}
 
-		joy_x_axis = map(joy_x_axis, 28, 231, 0, 320);					//re-map the values to screen height and width
-		joy_y_axis = map(joy_y_axis, 33, 228, 240, 0);
-
-		lcd.fillCircle(joy_x_axis, joy_y_axis, 5, RGB(255, 0, 0));			//Draw on screen with joystick variables
-		lcd.drawLine(0, joy_y_axis, 320, joy_y_axis, RGB(0, 0, 0));
-		lcd.drawLine(joy_x_axis, 0, joy_x_axis, 240, RGB(0, 0, 0));
-		lcd.drawText(5, 230, "Time: ", RGB(0, 0, 0), RGB(255, 255, 255), 1);
-		lcd.drawInteger(50, 230, seconden, DEC, RGB(0, 0, 0), RGB(255, 255, 255), 1);
-		delay(25);
-		lcd.fillCircle(joy_x_axis, joy_y_axis, 5, RGB(255, 255, 255));
-		lcd.drawLine(0, joy_y_axis, 320, joy_y_axis, RGB(255, 255, 255));
-		lcd.drawLine(joy_x_axis, 0, joy_x_axis, 240, RGB(255, 255, 255));
+		lcd.fillCircle(x, y, 10, RGB(255, 0, 0));			//Draw on screen with joystick variables
+		//_delay_ms(10);
+		lcd.fillCircle(x, y, 10, RGB(255, 255, 255));
 	}
 	return 0;
-}
-
-ISR(TIMER2_OVF_vect) {		//seconden++ every second
-	teller++;
-	if (teller >= 60)
-	{
-		seconden++;
-		teller = 0;
-	}
 }
 
