@@ -27,13 +27,6 @@ int main() {
 	Wire.write(0x00);
 	Wire.endTransmission();
 
-	int a;
-	for (a = 0; a <+6; a++) {
-		lcd.drawLine(0, Xsreen, Xsreen, 0, RGB(255, 255, 0));
-		Xsreen += 20;
-		Yscreen += 20;
-	}
-
 	for (;;) {											// MAIN LOOP								
 		int i = 0;
 		Wire.requestFrom(0x52, 6);						//READ NUNCHUCK
