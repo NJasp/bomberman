@@ -27,6 +27,13 @@ int main() {
 	Wire.write(0x00);
 	Wire.endTransmission();
 
+	// draw grid
+	uint16_t gridCounter;
+	for(gridCounter = 0; gridCounter <= lcd.lcd_width; gridCounter+=15){
+		lcd.drawLine(0, gridCounter, lcd.lcd_width, gridCounter, RGB(0, 255, 0));
+		lcd.drawLine(gridCounter, 0, gridCounter, lcd.lcd_width, RGB(0,255,0));
+	}
+
 	for (;;) {											// MAIN LOOP								
 		int i = 0;
 		Wire.requestFrom(0x52, 6);						//READ NUNCHUCK
@@ -51,8 +58,6 @@ int main() {
 		if (joy_y_axis < 122) {
 			y++;
 		}
-
-		
 
 		lcd.fillCircle(x, y, 5, RGB(255, 0, 0));			//Draw on screen with joystick variables
 		//_delay_ms(10);
