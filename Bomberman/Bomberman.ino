@@ -7,8 +7,8 @@
 
 MI0283QT9 lcd;
 uint8_t joy_x_axis, joy_y_axis;
-uint16_t x = 160;
-uint8_t y = 120;
+uint16_t x = 160, Xsreen = 320;
+uint8_t y = 120, Yscreen = 240;
 
 
 static uint8_t nunchuck_buf[6];
@@ -26,6 +26,13 @@ int main() {
 	Wire.write(0x40);
 	Wire.write(0x00);
 	Wire.endTransmission();
+
+	int a;
+	for (a = 0; a <+6; a++) {
+		lcd.drawLine(0, Xsreen, Xsreen, 0, RGB(255, 255, 0));
+		Xsreen += 20;
+		Yscreen += 20;
+	}
 
 	for (;;) {											// MAIN LOOP								
 		int i = 0;
@@ -55,6 +62,7 @@ int main() {
 		
 
 		lcd.fillCircle(x, y, 5, RGB(255, 0, 0));			//Draw on screen with joystick variables
+
 		//_delay_ms(10);
 		lcd.fillCircle(x, y, 5, RGB(255, 255, 255));
 	}
