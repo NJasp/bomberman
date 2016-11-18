@@ -6,9 +6,12 @@
 #include <MI0283QT9.h>
 
 MI0283QT9 lcd;
+int blockArrayX[5000] = {};
+int blockArrayY[5000] = {};
+int a = 10, b = 10, c = 10, d = 10;
 uint8_t joy_x_axis, joy_y_axis;
-uint16_t x = 5;
-uint8_t y = 5;
+uint16_t x = 10;
+uint8_t y = 10;
 
 
 static uint8_t nunchuck_buf[6];
@@ -29,9 +32,13 @@ int main() {
 
 	// draw grid
 	uint16_t gridCounter;
-	for(gridCounter = 0; gridCounter <= lcd.lcd_width; gridCounter+=15){
+	int count;
+	for(gridCounter = 0; gridCounter <= lcd.lcd_width; gridCounter+=20){
 		lcd.drawLine(0, gridCounter, lcd.lcd_width, gridCounter, RGB(0, 0, 0));
+		blockArrayX[count] = gridCounter;
 		lcd.drawLine(gridCounter, 0, gridCounter, lcd.lcd_width, RGB(0, 0, 0));
+		blockArrayY[count] = gridCounter;
+		count++;
 	}
 
 	for (;;) {											// MAIN LOOP								
@@ -46,22 +53,27 @@ int main() {
 		Wire.endTransmission();
 		joy_x_axis = nunchuck_buf[0];
 		joy_y_axis = nunchuck_buf[1];
-		if (joy_x_axis > 132) {
-			x++;
+		if (joy_x_axis > 132 && (joy_y_axis <= 170 && joy_y_axis >= 90)) {
+			x = blockArrayX[a];
+			a++;
+				
 		}
-		if (joy_x_axis < 122) {
-			x--;
+		if (joy_x_axis < 122 && (joy_y_axis <= 170 && joy_y_axis >= 90)) {
+			x = blockArrayX[b - 1];
+			b++;
 		}
-		if (joy_y_axis > 132) {
-			y--;
+		if (joy_y_axis > 132 && (joy_x_axis <= 170 && joy_x_axis >= 90)) {
+			y = blockArrayY[c-1];
+			c++;
 		}
-		if (joy_y_axis < 122) {
-			y++;
+		if (joy_y_axis < 122 && (joy_x_axis <= 170 && joy_x_axis >= 90)) {
+			y = blockArrayY[c];
+			c++;
 		}
 
-		lcd.fillCircle(x, y, 5, RGB(255, 0, 0));			//Draw on screen with joystick variables
+		lcd.fillCircle(x, y, 10, RGB(255, 0, 0));			//Draw on screen with joystick variables
 		//_delay_ms(10);
-		lcd.fillCircle(x, y, 5, RGB(255, 255, 255));
+		lcd.fillCircle(x, y, 10, RGB(255, 255, 255));
 	}
 	return 0;
 }
