@@ -18,4 +18,5 @@
 !/*/*.ino
 !/*/*/*.ino
 !*.md
+!/*/Libraries/*
 .ino.cpp
