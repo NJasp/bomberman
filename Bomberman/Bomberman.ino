@@ -58,8 +58,6 @@ int main() {											//INITIALIZE (SETUP)
 		}
 
 		lcd.fillCircle(x, y, 5, RGB(255, 0, 0));			//Draw on screen with joystick variables
-
-		//_delay_ms(10);
 		lcd.fillCircle(x, y, 5, RGB(255, 255, 255));
 	}
 	return 0;
