@@ -68,7 +68,7 @@ int main() {
 				countX = 1; //hier worden de X coordinaat tellers weer gerest voor een volgend commando vanaf de joystick
 			}
 			else {
-				if (countX <= 0 && x > gridgrootte) { //deze code word uitgevoerd als er met de joystick naar links word gedrukt. 
+				if (countX <= 0 && x > gridgrootte) { //deze code word uitgevoerd als er met de joystick naar links word gedrukt
 					//als het bolletje helemaal naar links is verschoven op het scherm, stopt de uitvoer van deze code.
 					_delay_ms(10); // er is een delay nodig anders gaat het poppetje te snel over het scherm
 					lcd.fillCircle(x = x -= gridgrootte, y, gridgrootte / 2, RGB(255, 255, 255)); //hier wordt het poppetje daadwerkelijk getekend aan de hand van het formaat van de grid
