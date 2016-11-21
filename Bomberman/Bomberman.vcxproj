@@ -47,7 +47,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\src;C:\Program Files (x86)\Arduino\libraries\MI0283QT9;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SPI\src;C:\Program Files (x86)\Arduino\libraries\digitalWriteFast;C:\Program Files (x86)\Arduino\libraries\GraphicsLib;C:\Program Files (x86)\Arduino\libraries\MI0283QT9\utility;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\src\utility;C:\Program Files (x86)\Arduino\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;C:\Users\gebruiker-pc\Documents\Arduino\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;C:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\standard;C:\Users\gebruiker-pc\Documents\GitHub\Bomberman;C:\Program Files (x86)\Arduino\hardware\tools\avr/avr/include/;C:\Program Files (x86)\Arduino\hardware\tools\avr//avr/include/avr/;C:\Program Files (x86)\Arduino\hardware\tools\avr/lib\gcc\avr\4.8.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Arduino\hardware\arduino\avr\libraries\Wire\src;C:\Arduino\libraries\MI0283QT9;C:\Arduino\hardware\arduino\avr\libraries\SPI\src;C:\Arduino\libraries\digitalWriteFast;C:\Arduino\libraries\GraphicsLib;C:\Arduino\libraries\MI0283QT9\utility;C:\Arduino\hardware\arduino\avr\libraries\Wire\src\utility;C:\Arduino\libraries;C:\Arduino\hardware\arduino\avr\libraries;C:\Users\Martijn\Documents\Arduino\libraries;C:\Arduino\hardware\arduino\avr\cores\arduino;C:\Arduino\hardware\arduino\avr\variants\standard;C:\Users\Martijn\Git\Bomberman;C:\Arduino\hardware\tools\avr/avr/include/;C:\Arduino\hardware\tools\avr//avr/include/avr/;C:\Arduino\hardware\tools\avr/lib\gcc\avr\4.8.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>C:\Users\Martijn\Git\Bomberman\__vm\.Bomberman.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
       <PreprocessorDefinitions>__AVR_ATmega328p__;__AVR_ATmega328P__;F_CPU=16000000L;ARDUINO=10609;ARDUINO_AVR_UNO;ARDUINO_ARCH_AVR;__cplusplus=201103L;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -89,7 +89,7 @@
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties arduino.upload.port="COM3" />
+      <UserProperties arduino.upload.port="COM4" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

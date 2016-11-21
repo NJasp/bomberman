@@ -1,5 +1,16 @@
-/Bomberman/_vm
-/Bomberman/Debug
-/Bomberman/*.sln       
-/Bomberman/*.vcxproj     
-/Bomberman/*.vcxproj.filters
+# exclude everything but c and header files
+/*
+*~
+*/*
+!.gitignore
+!/*/
+!*/Libraries
+!*/Libraries/*
+!*/Libraries/*/*
+!*.c
+!*.cpp
+!*.cc
+!*.h
+!*.ino
+!*.md
+.ino.cpp
