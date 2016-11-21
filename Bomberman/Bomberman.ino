@@ -16,7 +16,7 @@ int main() {
 	lcd.begin(8);
 	lcd.fillScreen(RGB(255, 255, 255));
 	lcd.setOrientation(0);
-	DDRC &= ~(1 << PORTC5) | ~(1 << PORTC4);
+	DDRC |= (1 << PORTC5) | (1 << PORTC4);
 	PORTC |= (1 << PORTC4) | (1 << PORTC5);
 
 	Wire.begin();										//INITIALIZE NUNCHUCK                
