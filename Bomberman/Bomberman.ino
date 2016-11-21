@@ -43,16 +43,16 @@ int main() {
 		Wire.endTransmission();
 		joy_x_axis = nunchuck_buf[0];
 		joy_y_axis = nunchuck_buf[1];
-		if (joy_x_axis > 140 && (joy_y_axis <= 145 && joy_y_axis >= 115)) {
+		if (joy_x_axis > 140 /*&& (joy_y_axis <= 145 && joy_y_axis >= 115)*/) {
 			countX++; //hier word de teller voor de X coordinaat verhoogt als de joystick naar rechts word gedrukt
 		}
-		if (joy_x_axis < 114 && (joy_y_axis <= 145 && joy_y_axis >= 115)) {
+		if (joy_x_axis < 114 /*&& (joy_y_axis <= 145 && joy_y_axis >= 115)*/) {
 			countX--; //hier word de teller voor de X coordinaat verlaagt als de joystick naar links word gedrukt. komt niet lager als 0
 		}
-		if (joy_y_axis > 140 && (joy_x_axis <= 145 && joy_x_axis >= 115)) {
+		if (joy_y_axis > 140/* && (joy_x_axis <= 145 && joy_x_axis >= 115)*/) {
 			countY--; //hier word de teller voor de Y coordinaat verlaagt als de joystick naar beneden word gedrukt
 		}
-		if (joy_y_axis < 114 && (joy_x_axis <= 145 && joy_x_axis >= 115)) {
+		if (joy_y_axis < 114 /*&& (joy_x_axis <= 145 && joy_x_axis >= 115)*/) {
 			countY++; //hier word de teller voor de Y coordinaat verhoogt als de joystick naar boven word gedrukt
 		}
 
@@ -93,11 +93,10 @@ int main() {
 			}
 		}
 
-		lcd.fillCircle(x, y, gridgrootte / 2, RGB(255, 0, 0));
-		_delay_ms(10);
-		lcd.fillCircle(x, y, gridgrootte / 2, RGB(255, 255, 255));
+		lcd.fillCircle(x, y, 5, RGB(255, 0, 0));			//Draw on screen with joystick variables
 
-
+		//_delay_ms(10);
+		lcd.fillCircle(x, y, 5, RGB(255, 255, 255));
 	}
 	return 0;
 }
