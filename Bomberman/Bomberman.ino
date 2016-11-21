@@ -26,11 +26,27 @@ int main() {
 	Wire.endTransmission();
 
 	// draw grid
-	uint16_t gridCounter, gridCounter2;
+	uint16_t gridCounter;
+	uint8_t rowCounter;
+	for(gridCounter = 0; gridCounter < 12; gridCounter++){
+		for(rowCounter = 0; rowCounter < 16; rowCounter++){
+			if(gridCounter == 0 || gridCounter == 15)
+				grid[gridCounter][rowCounter] = 1;
+			else {
+				grid[gridCounter][0] == 1;
+				grid[gridCounter][15] == 1;
+				break;
+			}
+
+
+		}
+	}
 
 	int b;
 	for (gridCounter = 0; gridCounter <= lcd.lcd_width; gridCounter += gridgrootte) { // hier worden de lijnen van de grid getekend met de gedefineerde gridgrootte
- 	}
+		lcd.drawLine(0, gridCounter, lcd.lcd_width, gridCounter, RGB(0, 0, 0));
+		lcd.drawLine(gridCounter, 0, gridCounter, lcd.lcd_width, RGB(0, 0, 0));
+	}
 
 	for (;;) {
 		// MAIN LOOP								
