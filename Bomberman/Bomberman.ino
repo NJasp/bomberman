@@ -26,15 +26,17 @@ int main() {
 	Wire.endTransmission();
 
 	// draw grid
-	uint16_t gridCounter;
+	uint16_t collumCounter;
 	uint8_t rowCounter;
-	for(gridCounter = 0; gridCounter < 12; gridCounter++){
+	for(collumCounter = 0; collumCounter < 12; collumCounter++){
 		for(rowCounter = 0; rowCounter < 16; rowCounter++){
-			if(gridCounter == 0 || gridCounter == 15)
-				grid[gridCounter][rowCounter] = 1;
+			if (collumCounter == 0 || collumCounter == 15) {
+				grid[collumCounter][rowCounter] = 1;
+				lcd.fillRect(rowCounter, collumCounter, gridgrootte, gridgrootte, RGB(0, 0, 0));
+			} 
 			else {
-				grid[gridCounter][0] == 1;
-				grid[gridCounter][15] == 1;
+				grid[collumCounter][0] == 1;
+				grid[collumCounter][15] == 1;
 				break;
 			}
 
@@ -43,9 +45,9 @@ int main() {
 	}
 
 	int b;
-	for (gridCounter = 0; gridCounter <= lcd.lcd_width; gridCounter += gridgrootte) { // hier worden de lijnen van de grid getekend met de gedefineerde gridgrootte
-		lcd.drawLine(0, gridCounter, lcd.lcd_width, gridCounter, RGB(0, 0, 0));
-		lcd.drawLine(gridCounter, 0, gridCounter, lcd.lcd_width, RGB(0, 0, 0));
+	for (collumCounter = 0; collumCounter <= lcd.lcd_width; collumCounter += gridgrootte) { // hier worden de lijnen van de grid getekend met de gedefineerde gridgrootte
+		lcd.drawLine(0, collumCounter, lcd.lcd_width, collumCounter, RGB(0, 0, 0));
+		lcd.drawLine(collumCounter, 0, collumCounter, lcd.lcd_width, RGB(0, 0, 0));
 	}
 
 	for (;;) {
