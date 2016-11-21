@@ -1,0 +1,5 @@
+/Bomberman/_vm
+/Bomberman/Debug
+*.sln       
+*.vcxproj     
+*.vcxproj.filters
