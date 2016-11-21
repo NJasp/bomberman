@@ -6,7 +6,7 @@
 #include <MI0283QT9.h>
 
 MI0283QT9 lcd;
-uint8_t joy_x_axis, joy_y_axis, gridgrootte = 20, cirkelgrootte = (gridgrootte / 2)-1, y = gridgrootte / 2, countX = 1, countY = 1, grid[23][23];
+uint8_t joy_x_axis, joy_y_axis, gridgrootte = 20, cirkelgrootte = (gridgrootte / 2)-1, y = gridgrootte / 2, countX = 1, countY = 1, boxValue[16][16];
 uint16_t x = gridgrootte / 2;
 
 
@@ -33,13 +33,21 @@ int main() {
 	for (gridCounter = 0; gridCounter <= lcd.lcd_width; gridCounter += gridgrootte) { // hier worden de lijnen van de grid getekend met de gedefineerde gridgrootte
 		lcd.drawLine(0, gridCounter, lcd.lcd_width, gridCounter, RGB(0, 0, 0));
 		lcd.drawLine(gridCounter, 0, gridCounter, lcd.lcd_width, RGB(0, 0, 0));
-		grid[gridCounter][0] = 1;
-		grid[gridCounter][11] = 1;
-		for (b = 0; b <= 12; b++) {
-			grid[0][b] = 1;
-			grid[15][b] = 1;
+		boxValue[gridCounter][0] = 1;
+		boxValue[gridCounter][11] = 1;
+		for (b = 0; b < 11; b++) {
+			boxValue[0][b] = 1;
+			boxValue[15][b] = 1;
+		}
+		if (boxValue[gridCounter][b]) {
+			lcd.fillRect(gridCounter, 0, gridgrootte, gridgrootte, RGB(0, 0, 0));
 		}
 	}
+
+	for (b = 0; b < 11; b++) {
+
+	}
+
 
 	for (;;) {		
 		// MAIN LOOP								
@@ -99,16 +107,6 @@ int main() {
 					lcd.fillCircle(x, y, cirkelgrootte, RGB(255, 255, 255));
 					lcd.fillCircle(x, y = y -= gridgrootte, cirkelgrootte, RGB(255, 0, 0)); //hier wordt het poppetje daadwerkelijk getekend aan de hand van het formaat van de grid
 					countY = 1; //hier worden de Y coordinaat tellers weer gerest voor een volgend commando vanaf de joystick
-				}
-			}
-		}
-
-		int c;
-		int d;
-		for (c = 0; c < 16; c++) {
-			for (d = 0; d < 12; d++) {
-				if (grid[c][d]) {
-					lcd.drawRect(c, 0, gridgrootte, gridgrootte, RGB(0, 0, 0));
 				}
 			}
 		}
