@@ -6,7 +6,7 @@
 #include <MI0283QT9.h>
 
 MI0283QT9 lcd;
-uint8_t joy_x_axis, joy_y_axis, gridgrootte = 20, cirkelgrootte = (gridgrootte / 2) - 1, y = gridgrootte / 2, countX = 1, countY = 1, grid[16][16];
+uint8_t joy_x_axis, joy_y_axis, gridgrootte = 20, cirkelgrootte = (gridgrootte / 2) - 1, y = gridgrootte / 2, countX = 1, countY = 1, grid[12][16];
 uint16_t x = gridgrootte / 2;
 
 static uint8_t nunchuck_buf[6];
@@ -27,6 +27,20 @@ int main() {
 
 	// draw grid
 	uint16_t gridCounter;
+	uint8_t rowCounter;
+	for(gridCounter = 0; gridCounter < 12; gridCounter++){
+		for(rowCounter = 0; rowCounter < 16; rowCounter++){
+			if(gridCounter == 0 || gridCounter == 15)
+				grid[gridCounter][rowCounter] = 1;
+			else {
+				grid[gridCounter][0] == 1;
+				grid[gridCounter][15] == 1;
+				break;
+			}
+
+
+		}
+	}
 
 	int b;
 	for (gridCounter = 0; gridCounter <= lcd.lcd_width; gridCounter += gridgrootte) { // hier worden de lijnen van de grid getekend met de gedefineerde gridgrootte
