@@ -25,19 +25,27 @@ int main() {
 	Wire.write(0x00);
 	Wire.endTransmission();
 
-	// draw grid
+	// fill grid
 	uint16_t gridCounter;
 	uint8_t rowCounter;
 	for(gridCounter = 0; gridCounter < 12; gridCounter++){
 		for(rowCounter = 0; rowCounter < 16; rowCounter++){
-			if(gridCounter == 0 || gridCounter == 15)
+			if(gridCounter == 0 || gridCounter == 11){
 				grid[gridCounter][rowCounter] = 1;
+			}
 			else {
-				grid[gridCounter][0] == 1;
-				grid[gridCounter][15] == 1;
+				grid[gridCounter][0] = 1;
+				grid[gridCounter][15] = 1;
 				break;
 			}
+		}
+	}
 
+	//	draw stuff in grid
+	for(gridCounter = 0; gridCounter < 12; gridCounter++){
+		for(rowCounter = 0; rowCounter < 16; rowCounter++){
+			if(grid[gridCounter][rowCounter] == 1)
+				lcd.fillRect(rowCounter*gridgrootte, gridCounter*gridgrootte, gridgrootte, gridgrootte, RGB(0,0,0));
 
 		}
 	}
