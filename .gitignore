@@ -1,16 +1,46 @@
-# exclude everything but c and header files
-/*
-*~
-*/*
-!.gitignore
-!/*/
-!*/Libraries
-!*/Libraries/*
-!*/Libraries/*/*
-!*.c
-!*.cpp
-!*.cc
-!*.h
-!*.ino
-!*.md
-.ino.cpp
+
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+*.sln       
+*.csproj    
+*.vbproj    
+*.vcxproj   
+*.vcproj    
+*.dbproj    
+*.fsproj    
+*.lsproj    
+*.wixproj   
+*.modelproj 
+*.sqlproj   
+*.wwaproj   
