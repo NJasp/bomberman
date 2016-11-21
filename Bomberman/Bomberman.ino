@@ -8,7 +8,6 @@
 MI0283QT9 lcd;
 uint8_t joy_x_axis, joy_y_axis, gridgrootte = 20, cirkelgrootte = (gridgrootte / 2) - 1, y = gridgrootte / 2, countX = 1, countY = 1, grid[23][23];
 uint16_t x = gridgrootte / 2;
-//change for commit
 
 static uint8_t nunchuck_buf[6];
 
