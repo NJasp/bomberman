@@ -1,16 +1,21 @@
 # exclude everything but c and header files
 /*
 *~
-*/*
+/*/*
 !.gitignore
-!/*/
-!*/Libraries
-!*/Libraries/*
-!*/Libraries/*/*
 !*.c
+!/*/*.c
 !*.cpp
+!/*/*.cpp
+!/*/*/*.cpp
 !*.cc
+!/*/*.cc
+!/*/*/*.cc
 !*.h
+!/*/*.h
+!/*/*/*.h
 !*.ino
+!/*/*.ino
+!/*/*/*.ino
 !*.md
 .ino.cpp

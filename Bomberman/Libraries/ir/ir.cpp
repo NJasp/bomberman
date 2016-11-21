@@ -2,7 +2,6 @@
 #include <avr/delay.h>
 #include <avr/interrupt.h>
 #include <stdint.h>
-#include <stdarg.h>
 #include "ir.h"
 
 void IR_init() {
@@ -21,22 +20,6 @@ void IR_init() {
 
 void IR_toggle() {
 	DDRB ^= (1 << PORTB3);
-}
-
-uint32_t IR_decode(uint32_t data) {
-	// decode
-	return data;
-}
-
-uint32_t IR_encode(uint8_t data, ...){
-	uint32_t encoded;
-	// encode
-	return data;
-}
-
-void IR_send(uint8_t type, uint8_t xPos, uint8_t yPos) {
-	uint32_t data = IR_encode(type, xPos, yPos);
-	// send
 }
 
 void IR_test() {
