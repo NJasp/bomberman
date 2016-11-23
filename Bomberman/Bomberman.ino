@@ -7,7 +7,7 @@
 
 MI0283QT9 lcd;
 uint8_t joy_x_axis, joy_y_axis, gridgrootte = 20, cirkelgrootte = (gridgrootte / 2)-1, countX = 1, countY = 1, grid[12][16];
-uint16_t startX1 = 130, startX2 = 130, startY1 = 130, startY2 = 130, begin = 1;
+uint16_t startX1 = 130, startX2 = 140, startY1 = 140, startY2 = 130;
 
 static uint8_t nunchuck_buf[6];
 
