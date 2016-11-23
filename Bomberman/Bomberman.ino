@@ -6,8 +6,8 @@
 #include <MI0283QT9.h>
 
 MI0283QT9 lcd;
-uint8_t joy_x_axis, joy_y_axis, gridgrootte = 20, cirkelgrootte = (gridgrootte / 2) - 1, y = gridgrootte / 2, countX = 1, countY = 1, grid[12][16];
-uint16_t x = gridgrootte / 2;
+uint8_t joy_x_axis, joy_y_axis, gridgrootte = 20, cirkelgrootte = (gridgrootte / 2)-1, countX = 1, countY = 1, grid[12][16];
+uint16_t startX1 = 130, startX2 = 130, startY1 = 130, startY2 = 130, begin = 1;
 
 static uint8_t nunchuck_buf[6];
 
@@ -52,7 +52,6 @@ int main() {
 		}
 	}
 
-	int b;
 	for (gridCounter = 0; gridCounter <= lcd.lcd_width; gridCounter += gridgrootte) { // hier worden de lijnen van de grid getekend met de gedefineerde gridgrootte
 		lcd.drawLine(0, gridCounter, lcd.lcd_width, gridCounter, RGB(0, 0, 0));
 		lcd.drawLine(gridCounter, 0, gridCounter, lcd.lcd_width, RGB(0, 0, 0));
@@ -86,42 +85,49 @@ int main() {
 
 		if (countX != 1) {
 			if (countX >= 2) { //deze code word uitgevoerd als er met de joystick naar rechts word gedrukt
-				_delay_ms(10); // er is een delay nodig anders gaat het poppetje te snel over het scherm
-				lcd.fillCircle(x, y, cirkelgrootte, RGB(255, 255, 255));
-				lcd.fillCircle(x = x += gridgrootte, y, (gridgrootte / 2) - 1, RGB(255, 0, 0)); //hier word het poppetje daadwerkelijk getekend. elke keer als de joystick naar rechts word gedrukt, word het poppetje een hokje verder opnieuw getekend
-				countX = 1; //hier worden de X coordinaat tellers weer gerest voor een volgend commando vanaf de joystick
-			}
-			else {
-				if (countX <= 0 && x > gridgrootte) { //deze code word uitgevoerd als er met de joystick naar links word gedrukt
-													  //als het bolletje helemaal naar links is verschoven op het scherm, stopt de uitvoer van deze code.
+				if (grid[startY1][(startX1 / 20) + 1]) {
+
+				} else {
 					_delay_ms(10); // er is een delay nodig anders gaat het poppetje te snel over het scherm
-					lcd.fillCircle(x, y, cirkelgrootte, RGB(255, 255, 255));
-					lcd.fillCircle(x = x -= gridgrootte, y, cirkelgrootte, RGB(255, 0, 0)); //hier wordt het poppetje daadwerkelijk getekend aan de hand van het formaat van de grid
+					lcd.fillCircle(startX1, startY1, cirkelgrootte, RGB(255, 255, 255));
+					lcd.fillCircle(startX1 = startX1 + gridgrootte, startY1, cirkelgrootte, RGB(255, 0, 0));//hier word het poppetje daadwerkelijk getekend. elke keer als de joystick naar rechts word gedrukt, word het poppetje een hokje verder opnieuw getekend
 					countX = 1; //hier worden de X coordinaat tellers weer gerest voor een volgend commando vanaf de joystick
 				}
-			}
+			} else {
+				if (grid[startY1][(startX1 / 20) + 1]) {
+
+				} else {
+					_delay_ms(10); // er is een delay nodig anders gaat het poppetje te snel over het scherm
+					lcd.fillCircle(startX1, startY1, cirkelgrootte, RGB(255, 255, 255));
+					lcd.fillCircle(startX1 = startX1 - gridgrootte, startY1, cirkelgrootte, RGB(255, 0, 0)); //hier wordt het poppetje daadwerkelijk getekend aan de hand van het formaat van de grid
+					countX = 1; //hier worden de X coordinaat tellers weer gerest voor een volgend commando vanaf de joystick
+				}
+			}	
 		}
+
 		if (countY != 1) {
 			if (countY >= 2) {
-				//lcd.fillCircle(x, y = y += 20, 10, RGB(255, 0, 0));	
-				_delay_ms(10); // er is een delay nodig anders gaat het poppetje te snel over het scherm
-				lcd.fillCircle(x, y, cirkelgrootte, RGB(255, 255, 255));
-				lcd.fillCircle(x, y = y += gridgrootte, cirkelgrootte, RGB(255, 0, 0)); //hier wordt het poppetje daadwerkelijk getekend aan de hand van het formaat van de grid
-				countY = 1; //hier worden de Y coordinaat tellers weer gerest voor een volgend commando vanaf de joystick
-			}
-			else {
-				if (countY <= 0 && y > gridgrootte) {
-					//lcd.fillCircle(x, y = y -= 20, 10, RGB(255, 0, 0));		
+				if (grid[(startY1 / 20) + 1][startX1]) {
+					
+				} else {
 					_delay_ms(10); // er is een delay nodig anders gaat het poppetje te snel over het scherm
-					lcd.fillCircle(x, y, cirkelgrootte, RGB(255, 255, 255));
-					lcd.fillCircle(x, y = y -= gridgrootte, cirkelgrootte, RGB(255, 0, 0)); //hier wordt het poppetje daadwerkelijk getekend aan de hand van het formaat van de grid
+					lcd.fillCircle(startX1, startY1, cirkelgrootte, RGB(255, 255, 255));
+					lcd.fillCircle(startX1, startY1 = startY1 + gridgrootte, cirkelgrootte, RGB(255, 0, 0)); //hier wordt het poppetje daadwerkelijk getekend aan de hand van het formaat van de grid
+					countY = 1; //hier worden de Y coordinaat tellers weer gerest voor een volgend commando vanaf de joystick
+				}
+			} else {
+				if (grid[(startY1 / 20) - 1][startX1]) {
+				
+				} else {
+					_delay_ms(10); // er is een delay nodig anders gaat het poppetje te snel over het scherm
+					lcd.fillCircle(startX1, startY1, cirkelgrootte, RGB(255, 255, 255));
+					lcd.fillCircle(startX1, startY1 = startY1 - gridgrootte, cirkelgrootte, RGB(255, 0, 0)); //hier wordt het poppetje daadwerkelijk getekend aan de hand van het formaat van de grid
 					countY = 1; //hier worden de Y coordinaat tellers weer gerest voor een volgend commando vanaf de joystick
 				}
 			}
+			
 		}
-
-		lcd.fillCircle(x, y, (gridgrootte / 2) - 1, RGB(255, 0, 0));
-
+		lcd.fillCircle(startX1, startY1, cirkelgrootte, RGB(255, 0, 0));
 	}
 	return 0;
 }
