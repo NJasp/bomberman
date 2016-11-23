@@ -11,7 +11,8 @@ uint16_t startX1 = 130, startX2 = 130, startY1 = 130, startY2 = 130, begin = 1;
 
 static uint8_t nunchuck_buf[6];
 
-int main() {													//INITIALIZE (SETUP)
+int main() {	
+	init();												//INITIALIZE (SETUP)
 	lcd.begin(8);
 	lcd.fillScreen(RGB(255, 255, 255));
 	lcd.setOrientation(0);
