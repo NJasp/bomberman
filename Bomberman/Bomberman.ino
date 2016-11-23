@@ -11,12 +11,10 @@ uint16_t startX1 = 130, startX2 = 130, startY1 = 130, startY2 = 130, begin = 1;
 
 static uint8_t nunchuck_buf[6];
 
-int main() {
-	init();												//INITIALIZE (SETUP)
+int main() {													//INITIALIZE (SETUP)
 	lcd.begin(8);
 	lcd.fillScreen(RGB(255, 255, 255));
 	lcd.setOrientation(0);
-	DDRC |= (1 << PORTC5) | (1 << PORTC4);
 	PORTC |= (1 << PORTC4) | (1 << PORTC5);
 
 	Wire.begin();										//INITIALIZE NUNCHUCK                
