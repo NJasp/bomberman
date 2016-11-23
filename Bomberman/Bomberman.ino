@@ -11,8 +11,6 @@ uint16_t x = gridgrootte / 2;
 
 static uint8_t nunchuck_buf[6];
 
-//HEY MARTIJN, JOWW KOEN
-
 int main() {
 	init();												//INITIALIZE (SETUP)
 	lcd.begin(8);
