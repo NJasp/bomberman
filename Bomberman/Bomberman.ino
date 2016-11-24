@@ -125,7 +125,7 @@ void view_Griddata()	//print the grid to serial
 void read_Nunchuck()
 {
 	int i = 0;
-	Wire.requestFrom(0x52, 6);						//READ NUNCHUCK
+	Wire.requestFrom(0x52, 6);						//READ NUNCHUCKK
 	while (Wire.available()) {
 		nunchuck_buf[i] = (Wire.read() ^ 0x17) + 0x17;;
 		i++;
@@ -204,16 +204,16 @@ void calculate_Movement()
 
 void draw_Player()
 {
-	if(player1_y_old != player1_y || player1_x_old != player1_x)
-			lcd.fillCircle((player1_x_old*gridgrootte) + (gridgrootte / 2), (player1_y_old*gridgrootte) + (gridgrootte / 2), cirkelgrootte, RGB(255, 255, 255));
-			lcd.fillCircle((player1_x*gridgrootte) + (gridgrootte / 2), (player1_y*gridgrootte) + (gridgrootte / 2), cirkelgrootte, RGB(255, 0, 0));
-			player1_x_old = player1_x;
-			player1_y_old = player1_y;
+	if (player1_y_old != player1_y || player1_x_old != player1_x)
+		lcd.fillCircle((player1_x_old*gridgrootte) + (gridgrootte / 2), (player1_y_old*gridgrootte) + (gridgrootte / 2), cirkelgrootte, RGB(255, 255, 255));
+	lcd.fillCircle((player1_x*gridgrootte) + (gridgrootte / 2), (player1_y*gridgrootte) + (gridgrootte / 2), cirkelgrootte, RGB(255, 0, 0));
+	player1_x_old = player1_x;
+	player1_y_old = player1_y;
 }
 
 void check_Bomb()
 {
-	if (!((nunchuck_buf[5] >> 0) & 1)){
+	if (!((nunchuck_buf[5] >> 0) & 1)) {
 		grid[player1_x][player1_y] = 2;
 	}
 }
@@ -381,7 +381,7 @@ void initlevel_1()
 	grid[14][j] = 0;
 }
 
-void initlevel_2() 
+void initlevel_2()
 {
 	int j = 1;
 	grid[3][j] = 3;
@@ -532,4 +532,6 @@ void initlevel_2()
 	grid[14][j] = 0;
 }
 
-void check_explosion 
+void check_explosion() {
+
+}
