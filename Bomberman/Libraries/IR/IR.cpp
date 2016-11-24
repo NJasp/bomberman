@@ -40,7 +40,6 @@ data_store myData = IR_decode(data);	   // store received data in struct
 #include <avr/delay.h>
 #include <avr/interrupt.h>
 #include <stdint.h>
-#include <stdarg.h>
 #include "ir.h"
 
 
@@ -65,8 +64,23 @@ void IR_init() {
 
 void IR_toggle() {
 	// just use wire for test reasons
+	PORTB ^= (1 << PORTB5);
+
 	DDRB ^= (1 << PORTB3);
-	//PORTB ^= (1 << PORTB5);
+}
+
+void IR_off() {
+	// just use wire for test reasons
+	PORTB &= ~(1 << PORTB5);
+
+	DDRB &= ~(1 << PORTB3);
+}
+
+void IR_on() {
+	// just use wire for test reasons
+	PORTB |= (1 << PORTB5);
+
+	DDRB |= (1 << PORTB3);
 }
 
 data_store IR_decode(uint16_t data) {
@@ -107,13 +121,21 @@ void IR_send(uint8_t type, uint8_t xData, uint8_t yData) {
 	uint16_t data = IR_encode(type, xData, yData);
 
 	uint8_t i;
+
+	// make sure led is off
+	IR_off();
 	for(i=0;i<16;i++) {
-		IR_toggle();
+		IR_on();
 		if(data&(1 << i) ? 1:0){
-			_delay_ms(15);
-		}
-		else {
 			_delay_ms(10);
 		}
+		else {
+			_delay_ms(5);
+		}
+
+		// space
+		IR_off();
+		_delay_ms(1);
 	}
+	IR_off();
 }
