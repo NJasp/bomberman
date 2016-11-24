@@ -29,9 +29,10 @@ void calculate_Movement();
 void draw_Player();
 void check_Bomb();
 void draw_Bomb();
+void initlevel_1();
 
 int main() {
-	Serial.begin(9600);
+	initlevel_1();
 	init_Hardware();
 	draw_Grid();
 	init_OutsideWalls();
@@ -211,13 +212,12 @@ void check_Bomb()
 
 void draw_Bomb()
 {
-	for (rowCounter = 0; rowCounter < 12; rowCounter++) {
-		for (collumnCounter = 0; collumnCounter < 16; collumnCounter++) {
-			if (grid[collumnCounter][rowCounter] == 2) {
-				lcd.fillCircle((collumnCounter*gridgrootte) + (gridgrootte / 2), (rowCounter*gridgrootte) + (gridgrootte / 2), cirkelgrootte, RGB(0, 0, 255));
-
-			}
-		}
+	if (((player1_x_bombdrop) != 0 && (player1_y_bombdrop != 0)) && ((player1_x != player1_x_bombdrop) || (player1_y != player1_y_bombdrop))) {
+		lcd.fillCircle(xx, 20, 20, RGB(0, 255, 0));
+		lcd.fillCircle((player1_x_bombdrop*gridgrootte) + (gridgrootte / 2), (player1_y_bombdrop*gridgrootte) + (gridgrootte / 2), cirkelgrootte, RGB(0, 0, 255));
+		player1_x_bombdrop = 0;
+		player1_y_bombdrop = 0;
+		xx++;
 	}
 }
 
@@ -523,4 +523,3 @@ void initlevel_2()
 	grid[14][j] = 0;
 }
 
-void check_explosion 
