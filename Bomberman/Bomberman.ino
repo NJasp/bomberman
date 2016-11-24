@@ -37,8 +37,6 @@ int main() {
 		calculate_Movement();
 		draw_Player();
 		check_Bomb();
-		view_Griddata();
-		delay(1000);
 	}
 	return 0;
 }
@@ -180,7 +178,7 @@ void draw_Player()
 
 void check_Bomb()
 {
-	 if ((nunchuck_buf[5] >> 0) & 1){
+	 if (!((nunchuck_buf[5] >> 0) & 1)){
 		grid[player1_x][player1_y] = 2;
 	}
 }
