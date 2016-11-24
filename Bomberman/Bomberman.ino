@@ -17,7 +17,7 @@ uint8_t cirkelgrootte = (gridgrootte / 2) - 1;	//Size of playercircle
 uint8_t player1_xCounter = 0, player1_yCounter = 0;		//Player movement speed
 uint8_t player1_x_old = 1, player1_y_old = 1;		//Old locations of the player;
 uint8_t player1_x_bombdrop = 0, player1_y_bombdrop = 0;
-uint16_t xx = 0;
+uint8_t antiholdCounter = 0;
 
 void init_Hardware();
 void init_OutsideWalls();
@@ -210,20 +210,24 @@ void draw_Player()
 void check_Bomb()
 {
 	if (!((nunchuck_buf[5] >> 0) & 1)) {
-		grid[player1_x][player1_y] = 2;
-		player1_x_bombdrop = player1_x;
-		player1_y_bombdrop = player1_y;
+		if (antiholdCounter != 1) {
+			grid[player1_x][player1_y] = 2;
+			antiholdCounter = 1;
+			player1_x_bombdrop = player1_x;
+			player1_y_bombdrop = player1_y;
+		}	
+	}
+	else {
+		antiholdCounter = 0;
 	}
 }
 
 void draw_Bomb()
 {
 	if (((player1_x_bombdrop) != 0 && (player1_y_bombdrop != 0)) && ((player1_x != player1_x_bombdrop) || (player1_y != player1_y_bombdrop))) {
-		lcd.fillCircle(xx, 20, 20, RGB(0, 255, 0));
 		lcd.fillCircle((player1_x_bombdrop*gridgrootte) + (gridgrootte / 2), (player1_y_bombdrop*gridgrootte) + (gridgrootte / 2), cirkelgrootte, RGB(0, 0, 255));
 		player1_x_bombdrop = 0;
 		player1_y_bombdrop = 0;
-		xx++;
 	}
 }
 
