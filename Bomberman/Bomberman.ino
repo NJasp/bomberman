@@ -5,7 +5,7 @@
 #include <Arduino.h>
 #include <MI0283QT9.h>
 
-MI0283QT9 lcd;					//LCD variable
+MI0283QT9 lcd;					//LCD variablen
 uint8_t joy_x_axis, joy_y_axis;	//Nunchuck Data
 static uint8_t nunchuck_buf[6];	//Nunchuck Buffer
 uint8_t gridgrootte = 20;	//Size of gridsquares
@@ -14,7 +14,7 @@ uint8_t collumnCounter;		//collumnCounter
 uint8_t rowCounter;			//rowCounter
 uint8_t player1_x = 1, player1_y = 1;		//player locations
 uint8_t cirkelgrootte = (gridgrootte / 2) - 1;	//Size of playercircle
-uint8_t player1_x_Speed = 50, player1_y_Speed = 50, player1_xCounter = 0, player1_yCounter = 0;		//Player movement speed
+uint8_t player1_x_Speed = 10, player1_y_Speed = 10, player1_xCounter = 0, player1_yCounter = 0;		//Player movement speed
 uint8_t player1_x_old = 1, player1_y_old = 1;		//Old locations of the player;
 
 void init_Hardware();
@@ -23,19 +23,23 @@ void draw_OutsideWalls();
 void draw_Grid();
 void view_Griddata();
 void read_Nunchuck();
+void check_Wall();
 void calculate_Movement();
-void draw_player();
+void draw_Player();
+void check_Bomb();
+void draw_Bomb();
 
 int main() {
 	init_Hardware();
 	draw_Grid();
 	init_OutsideWalls();
-	view_Griddata();
 	draw_OutsideWalls();
 	for (;;) {	// MAIN LOOP									
 		read_Nunchuck();
 		calculate_Movement();
-		draw_player();
+		draw_Player();
+		check_Bomb();
+		draw_Bomb();
 	}
 	return 0;
 }
@@ -60,6 +64,7 @@ void init_OutsideWalls()
 		for (collumnCounter = 0; collumnCounter < 16; collumnCounter++) {
 			if (rowCounter == 0 || rowCounter == 11) {
 				grid[collumnCounter][rowCounter] = 1;
+				grid[4][3] = 1;
 			}
 			else {
 				grid[0][rowCounter] = 1;
@@ -125,12 +130,22 @@ void read_Nunchuck()
 	joy_y_axis = nunchuck_buf[1];
 }
 
+void check_Wall()
+{
+
+}
+
 void calculate_Movement()
 {
 	if (joy_x_axis > 140) {
 		if (player1_xCounter == player1_x_Speed) {
-			player1_x++;	//hier word de teller voor de X coordinaat verhoogt als de joystick naar rechts word gedrukt
-			player1_xCounter = 0;
+			if (!(grid[player1_x + 1][player1_y])) {
+				player1_x++;	//hier word de teller voor de X coordinaat verhoogt als de joystick naar rechts word gedrukt
+				player1_xCounter = 0;
+			}
+			else {
+				player1_x = player1_x_old;
+			}
 		}
 		else {
 			player1_xCounter++;
@@ -138,8 +153,13 @@ void calculate_Movement()
 	}
 	if (joy_x_axis < 114) {
 		if (player1_xCounter == player1_x_Speed) {
-			player1_x--; //hier word de teller voor de X coordinaat verlaagt als de joystick naar links word gedrukt. komt niet lager als 0
-			player1_xCounter = 0;
+			if (!(grid[player1_x - 1][player1_y])) {
+				player1_x--; //hier word de teller voor de X coordinaat verlaagt als de joystick naar links word gedrukt. komt niet lager als 0
+				player1_xCounter = 0;
+			}
+			else {
+				player1_x = player1_x_old;
+			}
 		}
 		else {
 			player1_xCounter++;
@@ -147,8 +167,13 @@ void calculate_Movement()
 	}
 	if (joy_y_axis > 140) {
 		if (player1_yCounter == player1_y_Speed) {
-			player1_y--;	//hier word de teller voor de Y coordinaat verlaagt als de joystick naar beneden word gedrukt
-			player1_yCounter = 0;
+			if (!(grid[player1_x][player1_y - 1])) {
+				player1_y--;	//hier word de teller voor de Y coordinaat verlaagt als de joystick naar beneden word gedrukt
+				player1_yCounter = 0;
+			}
+			else {
+				player1_y = player1_y_old;
+			}
 		}
 		else {
 			player1_yCounter++;
@@ -156,8 +181,13 @@ void calculate_Movement()
 	}
 	if (joy_y_axis < 114) {
 		if (player1_yCounter == player1_y_Speed) {
-			player1_y++;	//hier word de teller voor de Y coordinaat verhoogt als de joystick naar boven word gedrukt
-			player1_yCounter = 0;
+			if (!(grid[player1_x][player1_y + 1])) {
+				player1_y++;	//hier word de teller voor de Y coordinaat verhoogt als de joystick naar boven word gedrukt
+				player1_yCounter = 0;
+			}
+			else {
+				player1_y = player1_y_old;
+			}
 		}
 		else {
 			player1_yCounter++;
@@ -165,12 +195,29 @@ void calculate_Movement()
 	}
 }
 
-void draw_player()
+void draw_Player()
 {
 	if(player1_y_old != player1_y || player1_x_old != player1_x)
-		lcd.fillCircle((player1_x_old*gridgrootte) + (gridgrootte / 2), (player1_y_old*gridgrootte) + (gridgrootte / 2), cirkelgrootte, RGB(255, 255, 255));
+			lcd.fillCircle((player1_x_old*gridgrootte) + (gridgrootte / 2), (player1_y_old*gridgrootte) + (gridgrootte / 2), cirkelgrootte, RGB(255, 255, 255));
+			lcd.fillCircle((player1_x*gridgrootte) + (gridgrootte / 2), (player1_y*gridgrootte) + (gridgrootte / 2), cirkelgrootte, RGB(255, 0, 0));
+			player1_x_old = player1_x;
+			player1_y_old = player1_y;
+}
 
-	lcd.fillCircle((player1_x*gridgrootte) + (gridgrootte / 2), (player1_y*gridgrootte) + (gridgrootte / 2), cirkelgrootte, RGB(255, 0, 0));
-	player1_x_old = player1_x;
-	player1_y_old = player1_y;
+void check_Bomb()
+{
+	if (!((nunchuck_buf[5] >> 0) & 1)){
+		grid[player1_x][player1_y] = 2;
+	}
+}
+
+void draw_Bomb()
+{
+	for (rowCounter = 0; rowCounter < 12; rowCounter++) {
+		for (collumnCounter = 0; collumnCounter < 16; collumnCounter++) {
+			if (grid[collumnCounter][rowCounter] == 2) {
+				lcd.fillCircle((collumnCounter*gridgrootte) + (gridgrootte / 2), (rowCounter*gridgrootte) + (gridgrootte / 2), cirkelgrootte, RGB(0, 0, 255));
+			}
+		}
+	}
 }
