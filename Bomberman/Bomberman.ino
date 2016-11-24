@@ -5,7 +5,7 @@
 #include <Arduino.h>
 #include <MI0283QT9.h>
 
-MI0283QT9 lcd;					//LCD variable
+MI0283QT9 lcd;					//LCD variablen
 uint8_t joy_x_axis, joy_y_axis;	//Nunchuck Data
 static uint8_t nunchuck_buf[6];	//Nunchuck Buffer
 uint8_t gridgrootte = 20;	//Size of gridsquares
