@@ -57,7 +57,11 @@ void IR_init() {
 	TCCR2A = (1 << COM2B0); 	// toggle OC2A on match
 	TCCR2B |= (1 << CS21); 		// 8 prescaler						|
 	OCR2B = 53; 				// value to compare timer against	| 1/(53*(1/16000000)*8) = 37,7kHz
-	TIMSK2 |= (1 << TOIE2);		// enable overflow interrupt
+
+
+	TIMSK2 |= (1 << TOIE2) | (1 << OCIE2A);		// enable overflow interrupt
+	OCR2A = 2;					// nanosecond counter
+	IR_off();
 
 	sei();						// enable global interrupts
 }
@@ -83,18 +87,21 @@ void IR_on() {
 	DDRD |= (1 << PORTD3);
 }
 
+uint8_t IR_ison(){
+	return DDRD&(1 << PORTD3) ? 1:0;
+}
+
 data_store IR_decode(uint16_t data) {
 	data_store returnData = {0,0,0};
 
-	// fill first three bytes to get number back
-	returnData.type |= ((data&(1 << 0) ? 1:0) << 0)
-			| ((data&(1 << 1) ? 1:0) << 1);
+	// fill first 2 bits to get number back
+	returnData.type |= (data&1) | (((data >> 1)&1) << 1);
 
 	// fill data variables
 	uint8_t i;
 	for(i=0; i<7; i++){// 7 bits used to fit all in 16 bit var
-		returnData.xData |= ((data&(1 << i+2) ? 1:0) << i);
-		returnData.yData |= ((data&(1 << i+9) ? 1:0) << i);
+		returnData.xData |= (((data >> i+2)&1) << i);
+		returnData.yData |= (((data >> i+9)&1) << i);
 	}
 	return returnData;
 }
@@ -103,14 +110,13 @@ uint16_t IR_encode(uint8_t type, uint8_t xData, uint8_t yData){
 	uint16_t encoded = 0;
 
 	// set type with first 2 bits only
-	encoded |= ((type&(1 << 0) ? 1:0) << 0)
-			| ((type&(1 << 1) ? 1:0) << 1);
+	encoded |= (type&1) | (((type >> 1)&1) << 1);
 
 	// put other data after it
 	uint8_t i;
 	for(i=0; i<7; i++){// 7 bits used to fit all in 16 bit var
-		encoded |= ((xData&(1 << i) ? 1:0) << i+2);
-		encoded |= ((yData&(1 << i) ? 1:0) << i+9);
+		encoded |= (((xData >> i)&1) << i+2);
+		encoded |= (((yData >> i)&1) << i+9);
 	}
 
 	return encoded;
