@@ -36,7 +36,7 @@ int main() {
 	draw_Grid();
 	init_OutsideWalls();
 	draw_OutsideWalls();
-	for (;;) {	// MAIN LOOP									
+	for (;;) {	// MAIN LOOPs									
 		read_Nunchuck();
 		calculate_Movement();
 		check_Bomb();
