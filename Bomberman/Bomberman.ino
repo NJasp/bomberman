@@ -14,7 +14,7 @@ uint8_t collumnCounter;		//collumnCounter
 uint8_t rowCounter;			//rowCounter
 uint8_t player1_x = 1, player1_y = 1;		//player locations
 uint8_t cirkelgrootte = (gridgrootte / 2) - 1;	//Size of playercircle
-uint8_t player1_x_Speed = 50, player1_y_Speed = 50, player1_xCounter = 0, player1_yCounter = 0;		//Player movement speed
+uint8_t player1_x_Speed = 10, player1_y_Speed = 10, player1_xCounter = 0, player1_yCounter = 0;		//Player movement speed
 uint8_t player1_x_old = 1, player1_y_old = 1;		//Old locations of the player;
 
 void init_Hardware();
@@ -27,6 +27,7 @@ void check_Wall();
 void calculate_Movement();
 void draw_Player();
 void check_Bomb();
+void draw_Bomb();
 
 int main() {
 	init_Hardware();
@@ -38,6 +39,7 @@ int main() {
 		calculate_Movement();
 		draw_Player();
 		check_Bomb();
+		draw_Bomb();
 	}
 	return 0;
 }
@@ -204,7 +206,18 @@ void draw_Player()
 
 void check_Bomb()
 {
-	 if (!((nunchuck_buf[5] >> 0) & 1)){
+	if (!((nunchuck_buf[5] >> 0) & 1)){
 		grid[player1_x][player1_y] = 2;
+	}
+}
+
+void draw_Bomb()
+{
+	for (rowCounter = 0; rowCounter < 12; rowCounter++) {
+		for (collumnCounter = 0; collumnCounter < 16; collumnCounter++) {
+			if (grid[collumnCounter][rowCounter] == 2) {
+				lcd.fillCircle((collumnCounter*gridgrootte) + (gridgrootte / 2), (rowCounter*gridgrootte) + (gridgrootte / 2), cirkelgrootte, RGB(0, 0, 255));
+			}
+		}
 	}
 }
