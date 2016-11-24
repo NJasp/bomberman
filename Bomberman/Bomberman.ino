@@ -28,8 +28,10 @@ void calculate_Movement();
 void draw_Player();
 void check_Bomb();
 void draw_Bomb();
+void initlevel_1();
 
 int main() {
+	initlevel_1();
 	init_Hardware();
 	draw_Grid();
 	init_OutsideWalls();
@@ -64,7 +66,6 @@ void init_OutsideWalls()
 		for (collumnCounter = 0; collumnCounter < 16; collumnCounter++) {
 			if (rowCounter == 0 || rowCounter == 11) {
 				grid[collumnCounter][rowCounter] = 1;
-				grid[4][3] = 1;
 			}
 			else {
 				grid[0][rowCounter] = 1;
@@ -79,8 +80,14 @@ void draw_OutsideWalls()
 	//	draw stuff in grid
 	for (rowCounter = 0; rowCounter < 12; rowCounter++) {
 		for (collumnCounter = 0; collumnCounter < 16; collumnCounter++) {
-			if (grid[collumnCounter][rowCounter] == 1)
+			if (grid[collumnCounter][rowCounter] == 1) {
 				lcd.fillRect(collumnCounter*gridgrootte, rowCounter*gridgrootte, gridgrootte, gridgrootte, RGB(0, 0, 0));
+			}
+			else {
+				if (grid[collumnCounter][rowCounter] == 3) {
+					lcd.fillRect(collumnCounter*gridgrootte, rowCounter*gridgrootte, gridgrootte, gridgrootte, RGB(222, 184, 135));
+				}
+			}
 		}
 	}
 }
@@ -217,7 +224,312 @@ void draw_Bomb()
 		for (collumnCounter = 0; collumnCounter < 16; collumnCounter++) {
 			if (grid[collumnCounter][rowCounter] == 2) {
 				lcd.fillCircle((collumnCounter*gridgrootte) + (gridgrootte / 2), (rowCounter*gridgrootte) + (gridgrootte / 2), cirkelgrootte, RGB(0, 0, 255));
+
 			}
 		}
 	}
 }
+
+void initlevel_1()
+{
+	int j = 1;
+	grid[3][j] = 3;
+	grid[4][j] = 3;
+	grid[5][j] = 3;
+	grid[6][j] = 3;
+	grid[7][j] = 3;
+	grid[8][j] = 3;
+	grid[9][j] = 3;
+	grid[10][j] = 3;
+	grid[11][j] = 3;
+	grid[12][j] = 3;
+	grid[13][j] = 3;
+	grid[14][j] = 3;
+	j = 2;
+	grid[2][j] = 1;
+	grid[3][j] = 3;
+	grid[4][j] = 1;
+	grid[5][j] = 3;
+	grid[6][j] = 1;
+	grid[7][j] = 3;
+	grid[8][j] = 3;
+	grid[9][j] = 1;
+	grid[10][j] = 3;
+	grid[11][j] = 1;
+	grid[12][j] = 3;
+	grid[13][j] = 1;
+	grid[14][j] = 3;
+	j = 3;
+	grid[1][j] = 3;
+	grid[2][j] = 3;
+	grid[3][j] = 0;
+	grid[4][j] = 3;
+	grid[5][j] = 0;
+	grid[6][j] = 3;
+	grid[7][j] = 3;
+	grid[8][j] = 3;
+	grid[9][j] = 3;
+	grid[10][j] = 0;
+	grid[11][j] = 3;
+	grid[12][j] = 0;
+	grid[13][j] = 3;
+	grid[14][j] = 3;
+	j = 4;
+	grid[1][j] = 3;
+	grid[2][j] = 1;
+	grid[3][j] = 3;
+	grid[4][j] = 1;
+	grid[5][j] = 3;
+	grid[6][j] = 1;
+	grid[7][j] = 3;
+	grid[8][j] = 3;
+	grid[9][j] = 1;
+	grid[10][j] = 3;
+	grid[11][j] = 1;
+	grid[12][j] = 3;
+	grid[13][j] = 1;
+	grid[14][j] = 3;
+	j = 5;
+	grid[1][j] = 3;
+	grid[2][j] = 3;
+	grid[3][j] = 3;
+	grid[4][j] = 3;
+	grid[5][j] = 3;
+	grid[6][j] = 3;
+	grid[7][j] = 3;
+	grid[8][j] = 3;
+	grid[9][j] = 3;
+	grid[10][j] = 3;
+	grid[11][j] = 3;
+	grid[12][j] = 3;
+	grid[13][j] = 3;
+	grid[14][j] = 3;
+	j = 6;
+	grid[1][j] = 3;
+	grid[2][j] = 3;
+	grid[3][j] = 3;
+	grid[4][j] = 3;
+	grid[5][j] = 3;
+	grid[6][j] = 3;
+	grid[7][j] = 3;
+	grid[8][j] = 3;
+	grid[9][j] = 3;
+	grid[10][j] = 3;
+	grid[11][j] = 3;
+	grid[12][j] = 3;
+	grid[13][j] = 3;
+	grid[14][j] = 3;
+	j = 7;
+	grid[1][j] = 3;
+	grid[2][j] = 1;
+	grid[3][j] = 3;
+	grid[4][j] = 1;
+	grid[5][j] = 3;
+	grid[6][j] = 1;
+	grid[7][j] = 3;
+	grid[8][j] = 3;
+	grid[9][j] = 1;
+	grid[10][j] = 3;
+	grid[11][j] = 1;
+	grid[12][j] = 3;
+	grid[13][j] = 1;
+	grid[14][j] = 3;
+	j = 8;
+	grid[1][j] = 3;
+	grid[2][j] = 3;
+	grid[3][j] = 0;
+	grid[4][j] = 3;
+	grid[5][j] = 0;
+	grid[6][j] = 3;
+	grid[7][j] = 3;
+	grid[8][j] = 3;
+	grid[9][j] = 3;
+	grid[10][j] = 0;
+	grid[11][j] = 3;
+	grid[12][j] = 0;
+	grid[13][j] = 3;
+	grid[14][j] = 3;
+	j = 9;
+	grid[1][j] = 3;
+	grid[2][j] = 1;
+	grid[3][j] = 3;
+	grid[4][j] = 1;
+	grid[5][j] = 3;
+	grid[6][j] = 1;
+	grid[7][j] = 3;
+	grid[8][j] = 3;
+	grid[9][j] = 1;
+	grid[10][j] = 3;
+	grid[11][j] = 1;
+	grid[12][j] = 3;
+	grid[13][j] = 1;
+	grid[14][j] = 0;
+	j = 10;
+	grid[1][j] = 3;
+	grid[2][j] = 3;
+	grid[3][j] = 3;
+	grid[4][j] = 3;
+	grid[5][j] = 3;
+	grid[6][j] = 3;
+	grid[7][j] = 3;
+	grid[8][j] = 3;
+	grid[9][j] = 3;
+	grid[10][j] = 3;
+	grid[11][j] = 3;
+	grid[12][j] = 3;
+	grid[13][j] = 0;
+	grid[14][j] = 0;
+}
+
+void initlevel_2() 
+{
+	int j = 1;
+	grid[3][j] = 3;
+	grid[4][j] = 3;
+	grid[5][j] = 3;
+	grid[6][j] = 3;
+	grid[7][j] = 3;
+	grid[8][j] = 3;
+	grid[9][j] = 3;
+	grid[10][j] = 3;
+	grid[11][j] = 3;
+	grid[12][j] = 3;
+	grid[13][j] = 3;
+	grid[14][j] = 3;
+	j = 2;
+	grid[2][j] = 1;
+	grid[3][j] = 3;
+	grid[4][j] = 1;
+	grid[5][j] = 3;
+	grid[6][j] = 1;
+	grid[7][j] = 3;
+	grid[8][j] = 3;
+	grid[9][j] = 1;
+	grid[10][j] = 3;
+	grid[11][j] = 1;
+	grid[12][j] = 3;
+	grid[13][j] = 1;
+	grid[14][j] = 3;
+	j = 3;
+	grid[1][j] = 3;
+	grid[2][j] = 3;
+	grid[3][j] = 0;
+	grid[4][j] = 3;
+	grid[5][j] = 0;
+	grid[6][j] = 3;
+	grid[7][j] = 3;
+	grid[8][j] = 3;
+	grid[9][j] = 3;
+	grid[10][j] = 0;
+	grid[11][j] = 3;
+	grid[12][j] = 0;
+	grid[13][j] = 3;
+	grid[14][j] = 3;
+	j = 4;
+	grid[1][j] = 3;
+	grid[2][j] = 1;
+	grid[3][j] = 3;
+	grid[4][j] = 1;
+	grid[5][j] = 3;
+	grid[6][j] = 1;
+	grid[7][j] = 3;
+	grid[8][j] = 3;
+	grid[9][j] = 1;
+	grid[10][j] = 3;
+	grid[11][j] = 1;
+	grid[12][j] = 3;
+	grid[13][j] = 1;
+	grid[14][j] = 3;
+	j = 5;
+	grid[1][j] = 3;
+	grid[2][j] = 3;
+	grid[3][j] = 3;
+	grid[4][j] = 3;
+	grid[5][j] = 3;
+	grid[6][j] = 3;
+	grid[7][j] = 3;
+	grid[8][j] = 3;
+	grid[9][j] = 3;
+	grid[10][j] = 3;
+	grid[11][j] = 3;
+	grid[12][j] = 3;
+	grid[13][j] = 3;
+	grid[14][j] = 3;
+	j = 6;
+	grid[1][j] = 3;
+	grid[2][j] = 3;
+	grid[3][j] = 3;
+	grid[4][j] = 3;
+	grid[5][j] = 3;
+	grid[6][j] = 3;
+	grid[7][j] = 3;
+	grid[8][j] = 3;
+	grid[9][j] = 3;
+	grid[10][j] = 3;
+	grid[11][j] = 3;
+	grid[12][j] = 3;
+	grid[13][j] = 3;
+	grid[14][j] = 3;
+	j = 7;
+	grid[1][j] = 3;
+	grid[2][j] = 1;
+	grid[3][j] = 3;
+	grid[4][j] = 1;
+	grid[5][j] = 3;
+	grid[6][j] = 1;
+	grid[7][j] = 3;
+	grid[8][j] = 3;
+	grid[9][j] = 1;
+	grid[10][j] = 3;
+	grid[11][j] = 1;
+	grid[12][j] = 3;
+	grid[13][j] = 1;
+	grid[14][j] = 3;
+	j = 8;
+	grid[1][j] = 3;
+	grid[2][j] = 3;
+	grid[3][j] = 0;
+	grid[4][j] = 3;
+	grid[5][j] = 0;
+	grid[6][j] = 3;
+	grid[7][j] = 3;
+	grid[8][j] = 3;
+	grid[9][j] = 3;
+	grid[10][j] = 0;
+	grid[11][j] = 3;
+	grid[12][j] = 0;
+	grid[13][j] = 3;
+	grid[14][j] = 3;
+	j = 9;
+	grid[1][j] = 3;
+	grid[2][j] = 1;
+	grid[3][j] = 3;
+	grid[4][j] = 1;
+	grid[5][j] = 3;
+	grid[6][j] = 1;
+	grid[7][j] = 3;
+	grid[8][j] = 3;
+	grid[9][j] = 1;
+	grid[10][j] = 3;
+	grid[11][j] = 1;
+	grid[12][j] = 3;
+	grid[13][j] = 1;
+	grid[14][j] = 0;
+	j = 10;
+	grid[1][j] = 3;
+	grid[2][j] = 3;
+	grid[3][j] = 3;
+	grid[4][j] = 3;
+	grid[5][j] = 3;
+	grid[6][j] = 3;
+	grid[7][j] = 3;
+	grid[8][j] = 3;
+	grid[9][j] = 3;
+	grid[10][j] = 3;
+	grid[11][j] = 3;
+	grid[12][j] = 3;
+	grid[13][j] = 0;
+	grid[14][j] = 0;
+}
+
+void check_explosion 
