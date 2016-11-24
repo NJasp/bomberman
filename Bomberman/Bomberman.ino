@@ -29,18 +29,18 @@ void calculate_Movement();
 void draw_Player();
 void check_Bomb();
 void draw_Bomb();
-void initlevel_1();
 
 int main() {
+	Serial.begin(9600);
 	init_Hardware();
 	draw_Grid();
 	init_OutsideWalls();
 	draw_OutsideWalls();
-	for (;;) {	// MAIN LOOPs									
+	for (;;) {	// MAIN LOOP									
 		read_Nunchuck();
 		calculate_Movement();
 		check_Bomb();
-		draw_Player();		
+		draw_Player();
 		draw_Bomb();
 	}
 	return 0;
@@ -80,14 +80,8 @@ void draw_OutsideWalls()
 	//	draw stuff in grid
 	for (rowCounter = 0; rowCounter < 12; rowCounter++) {
 		for (collumnCounter = 0; collumnCounter < 16; collumnCounter++) {
-			if (grid[collumnCounter][rowCounter] == 1) {
+			if (grid[collumnCounter][rowCounter] == 1)
 				lcd.fillRect(collumnCounter*gridgrootte, rowCounter*gridgrootte, gridgrootte, gridgrootte, RGB(0, 0, 0));
-			}
-			else {
-				if (grid[collumnCounter][rowCounter] == 3) {
-					lcd.fillRect(collumnCounter*gridgrootte, rowCounter*gridgrootte, gridgrootte, gridgrootte, RGB(222, 184, 135));
-				}
-			}
 		}
 	}
 }
@@ -202,15 +196,15 @@ void draw_Player()
 	if (player1_y_old != player1_y || player1_x_old != player1_x) {
 		lcd.fillCircle((player1_x_old*gridgrootte) + (gridgrootte / 2), (player1_y_old*gridgrootte) + (gridgrootte / 2), cirkelgrootte, RGB(255, 255, 255));
 	}
-		lcd.fillCircle((player1_x*gridgrootte) + (gridgrootte / 2), (player1_y*gridgrootte) + (gridgrootte / 2), cirkelgrootte, RGB(255, 0, 0));
-		player1_x_old = player1_x;
-		player1_y_old = player1_y;
-	
+	lcd.fillCircle((player1_x*gridgrootte) + (gridgrootte / 2), (player1_y*gridgrootte) + (gridgrootte / 2), cirkelgrootte, RGB(255, 0, 0));
+	player1_x_old = player1_x;
+	player1_y_old = player1_y;
+
 }
 
 void check_Bomb()
 {
-	if (!((nunchuck_buf[5] >> 0) & 1)){
+	if (!((nunchuck_buf[5] >> 0) & 1)) {
 		grid[player1_x][player1_y] = 2;
 		player1_x_bombdrop = player1_x;
 		player1_y_bombdrop = player1_y;
@@ -219,11 +213,11 @@ void check_Bomb()
 
 void draw_Bomb()
 {
-	for (rowCounter = 0; rowCounter < 12; rowCounter++) {
-		for (collumnCounter = 0; collumnCounter < 16; collumnCounter++) {
-			if (grid[collumnCounter][rowCounter] == 2) {
-				lcd.fillCircle((collumnCounter*gridgrootte) + (gridgrootte / 2), (rowCounter*gridgrootte) + (gridgrootte / 2), cirkelgrootte, RGB(0, 0, 255));
-			}
-		}
+	if (((player1_x_bombdrop) != 0 && (player1_y_bombdrop != 0)) && ((player1_x != player1_x_bombdrop) || (player1_y != player1_y_bombdrop))) {
+		lcd.fillCircle(xx, 20, 20, RGB(0, 255, 0));
+		lcd.fillCircle((player1_x_bombdrop*gridgrootte) + (gridgrootte / 2), (player1_y_bombdrop*gridgrootte) + (gridgrootte / 2), cirkelgrootte, RGB(0, 0, 255));
+		player1_x_bombdrop = 0;
+		player1_y_bombdrop = 0;
+		xx++;
 	}
 }
