@@ -24,10 +24,12 @@ ISR(INT0_vect){
 	else
 		timeDelta = clock - recTimer;
 
+	//if (timeDelta > 20) 				   // begin new transmission
+	//	dataCount = 0;
 
 	if(timeDelta > 3 && timeDelta < 14) {
 		Serial.print(dataCount);
-		Serial.println(" == interrupt ===");
+		//Serial.println(" == interrupt ===");
 
 		if (timeDelta > 7 && timeDelta < 12) 	   // recieved 1
 			data |= (1 << dataCount);
@@ -37,8 +39,6 @@ ISR(INT0_vect){
 	}
 
 
-	//if (timeDelta > 20) 				   // end transmission
-	//	dataCount = 0;
 
 	recTimer = clock;
 
@@ -46,7 +46,6 @@ ISR(INT0_vect){
 
 int main(){
 	Serial.begin(9600);
-	DDRB |= (1 << PORTB4); // testled
 	IR_init();
 	uint16_t testData = IR_encode(3,122,122);
 	Serial.print("test: ");
@@ -58,7 +57,7 @@ int main(){
 		dataCount = 0;
 		IR_send(3,120,120);
 		_delay_ms(1000);
-		Serial.println("===== received =====");
+		Serial.println(" bits received\n===== received =====");
 		Serial.print("type: ");
 		Serial.println(IR_decode(data).type);
 		Serial.print("x: ");
