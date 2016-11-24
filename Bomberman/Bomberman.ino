@@ -129,7 +129,6 @@ void calculate_Movement()
 {
 	if (joy_x_axis > 140) {
 		if (player1_xCounter == player1_x_Speed) {
-			player1_x_old = player1_x;
 			player1_x++;	//hier word de teller voor de X coordinaat verhoogt als de joystick naar rechts word gedrukt
 			player1_xCounter = 0;
 		}
@@ -139,7 +138,6 @@ void calculate_Movement()
 	}
 	if (joy_x_axis < 114) {
 		if (player1_xCounter == player1_x_Speed) {
-			player1_x_old = player1_x;
 			player1_x--; //hier word de teller voor de X coordinaat verlaagt als de joystick naar links word gedrukt. komt niet lager als 0
 			player1_xCounter = 0;
 		}
@@ -149,7 +147,6 @@ void calculate_Movement()
 	}
 	if (joy_y_axis > 140) {
 		if (player1_yCounter == player1_y_Speed) {
-			player1_y_old = player1_y;
 			player1_y--;	//hier word de teller voor de Y coordinaat verlaagt als de joystick naar beneden word gedrukt
 			player1_yCounter = 0;
 		}
@@ -159,7 +156,6 @@ void calculate_Movement()
 	}
 	if (joy_y_axis < 114) {
 		if (player1_yCounter == player1_y_Speed) {
-			player1_y_old = player1_y;
 			player1_y++;	//hier word de teller voor de Y coordinaat verhoogt als de joystick naar boven word gedrukt
 			player1_yCounter = 0;
 		}
@@ -171,7 +167,10 @@ void calculate_Movement()
 
 void draw_player()
 {
-	if ((player1_x_old != player1_x) || (player1_y_old != player1_y)) {
-		lcd.fillCircle((player1_x*gridgrootte) + (gridgrootte / 2), (player1_y*gridgrootte) + (gridgrootte / 2), cirkelgrootte, RGB(255, 0, 0));
-	}
+	if(player1_y_old != player1_y || player1_x_old != player1_x)
+		lcd.fillCircle((player1_x_old*gridgrootte) + (gridgrootte / 2), (player1_y_old*gridgrootte) + (gridgrootte / 2), cirkelgrootte, RGB(255, 255, 255));
+
+	lcd.fillCircle((player1_x*gridgrootte) + (gridgrootte / 2), (player1_y*gridgrootte) + (gridgrootte / 2), cirkelgrootte, RGB(255, 0, 0));
+	player1_x_old = player1_x;
+	player1_y_old = player1_y;
 }
