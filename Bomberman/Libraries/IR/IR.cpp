@@ -53,10 +53,10 @@ void IR_init() {
 	// just use wire for test reasons
 	DDRB |= (1 << PORTB5);
 
-	DDRB |= (1 << PORTB3);		// output OC2A pin (pin 11)
-	TCCR2A = (1 << COM2A0); 	// toggle OC2A on match
+	DDRD |= (1 << PORTD3);		// output OC2A pin (pin 11)
+	TCCR2A = (1 << COM2B0); 	// toggle OC2A on match
 	TCCR2B |= (1 << CS21); 		// 8 prescaler						|
-	OCR2A = 53; 				// value to compare timer against	| 1/(53*(1/16000000)*8) = 37,7kHz
+	OCR2B = 53; 				// value to compare timer against	| 1/(53*(1/16000000)*8) = 37,7kHz
 	TIMSK2 |= (1 << TOIE2);		// enable overflow interrupt
 
 	sei();						// enable global interrupts
@@ -66,21 +66,21 @@ void IR_toggle() {
 	// just use wire for test reasons
 	PORTB ^= (1 << PORTB5);
 
-	DDRB ^= (1 << PORTB3);
+	DDRD ^= (1 << PORTD3);
 }
 
 void IR_off() {
 	// just use wire for test reasons
 	PORTB &= ~(1 << PORTB5);
 
-	DDRB &= ~(1 << PORTB3);
+	DDRD &= ~(1 << PORTD3);
 }
 
 void IR_on() {
 	// just use wire for test reasons
 	PORTB |= (1 << PORTB5);
 
-	DDRB |= (1 << PORTB3);
+	DDRD |= (1 << PORTD3);
 }
 
 data_store IR_decode(uint16_t data) {
