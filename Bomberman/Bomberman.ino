@@ -81,8 +81,14 @@ void draw_OutsideWalls()
 	//	draw stuff in grid
 	for (rowCounter = 0; rowCounter < 12; rowCounter++) {
 		for (collumnCounter = 0; collumnCounter < 16; collumnCounter++) {
-			if (grid[collumnCounter][rowCounter] == 1)
+			if (grid[collumnCounter][rowCounter] == 1) {
 				lcd.fillRect(collumnCounter*gridgrootte, rowCounter*gridgrootte, gridgrootte, gridgrootte, RGB(0, 0, 0));
+			}
+			else {
+				if (grid[collumnCounter][rowCounter] == 3) {
+					lcd.fillRect(collumnCounter*gridgrootte, rowCounter*gridgrootte, gridgrootte, gridgrootte, RGB(222, 184, 135));
+				}
+			}
 		}
 	}
 }
