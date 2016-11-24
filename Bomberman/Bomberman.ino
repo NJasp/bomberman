@@ -24,18 +24,19 @@ void draw_Grid();
 void view_Griddata();
 void read_Nunchuck();
 void calculate_Movement();
-void draw_player();
+void draw_Player();
+void check_Bomb();
 
 int main() {
 	init_Hardware();
 	draw_Grid();
 	init_OutsideWalls();
-	view_Griddata();
 	draw_OutsideWalls();
 	for (;;) {	// MAIN LOOP									
 		read_Nunchuck();
 		calculate_Movement();
-		draw_player();
+		draw_Player();
+		check_Bomb();
 	}
 	return 0;
 }
@@ -165,7 +166,7 @@ void calculate_Movement()
 	}
 }
 
-void draw_player()
+void draw_Player()
 {
 	if(player1_y_old != player1_y || player1_x_old != player1_x)
 		lcd.fillCircle((player1_x_old*gridgrootte) + (gridgrootte / 2), (player1_y_old*gridgrootte) + (gridgrootte / 2), cirkelgrootte, RGB(255, 255, 255));
@@ -173,4 +174,11 @@ void draw_player()
 	lcd.fillCircle((player1_x*gridgrootte) + (gridgrootte / 2), (player1_y*gridgrootte) + (gridgrootte / 2), cirkelgrootte, RGB(255, 0, 0));
 	player1_x_old = player1_x;
 	player1_y_old = player1_y;
+}
+
+void check_Bomb()
+{
+	 if (!((nunchuck_buf[5] >> 0) & 1)){
+		grid[player1_x][player1_y] = 2;
+	}
 }
