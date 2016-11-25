@@ -16,8 +16,9 @@ uint8_t player1_x = 1, player1_y = 1;		//player locations
 uint8_t cirkelgrootte = (gridgrootte / 2) - 1;	//Size of playercircle
 uint8_t player1_xCounter = 0, player1_yCounter = 0;		//Player movement speed
 uint8_t player1_x_old = 1, player1_y_old = 1;		//Old locations of the player;
-uint8_t player1_x_bombdrop = 0, player1_y_bombdrop = 0;
-uint8_t antiholdCounter = 0;
+uint8_t player1_x_bombdrop = 0, player1_y_bombdrop = 0;		//Location of the dropped bomb;
+uint8_t antiholdCounter = 0;				// 1 when the player holds the 'Z' button, so the game doesn't place too many bombs
+uint8_t activeBombs[16][12];
 
 void init_Hardware();
 void init_OutsideWalls();
@@ -30,6 +31,7 @@ void draw_Player();
 void check_Bomb();
 void draw_Bomb();
 void initlevel_1();
+void init_Timer();
 
 int main() {
 	initlevel_1();
@@ -37,6 +39,7 @@ int main() {
 	draw_Grid();
 	init_OutsideWalls();
 	draw_OutsideWalls();
+	init_Timer();
 	for (;;) {	// MAIN LOOP									
 		read_Nunchuck();
 		calculate_Movement();
@@ -74,6 +77,32 @@ void init_OutsideWalls()
 			}
 		}
 	}
+}
+
+void init_Timer() {
+	TIMSK0 |= (1 << TOIE0);
+	TCNT0 = 0;											//SET TIMER 0 AAN (Prescaling 1/1024)
+	TCCR0B |= (1 << CS02) | (1 << CS00) | (1 << CS01);
+	sei();
+}
+
+ISR(TIMER0_OVF_vect) {		//prescaler 1/1024 = 60 count voor 1 seconde
+	/*interruptCounter++;
+	if (interruptCounter == 60) {
+		for (rowCounter = 0; rowCounter < 12; rowCounter++) {
+			for (collumnCounter = 0; collumnCounter < 16; collumnCounter++) {
+				if (activeBombs[collumnCounter][rowCounter] > 1) {
+					activeBombs[collumnCounter][rowCounter]--;
+				}
+				else {
+					grid[collumnCounter][rowCounter] = 0;
+				}
+			}
+		}
+	}
+	else {
+		interruptCounter++;
+	}*/
 }
 
 void draw_OutsideWalls()
@@ -212,6 +241,7 @@ void check_Bomb()
 	if (!((nunchuck_buf[5] >> 0) & 1)) {
 		if (antiholdCounter != 1) {
 			grid[player1_x][player1_y] = 2;
+			activeBombs[player1_x][player1_y] = 5;
 			antiholdCounter = 1;
 			player1_x_bombdrop = player1_x;
 			player1_y_bombdrop = player1_y;
@@ -225,7 +255,7 @@ void check_Bomb()
 void draw_Bomb()
 {
 	if (((player1_x_bombdrop) != 0 && (player1_y_bombdrop != 0)) && ((player1_x != player1_x_bombdrop) || (player1_y != player1_y_bombdrop))) {
-		lcd.fillCircle((player1_x_bombdrop*gridgrootte) + (gridgrootte / 2), (player1_y_bombdrop*gridgrootte) + (gridgrootte / 2), cirkelgrootte, RGB(0, 0, 255));
+		lcd.fillRect(((player1_x_bombdrop*gridgrootte) + 4), ((player1_y_bombdrop*gridgrootte) + 4), 14, 14, RGB(180, 0, 0));
 		player1_x_bombdrop = 0;
 		player1_y_bombdrop = 0;
 	}
