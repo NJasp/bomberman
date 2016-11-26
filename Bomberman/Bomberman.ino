@@ -19,6 +19,7 @@ uint8_t player1_x_old = 1, player1_y_old = 1;		//Old locations of the player;
 uint8_t player1_x_bombdrop = 0, player1_y_bombdrop = 0;		//Location of the dropped bomb;
 uint8_t antiholdCounter = 0;				// 1 when the player holds the 'Z' button, so the game doesn't place too many bombs
 uint8_t activeBombs[16][12];
+uint16_t interruptCounter = 0;
 
 void draw_Player();
 void draw_Bomb();
@@ -30,6 +31,7 @@ int main() {
 	init_Level1(grid);
 	init_LCD(lcd);
 	init_Nunchuck();
+	init_Timer();
 	draw_Grid(lcd);
 	draw_OutsideWalls(lcd, grid);
 	for (;;) {	// MAIN LOOP									
@@ -43,20 +45,20 @@ int main() {
 }
 
 void init_Timer() {
-	TIMSK1 |= (1 << TOIE1);
-	TCNT1 = 0;										//SET TIMER 1 AAN (Prescaling 1/1024)
-	TCCR1B |= (1 << CS12) | (1 << CS10) | (1 << CS11);
+	TIMSK2 |= (1 << TOIE2);
+	TCNT2 = 0;										//SET TIMER 2 AAN (Prescaling 1/1024)
+	TCCR2B |= (1 << CS20) | (1 << CS22) | (1 << CS21);
 	sei();
 }
 
-/*ISR(TIMER1_OVF_vect) {		//prescaler 1/1024 = 15625 count voor 1 seconde
-	/*if (interruptCounter == 15625) {
+ISR(TIMER2_OVF_vect) {		//prescaler 1/1024 = 60 count voor ongeveer 1 seconde
+	if (interruptCounter >= 60) {
 		for (rowCounter = 0; rowCounter < 12; rowCounter++) {
 			for (collumnCounter = 0; collumnCounter < 16; collumnCounter++) {
 				if (activeBombs[collumnCounter][rowCounter] > 1) {
 					activeBombs[collumnCounter][rowCounter]--;
 				}
-				else {
+				else if (activeBombs[collumnCounter][rowCounter] == 1) {
 					grid[collumnCounter][rowCounter] = 0;
 				}
 			}
@@ -66,7 +68,7 @@ void init_Timer() {
 	else {
 		interruptCounter++;
 	}
-}*/
+}
 
 void calculate_Movement()
 {
