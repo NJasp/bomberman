@@ -5,6 +5,5 @@
 
 void init_LCD(MI0283QT9 screen);
 void draw_Grid(MI0283QT9 screen);
-void draw_Walls_Crates(MI0283QT9 screen, uint8_t grid[16][12]);
 
 #endif

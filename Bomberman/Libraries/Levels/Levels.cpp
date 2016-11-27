@@ -326,3 +326,21 @@ void init_OutsideWalls(uint8_t grid[16][12])
 		}
 	}
 }
+
+void draw_Walls_Crates(MI0283QT9 screen, uint8_t grid[16][12])
+{
+	uint8_t row, collumn;
+	//	draw stuff in grid
+	for (row = 0; row < 12; row++) {
+		for (collumn = 0; collumn < 16; collumn++) {
+			if (grid[collumn][row] == 1) {
+				screen.fillRect(collumn * 20, row * 20, 20, 20, RGB(0, 0, 0));
+			}
+			else {
+				if (grid[collumn][row] == 2) {
+					screen.fillRect(collumn * 20, row * 20, 20, 20, RGB(222, 184, 135));
+				}
+			}
+		}
+	}
+}
