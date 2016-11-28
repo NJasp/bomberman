@@ -117,10 +117,10 @@ void processRecieve_IR(uint32_t currentTime, uint16_t *data) {
 	if (timeDelta > 200) 				   // begin new transmission
 		dataCount = 0;
 
-	if(timeDelta > ZERO_DELAY-20 && timeDelta < ONE_DELAY+20) {
-		if (timeDelta > ONE_DELAY-20 && timeDelta < ONE_DELAY+20) 	 	   // recieved 1
+	if(timeDelta > ZERO_DELAY-11 && timeDelta < ONE_DELAY+11) {
+		if (timeDelta > ONE_DELAY-11 && timeDelta < ONE_DELAY+11) 	 	   // recieved 1
 			*data |= (1 << dataCount);
-		else if (timeDelta > ZERO_DELAY-20 && timeDelta < ZERO_DELAY+20)   // recieved 0
+		else if (timeDelta > ZERO_DELAY-11 && timeDelta < ZERO_DELAY+11)   // recieved 0
 			*data &= ~(1 << dataCount);
 		dataCount++;
 	}
