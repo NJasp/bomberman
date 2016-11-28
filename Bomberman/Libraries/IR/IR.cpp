@@ -25,17 +25,16 @@ IR_send(type, xData, yData);			   // send data
 data_store myData = IR_decode(data);	   // store received data in struct
 										   // data is now accessible through myData.type, myData.xData, myData.yData
 */
-#include <avr/io.h>
-#include <avr/interrupt.h>
-#include <stdint.h>
-#include "ir.h"
+
+#include "../Includes/Includes.h"
+#include "IR.h"
 volatile uint8_t isOn = 0, isSending = 0, sendSpace = 0;
 volatile uint16_t timeDelta = 0;
 volatile uint32_t lastTime = 0, nextSend = 0;
 volatile uint8_t dataCount = 0, msgCount = 0, spaceCounter = 0;
 volatile uint16_t msgData;
 
-void IR_init() {
+void init_IR() {
 	DDRD &= ~(1 << PORTD2);		// input INT0 pin (pin 2)
 	PORTD |= (1 << PORTD2);		// pullup INT0 pin
 	EIMSK |= (1 << INT0);		// enable INT0
@@ -45,19 +44,10 @@ void IR_init() {
 	DDRB |= (1 << PORTB5);
 
 	DDRD |= (1 << PORTD3);		// output OC2A pin (pin 11)
-	TCCR2A = (1 << COM2B0); 	// toggle OC2A on match
-	TCCR2B |= (1 << CS21); 		// 8 prescaler						|
-	OCR2B = 53; 				// value to compare timer against	| 1/(53*(1/16000000)*8) = 37,7kHz
-
-
-	TIMSK2 |= (1 << TOIE2) | (1 << OCIE2A);		// enable overflow interrupt
-	OCR2A = 2;					// nanosecond counter
-	IR_off();
-
-	sei();						// enable global interrupts
+	off_IR();
 }
 
-void IR_toggle() {
+void toggle_IR() {
 	isOn ^= 1;
 	// just use wire for test reasons
 	PORTB ^= (1 << PORTB5);
@@ -65,7 +55,7 @@ void IR_toggle() {
 	DDRD ^= (1 << PORTD3);
 }
 
-void IR_off() {
+void off_IR() {
 	isOn = 0;
 	// just use wire for test reasons
 	PORTB &= ~(1 << PORTB5);
@@ -73,7 +63,7 @@ void IR_off() {
 	DDRD &= ~(1 << PORTD3);
 }
 
-void IR_on() {
+void on_IR() {
 	isOn = 1;
 	// just use wire for test reasons
 	PORTB |= (1 << PORTB5);
@@ -81,15 +71,15 @@ void IR_on() {
 	DDRD |= (1 << PORTD3);
 }
 
-uint8_t IR_isOn(){
+uint8_t isOn_IR(){
 	return isOn;
 }
 
-uint8_t IR_isSending(){
+uint8_t isSending_IR(){
 	return isSending;
 }
 
-data_store IR_decode(uint16_t data) {
+data_store decode_IR(uint16_t data) {
 	data_store returnData = {0,0,0};
 
 	// fill first 2 bits to get number back
@@ -104,7 +94,7 @@ data_store IR_decode(uint16_t data) {
 	return returnData;
 }
 
-uint16_t IR_encode(uint8_t type, uint8_t xData, uint8_t yData){
+uint16_t encode_IR(uint8_t type, uint8_t xData, uint8_t yData){
 	uint16_t encoded = 0;
 
 	// set type with first 2 bits only
@@ -120,7 +110,7 @@ uint16_t IR_encode(uint8_t type, uint8_t xData, uint8_t yData){
 	return encoded;
 }
 
-void IR_processRecieve(uint32_t currentTime, uint16_t *data) {
+void processRecieve_IR(uint32_t currentTime, uint16_t *data) {
 	timeDelta = currentTime - lastTime;
 	lastTime = currentTime;
 
@@ -137,7 +127,7 @@ void IR_processRecieve(uint32_t currentTime, uint16_t *data) {
 
 }
 
-void IR_processSend(uint32_t currentTime) {
+void processSend_IR(uint32_t currentTime) {
 	if(sendSpace) {  // send space | do nothing one cycle while IR is off
 		if(spaceCounter == SPACE_DELAY){
 			sendSpace = 0;
@@ -148,8 +138,8 @@ void IR_processSend(uint32_t currentTime) {
 	}
 	else {	       // send bit
 		// send 1|0
-		if(currentTime == nextSend && IR_isOn()) {
-			IR_off();
+		if(currentTime == nextSend && isOn_IR()) {
+			off_IR();
 			sendSpace = 1;
 		}
 
@@ -159,13 +149,13 @@ void IR_processSend(uint32_t currentTime) {
 			else
 				nextSend = currentTime + ZERO_DELAY;
 
-			IR_on();
+			on_IR();
 			msgCount++;
 		}
 	}
 
 	if(msgCount == 17) {// end sending
-		IR_off();
+		off_IR();
 		msgCount = 0;
 		isSending = 0;
 		sendSpace = 0;
@@ -174,7 +164,7 @@ void IR_processSend(uint32_t currentTime) {
 
 }
 // TODO: add receive/send buffer somehow
-void IR_send(uint8_t type, uint8_t xData, uint8_t yData) {
-	msgData = IR_encode(type, xData, yData);
+void send_IR(uint8_t type, uint8_t xData, uint8_t yData) {
+	msgData = encode_IR(type, xData, yData);
 	isSending = 1;
 }

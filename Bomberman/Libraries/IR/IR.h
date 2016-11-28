@@ -15,17 +15,16 @@ static const uint8_t PLAYER 	= 1;
 static const uint8_t BOMB 		= 2;
 static const uint8_t MAP 		= 3;
 
-void IR_init();
-void IR_toggle();
-void IR_off();
-void IR_on();
-uint8_t IR_ison();
-uint8_t IR_isSending();
-data_store IR_decode(uint16_t data);
-uint16_t IR_encode(uint8_t type, uint8_t xData, uint8_t yData);
-void IR_send(uint8_t type, uint8_t xData, uint8_t yData);
-<<<<<<< HEAD
-void IR_processRecieve(uint32_t currentTime, uint16_t *data);
-void IR_processSend(uint32_t currentTime);
+void init_IR();
+void toggle_IR();
+void off_IR();
+void on_IR();
+uint8_t isOn_IR();
+uint8_t isSending_IR();
+data_store decode_IR(uint16_t data);
+uint16_t encode_IR(uint8_t type, uint8_t xData, uint8_t yData);
+void send_IR(uint8_t type, uint8_t xData, uint8_t yData);
+void processRecieve_IR(uint32_t currentTime, uint16_t *data);
+void processSend_IR(uint32_t currentTime);
 
 #endif /* IR_H_ */
