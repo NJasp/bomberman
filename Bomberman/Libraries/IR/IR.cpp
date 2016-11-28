@@ -3,29 +3,18 @@
                         implementaton:
        ===================----=======================
                    ===== interrupts =====
-ISR(TIMER2_OVF_vect) {
-	timer++;
-	if(timer == 8){ // close enough to work as ms counter, 7.8 precise
-		clock++;
-		timer = 0;
+ISR(TIMER2_COMPA_vect){// 10 nano second timer
+	nTimer++;
+
+	// send function
+	if(IR_isSending()) {
+		IR_processSend(nTimer);
 	}
+
 }
 
-ISR(INT0_vect){
-	if(recTimer > clock)
-		timeDelta = 256+clock - recTimer;
-	else
-		timeDelta = clock - recTimer;
-
-	if(timeDelta > 3 && timeDelta < 8) 	   // recieved 1
-		data |= (1 << dataCount);
-	else if (timeDelta < 3) 			   // recieved 0
-		data &= ~(1 << dataCount);
-	else 						   		   // end transmission
-		dataCount = -1;
-
-	dataCount++;
-	recTimer = clock;
+ISR(INT0_vect){ // receive interrupt
+	IR_processRecieve(nTimer, &IRdata);
 }
 
                ===== sending/handling data =====
@@ -34,15 +23,17 @@ IR_init();								   // initialize timers/config
 IR_send(type, xData, yData);			   // send data
 
 data_store myData = IR_decode(data);	   // store received data in struct
-										   // data is now accessible through myData.type myData.xData myData.yData
+										   // data is now accessible through myData.type, myData.xData, myData.yData
 */
 #include <avr/io.h>
-#include <avr/delay.h>
 #include <avr/interrupt.h>
 #include <stdint.h>
 #include "ir.h"
-
-
+volatile uint8_t isOn = 0, isSending = 0, sendSpace = 0;
+volatile uint16_t timeDelta = 0;
+volatile uint32_t lastTime = 0, nextSend = 0;
+volatile uint8_t dataCount = 0, msgCount = 0, spaceCounter = 0;
+volatile uint16_t msgData;
 
 void IR_init() {
 	DDRD &= ~(1 << PORTD2);		// input INT0 pin (pin 2)
@@ -67,6 +58,7 @@ void IR_init() {
 }
 
 void IR_toggle() {
+	isOn ^= 1;
 	// just use wire for test reasons
 	PORTB ^= (1 << PORTB5);
 
@@ -74,6 +66,7 @@ void IR_toggle() {
 }
 
 void IR_off() {
+	isOn = 0;
 	// just use wire for test reasons
 	PORTB &= ~(1 << PORTB5);
 
@@ -81,14 +74,19 @@ void IR_off() {
 }
 
 void IR_on() {
+	isOn = 1;
 	// just use wire for test reasons
 	PORTB |= (1 << PORTB5);
 
 	DDRD |= (1 << PORTD3);
 }
 
-uint8_t IR_ison(){
-	return DDRD&(1 << PORTD3) ? 1:0;
+uint8_t IR_isOn(){
+	return isOn;
+}
+
+uint8_t IR_isSending(){
+	return isSending;
 }
 
 data_store IR_decode(uint16_t data) {
@@ -122,26 +120,61 @@ uint16_t IR_encode(uint8_t type, uint8_t xData, uint8_t yData){
 	return encoded;
 }
 
+void IR_processRecieve(uint32_t currentTime, uint16_t *data) {
+	timeDelta = currentTime - lastTime;
+	lastTime = currentTime;
+
+	if (timeDelta > 200) 				   // begin new transmission
+		dataCount = 0;
+
+	if(timeDelta > ZERO_DELAY-20 && timeDelta < ONE_DELAY+20) {
+		if (timeDelta > ONE_DELAY-20 && timeDelta < ONE_DELAY+20) 	 	   // recieved 1
+			*data |= (1 << dataCount);
+		else if (timeDelta > ZERO_DELAY-20 && timeDelta < ZERO_DELAY+20)   // recieved 0
+			*data &= ~(1 << dataCount);
+		dataCount++;
+	}
+
+}
+
+void IR_processSend(uint32_t currentTime) {
+	if(sendSpace) {  // send space | do nothing one cycle while IR is off
+		if(spaceCounter == SPACE_DELAY){
+			sendSpace = 0;
+			nextSend = 0;
+			spaceCounter = 0;
+		}
+		spaceCounter++;
+	}
+	else {	       // send bit
+		// send 1|0
+		if(currentTime == nextSend && IR_isOn()) {
+			IR_off();
+			sendSpace = 1;
+		}
+
+		if(nextSend == 0) {// set delay based on 1|0
+			if(((msgData >> msgCount)&1))
+				nextSend = currentTime + ONE_DELAY;
+			else
+				nextSend = currentTime + ZERO_DELAY;
+
+			IR_on();
+			msgCount++;
+		}
+	}
+
+	if(msgCount == 17) {// end sending
+		IR_off();
+		msgCount = 0;
+		isSending = 0;
+		sendSpace = 0;
+		nextSend = 0;
+	}
+
+}
 // TODO: add receive/send buffer somehow
 void IR_send(uint8_t type, uint8_t xData, uint8_t yData) {
-	uint16_t data = IR_encode(type, xData, yData);
-
-	uint8_t i;
-
-	// make sure led is off
-	IR_off();
-	for(i=0;i<16;i++) {
-		IR_on();
-		if(data&(1 << i) ? 1:0){
-			_delay_ms(10);
-		}
-		else {
-			_delay_ms(5);
-		}
-
-		// space
-		IR_off();
-		_delay_ms(1);
-	}
-	IR_off();
+	msgData = IR_encode(type, xData, yData);
+	isSending = 1;
 }
