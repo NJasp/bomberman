@@ -1,7 +1,6 @@
 #ifndef IR_H_
 #define IR_H_
 
-
 typedef struct data_store{
 	uint8_t type;
 	uint8_t xData;
@@ -25,8 +24,8 @@ uint8_t IR_isSending();
 data_store IR_decode(uint16_t data);
 uint16_t IR_encode(uint8_t type, uint8_t xData, uint8_t yData);
 void IR_send(uint8_t type, uint8_t xData, uint8_t yData);
+<<<<<<< HEAD
 void IR_processRecieve(uint32_t currentTime, uint16_t *data);
 void IR_processSend(uint32_t currentTime);
-void IR_test();
 
 #endif /* IR_H_ */
