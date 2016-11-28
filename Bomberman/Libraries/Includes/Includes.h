@@ -7,5 +7,6 @@
 #include <Wire.h>
 #include <Arduino.h>
 #include <MI0283QT9.h>
+#include "../IR/IR.h"
 
 #endif

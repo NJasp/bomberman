@@ -4,7 +4,6 @@
 #include "Libraries/DebugTools/DebugTools.h"
 #include "Libraries/Player/Player.h"
 #include "Libraries/Bomb/Bomb.h"
-#include "Libraries/IR/IR.h"
 
 MI0283QT9 lcd;					//LCD variabele
 uint8_t joy_x_axis, joy_y_axis;	//Nunchuck Data
@@ -32,23 +31,31 @@ void init_Timer();
 
 int main() {
 	init();
+	Serial.begin(9600);
 	init_Timer();
 	init_IR();
 	init_Level1(grid);
 	init_LCD(lcd);
 	init_Nunchuck();
+	init_Player(player1_x, player1_y, lcd);
 	//draw_Grid(lcd);
 	//view_Griddata(grid);
 	draw_Walls_Crates(lcd, grid);
 	for (;;) {	// MAIN LOOP									
 		read_Nunchuck(nunchuck_buf, &joy_x_axis, &joy_y_axis);
 		calculate_Movement(&player1_x, &player1_y, joy_x_axis, joy_y_axis, &player1_xCounter, &player1_yCounter, player1_x_speed, player1_y_speed, grid);
+		data_store player2_data = decode_IR(IRdata);
+		Serial.print("type: ");
+		Serial.print(player2_data.type);
+		Serial.print(" x:");
+		Serial.print(player2_data.xData);
+		Serial.print(" y:");
+		Serial.println(player2_data.yData);
 		check_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, max_bombs, &livebombs, &antiholdCounter, nunchuck_buf, grid);
-		draw_Player(player1_x, player1_y, &player1_x_old, &player1_y_old, lcd);
+		draw_Player(player1_x, player1_y, &player1_x_old, &player1_y_old, player2_data, lcd);
 		draw_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, lcd);
 		draw_Explosion(lcd, bombradius, grid, &livebombs);
 		clear_Explosion(lcd, bombradius, grid);
-		draw_Player
 	}
 	return 0;
 }
