@@ -28,7 +28,7 @@ data_store myData = IR_decode(data);	   // store received data in struct
 
 #include "../Includes/Includes.h"
 #include "IR.h"
-volatile uint8_t isOn = 0, isSending = 0, sendSpace = 0;
+volatile uint8_t isOn = 0, isSending = 0, sendSpace = 0, dataReady = 0;
 volatile uint16_t timeDelta = 0;
 volatile uint32_t lastTime = 0, nextSend = 0;
 volatile uint8_t dataCount = 0, msgCount = 0, spaceCounter = 0;
@@ -45,6 +45,8 @@ void init_IR() {
 
 	DDRD |= (1 << PORTD3);		// output OC2A pin (pin 11)
 	off_IR();
+
+	Serial.begin(9600);
 }
 
 void toggle_IR() {
@@ -79,6 +81,10 @@ uint8_t isSending_IR(){
 	return isSending;
 }
 
+uint8_t dataReady_IR() {
+	return dataReady;
+}
+
 data_store decode_IR(uint16_t data) {
 	data_store returnData = {0,0,0};
 
@@ -111,17 +117,29 @@ uint16_t encode_IR(uint8_t type, uint8_t xData, uint8_t yData){
 }
 
 void processRecieve_IR(uint32_t currentTime, uint16_t *data) {
-	timeDelta = currentTime - lastTime;
+	if(currentTime > lastTime)
+		timeDelta = currentTime - lastTime;
+	else // failsafe for timer overflow, if it ever happens
+		timeDelta = 4294967295+currentTime - lastTime;
+
 	lastTime = currentTime;
 
-	if (timeDelta > 200) 				   // begin new transmission
+	if (timeDelta > 200){
 		dataCount = 0;
+	}
 
 	if(timeDelta > ZERO_DELAY-11 && timeDelta < ONE_DELAY+11) {
+		if(dataReady)
+			dataReady = 0;
+
 		if (timeDelta > ONE_DELAY-11 && timeDelta < ONE_DELAY+11) 	 	   // recieved 1
 			*data |= (1 << dataCount);
 		else if (timeDelta > ZERO_DELAY-11 && timeDelta < ZERO_DELAY+11)   // recieved 0
 			*data &= ~(1 << dataCount);
+
+		if(dataCount==15)
+			dataReady=1;
+
 		dataCount++;
 	}
 
