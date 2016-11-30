@@ -12,7 +12,7 @@
 #else
 # include "WProgram.h"
 #endif
-#include "digitalWriteFast.h"
+#include "../digitalWriteFast/digitalWriteFast.h"
 #include "fonts.h"
 #include "GraphicsLib.h"
 

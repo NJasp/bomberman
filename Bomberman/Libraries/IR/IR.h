@@ -21,6 +21,7 @@ void off_IR();
 void on_IR();
 uint8_t isOn_IR();
 uint8_t isSending_IR();
+uint8_t dataReady_IR();
 data_store decode_IR(uint16_t data);
 uint16_t encode_IR(uint8_t type, uint8_t xData, uint8_t yData);
 void send_IR(uint8_t type, uint8_t xData, uint8_t yData);
