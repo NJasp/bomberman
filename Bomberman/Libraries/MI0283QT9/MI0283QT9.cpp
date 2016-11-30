@@ -14,9 +14,9 @@
 # include "WProgram.h"
 #endif
 #include "SPI.h"
-#include "digitalWriteFast.h"
-#include "GraphicsLib.h"
-#include "MI0283QT9.h"
+#include "../digitalWriteFast/digitalWriteFast.h"
+#include "../GraphicsLib/GraphicsLib.h"
+#include "../MI0283QT9/MI0283QT9.h"
 
 
 //#define LCD_8BIT_SPI //use 8bit SPI for the display
