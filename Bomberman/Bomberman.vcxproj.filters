@@ -9,7 +9,7 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
+    <Filter Include="Header Files\Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
@@ -21,5 +21,52 @@
     <ClInclude Include="__vm\.Bomberman.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Libraries\Levels\Levels.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\Includes\Includes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\LCD\LCD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\Nunchuck\Nunchuck.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\DebugTools\DebugTools.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\Player\Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\Bomb\Bomb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\IR\IR.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Libraries\Levels\Levels.cpp">
+      <Filter>Header Files\Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\LCD\LCD.cpp">
+      <Filter>Header Files\Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\Nunchuck\Nunchuck.cpp">
+      <Filter>Header Files\Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\DebugTools\DebugTools.cpp">
+      <Filter>Header Files\Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\Player\Player.cpp">
+      <Filter>Header Files\Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\Bomb\Bomb.cpp">
+      <Filter>Header Files\Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\IR\IR.cpp">
+      <Filter>Header Files\Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

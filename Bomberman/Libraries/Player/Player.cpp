@@ -14,9 +14,9 @@ void draw_Player(uint8_t player1_x, uint8_t player1_y, uint8_t* player1_x_old, u
 		(*player1_y_old) = player1_y;
 		//send_IR(PLAYER, player1_x, player1_y);
 	}
-	if (player2.type == PLAYER) {
+	/*if (player2.type == PLAYER) {
 		screen.fillCircle((player2.xData * 20) + 10, (player2.yData * 20) + 10, 9, RGB(0, 0, 255));
-	}
+	}*/
 }
 
 void calculate_Movement(uint8_t* player1_x, uint8_t* player1_y, uint8_t joy_x_axis, uint8_t joy_y_axis, uint8_t* player1_xCounter, uint8_t* player1_yCounter, uint8_t player1_x_speed, uint8_t player1_y_speed, uint8_t grid[16][12])

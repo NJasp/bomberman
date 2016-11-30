@@ -41,7 +41,7 @@ void init_IR() {
 	EICRA |= (1 << ISC00);		// any change generates interrupt INT0
 
 	// just use wire for test reasons
-	DDRB |= (1 << PORTB5);
+	DDRB |= (1 << PORTD5);
 
 	DDRD |= (1 << PORTD3);		// output OC2A pin (pin 11)
 	off_IR();
@@ -50,7 +50,7 @@ void init_IR() {
 void toggle_IR() {
 	isOn ^= 1;
 	// just use wire for test reasons
-	PORTB ^= (1 << PORTB5);
+	PORTB ^= (1 << PORTD5);
 
 	DDRD ^= (1 << PORTD3);
 }
@@ -58,7 +58,7 @@ void toggle_IR() {
 void off_IR() {
 	isOn = 0;
 	// just use wire for test reasons
-	PORTB &= ~(1 << PORTB5);
+	PORTB &= ~(1 << PORTD5);
 
 	DDRD &= ~(1 << PORTD3);
 }
@@ -66,7 +66,7 @@ void off_IR() {
 void on_IR() {
 	isOn = 1;
 	// just use wire for test reasons
-	PORTB |= (1 << PORTB5);
+	PORTB |= (1 << PORTD5);
 
 	DDRD |= (1 << PORTD3);
 }
