@@ -23,8 +23,8 @@ uint8_t livebombs = 0;
 uint16_t IRdata;
 uint32_t nTimer = 0;
 
-uint8_t bombradius = 3;
-uint8_t player1_x_speed = 10, player1_y_speed = 10; //Higher is slower
+uint8_t bombradius = 1;
+uint8_t player1_x_speed = 30, player1_y_speed = 30; //Higher is slower
 uint8_t max_bombs = 5;
 
 void init_Timer();
@@ -41,16 +41,17 @@ int main() {
 	//draw_Grid(lcd);
 	//view_Griddata(grid);
 	draw_Walls_Crates(lcd, grid);
-	for (;;) {	// MAIN LOOP									
+	for (;;) {	// MAIN LOOP	
+		//send_IR(1, 13, 10);
 		read_Nunchuck(nunchuck_buf, &joy_x_axis, &joy_y_axis);
 		calculate_Movement(&player1_x, &player1_y, joy_x_axis, joy_y_axis, &player1_xCounter, &player1_yCounter, player1_x_speed, player1_y_speed, grid);
 		data_store player2_data = decode_IR(IRdata);
-		Serial.print("type: ");
+		/*Serial.print("type: ");
 		Serial.print(player2_data.type);
 		Serial.print(" x:");
 		Serial.print(player2_data.xData);
 		Serial.print(" y:");
-		Serial.println(player2_data.yData);
+		Serial.println(player2_data.yData);*/
 		check_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, max_bombs, &livebombs, &antiholdCounter, nunchuck_buf, grid);
 		draw_Player(player1_x, player1_y, &player1_x_old, &player1_y_old, player2_data, lcd);
 		draw_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, lcd);
@@ -91,7 +92,6 @@ ISR(TIMER2_OVF_vect) {		//3906 voor een halve seconde (ongeveer)
 
 ISR(TIMER2_COMPA_vect) {// 10 nano second timer
 	nTimer++;
-
 	// send function
 	if (isSending_IR()) {
 		processSend_IR(nTimer);
