@@ -6,7 +6,7 @@
 #include <avr/interrupt.h>
 #include <Wire.h>
 #include <Arduino.h>
-#include "../MI0283QT9/MI0283QT9.h"
+#include <MI0283QT9.h>
 #include "../IR/IR.h"
 
 #endif
