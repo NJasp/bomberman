@@ -26,7 +26,7 @@ data_store myData = IR_decode(data);	   // store received data in struct
 										   // data is now accessible through myData.type, myData.xData, myData.yData
 */
 
-#include "Includes.h"
+#include "../Includes/Includes.h"
 #include "IR.h"
 volatile uint8_t isOn = 0, isSending = 0, sendSpace = 0, dataReady = 0;
 volatile uint16_t timeDelta = 0;
