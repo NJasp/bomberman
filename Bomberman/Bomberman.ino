@@ -1,11 +1,17 @@
+
+#include <Wire.h>
 #include "Libraries/Levels/Levels.h"
 #include "Libraries/LCD/LCD.h"
 #include "Libraries/Nunchuck/Nunchuck.h"
 #include "Libraries/DebugTools/DebugTools.h"
 #include "Libraries/Player/Player.h"
 #include "Libraries/Bomb/Bomb.h"
+#include "Libraries\MSD_shield\mSD_shield.h"
 
 MI0283QT9 lcd;					//LCD variabele
+char *wall_Type = "wall.bmp";
+char *crate_Type = "crate.bmp";
+uint8_t x;
 uint8_t joy_x_axis, joy_y_axis;	//Nunchuck Data
 static uint8_t nunchuck_buf[6];	//Nunchuck Buffer
 uint8_t grid[16][12];		//Griddata
@@ -20,12 +26,14 @@ uint8_t player1_x_bombdrop = 0, player1_y_bombdrop = 0;		//Location of the dropp
 uint8_t antiholdCounter = 0;				// 1 when the player holds the 'Z' button, so the game doesn't place too many bombs
 uint16_t interruptCounter = 0;				//used to count seconds in the interrupt
 uint8_t livebombs = 0;
-uint16_t IRdata;
+uint16_t IRdata, Background = RGB(222,219,214);
 uint32_t nTimer = 0;
 
 uint8_t bombradius = 1;
 uint8_t player1_x_speed = 30, player1_y_speed = 30; //Higher is slower
 uint8_t max_bombs = 5;
+uint8_t score = 0;
+uint8_t killedPlayer = 0;
 
 void init_Timer();
 
@@ -37,10 +45,11 @@ int main() {
 	init_Level1(grid);
 	init_LCD(lcd);
 	init_Nunchuck();
+	init_SDcart(lcd);
 	init_Player(player1_x, player1_y, lcd);
 	//draw_Grid(lcd);
 	//view_Griddata(grid);
-	draw_Walls_Crates(lcd, grid);
+	draw_Walls_Crates(lcd, grid, wall_Type, crate_Type);
 	for (;;) {	// MAIN LOOP	
 		//send_IR(1, 13, 10);
 		read_Nunchuck(nunchuck_buf, &joy_x_axis, &joy_y_axis);
@@ -55,8 +64,10 @@ int main() {
 		check_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, max_bombs, &livebombs, &antiholdCounter, nunchuck_buf, grid);
 		draw_Player(player1_x, player1_y, &player1_x_old, &player1_y_old, player2_data, lcd);
 		draw_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, lcd);
-		draw_Explosion(lcd, bombradius, grid, &livebombs);
+		draw_Explosion(lcd, bombradius, grid, &livebombs, &score, &killedPlayer);
 		clear_Explosion(lcd, bombradius, grid);
+		x = lcd.drawText(5, 5, "Score: ", RGB(0, 0, 0), RGB(255, 255, 255), 1);
+		lcd.drawInteger(x, 5, score, 10, RGB(0, 0, 0), RGB(255, 255, 255), 1);
 	}
 	return 0;
 }
