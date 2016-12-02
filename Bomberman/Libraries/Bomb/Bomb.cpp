@@ -14,14 +14,14 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 				icollumn = collumn;
 				irow = row;
 				for (collumn; collumn < (icollumn + bombradius); collumn++) {
-					if ((grid[collumn][row] == 7 || grid[collumn][row] == 8 || grid[collumn][row] == 9) && (player1_x ) {
+					//if ((grid[collumn][row] == 7 || grid[collumn][row] == 8 || grid[collumn][row] == 9) && (player1_x ) {
 						if ((grid[collumn + 1][row] == 0) || (grid[collumn + 1][row] == 7) || (grid[collumn + 1][row] == 8) || (grid[collumn + 1][row] == 9)) {
 							grid[collumn + 1][row] = 9;
 							//screen.fillRect((((collumn + 1) * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
 							init_Pictures("ex.bmp", ((collumn + 1) * 20), (row * 20), screen);
 							//test
 						}
-					}
+					//}
 					else if (grid[collumn + 1][row] == 2) {
 						grid[collumn + 1][row] = 9;
 						//screen.fillRect((((collumn + 1) * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
