@@ -26,12 +26,12 @@ data_store myData = IR_decode(data);	   // store received data in struct
 										   // data is now accessible through myData.type, myData.xData, myData.yData
 */
 
-#include "../Includes/Includes.h"
+#include "Includes.h"
 #include "IR.h"
 volatile uint8_t isOn = 0, isSending = 0, sendSpace = 0, dataReady = 0;
 volatile uint16_t timeDelta = 0;
 volatile uint32_t lastTime = 0, nextSend = 0;
-volatile uint8_t dataCount = 0, msgCount = 0, spaceCounter = 0;
+volatile uint16_t dataCount = 0, msgCount = 0, spaceCounter = 0;
 volatile uint16_t msgData;
 
 void init_IR() {
@@ -41,9 +41,9 @@ void init_IR() {
 	EICRA |= (1 << ISC00);		// any change generates interrupt INT0
 
 	// just use wire for test reasons
-	DDRB |= (1 << PORTD5);
+	DDRB |= (1 << PORTB5);
 
-	DDRD |= (1 << PORTD3);		// output OC2A pin (pin 11)
+	DDRD |= (1 << PORTD3);		// output OC2B pin (pin 3)
 	off_IR();
 
 	Serial.begin(9600);
@@ -52,7 +52,7 @@ void init_IR() {
 void toggle_IR() {
 	isOn ^= 1;
 	// just use wire for test reasons
-	PORTB ^= (1 << PORTD5);
+	PORTB ^= (1 << PORTB5);
 
 	DDRD ^= (1 << PORTD3);
 }
@@ -60,7 +60,7 @@ void toggle_IR() {
 void off_IR() {
 	isOn = 0;
 	// just use wire for test reasons
-	PORTB &= ~(1 << PORTD5);
+	PORTB &= ~(1 << PORTB5);
 
 	DDRD &= ~(1 << PORTD3);
 }
@@ -68,7 +68,7 @@ void off_IR() {
 void on_IR() {
 	isOn = 1;
 	// just use wire for test reasons
-	PORTB |= (1 << PORTD5);
+	PORTB |= (1 << PORTB5);
 
 	DDRD |= (1 << PORTD3);
 }
@@ -117,10 +117,18 @@ uint16_t encode_IR(uint8_t type, uint8_t xData, uint8_t yData){
 }
 
 void processRecieve_IR(uint32_t currentTime, uint16_t *data) {
-	if(currentTime > lastTime)
+	if(currentTime >= lastTime)
 		timeDelta = currentTime - lastTime;
 	else // failsafe for timer overflow, if it ever happens
 		timeDelta = 4294967295+currentTime - lastTime;
+	/* DEBUG
+	Serial.print("currentTime: ");
+	Serial.print(currentTime);
+	Serial.print(" | lastTime: ");
+	Serial.print(lastTime);
+	Serial.print(" | timeDelta: ");
+	Serial.println(timeDelta);
+	*/
 
 	lastTime = currentTime;
 
@@ -128,16 +136,16 @@ void processRecieve_IR(uint32_t currentTime, uint16_t *data) {
 		dataCount = 0;
 	}
 
-	if(timeDelta > ZERO_DELAY-11 && timeDelta < ONE_DELAY+11) {
+	if(timeDelta > ZERO_DELAY-DELAY_OFFSET && timeDelta < ONE_DELAY+DELAY_OFFSET) {
 		if(dataReady)
 			dataReady = 0;
 
-		if (timeDelta > ONE_DELAY-11 && timeDelta < ONE_DELAY+11) 	 	   // recieved 1
+		if (timeDelta > ONE_DELAY-DELAY_OFFSET && timeDelta < ONE_DELAY+DELAY_OFFSET) 	 	   // recieved 1
 			*data |= (1 << dataCount);
-		else if (timeDelta > ZERO_DELAY-11 && timeDelta < ZERO_DELAY+11)   // recieved 0
+		else if (timeDelta > ZERO_DELAY-DELAY_OFFSET && timeDelta < ZERO_DELAY+DELAY_OFFSET)   // recieved 0
 			*data &= ~(1 << dataCount);
 
-		if(dataCount==15)
+		if(dataCount<=15)
 			dataReady=1;
 
 		dataCount++;

@@ -1,15 +1,18 @@
 #ifndef IR_H_
 #define IR_H_
 
+// config
+static const uint16_t ONE_DELAY  = 60;
+static const uint16_t ZERO_DELAY = 40;
+static const uint16_t SPACE_DELAY= 10;
+static const uint16_t DELAY_OFFSET= 6;
+
 typedef struct data_store{
 	uint8_t type;
 	uint8_t xData;
 	uint8_t yData;
 } data_store;
 
-static const uint8_t ONE_DELAY 	= 70;
-static const uint8_t ZERO_DELAY = 40;
-static const uint8_t SPACE_DELAY= 10;
 static const uint8_t LEVEL 		= 0;
 static const uint8_t PLAYER 	= 1;
 static const uint8_t BOMB 		= 2;
