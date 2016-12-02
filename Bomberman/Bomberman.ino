@@ -1,12 +1,10 @@
-
-#include <Wire.h>
 #include "Libraries/Levels/Levels.h"
 #include "Libraries/LCD/LCD.h"
 #include "Libraries/Nunchuck/Nunchuck.h"
 #include "Libraries/DebugTools/DebugTools.h"
 #include "Libraries/Player/Player.h"
 #include "Libraries/Bomb/Bomb.h"
-#include "Libraries\MSD_shield\mSD_shield.h"
+#include "Libraries/MSD_shield/mSD_shield.h"
 
 MI0283QT9 lcd;					//LCD variabele
 char *wall_Type = "wall.bmp";
