@@ -27,8 +27,8 @@ uint8_t livebombs = 0;
 uint16_t IRdata, Background = RGB(222,219,214);
 uint32_t nTimer = 0;
 
-uint8_t bombradius = 1;
-uint8_t player1_x_speed = 30, player1_y_speed = 30; //Higher is slower
+uint8_t bombradius = 5;
+uint8_t player1_x_speed = 0, player1_y_speed = 0; //Higher is slower
 uint8_t max_bombs = 5;
 uint8_t score = 0;
 uint8_t killedPlayer = 0;
@@ -62,10 +62,14 @@ int main() {
 		check_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, max_bombs, &livebombs, &antiholdCounter, nunchuck_buf, grid);
 		draw_Player(player1_x, player1_y, &player1_x_old, &player1_y_old, player2_data, lcd);
 		draw_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, lcd);
-		draw_Explosion(lcd, bombradius, grid, &livebombs, &score, &killedPlayer);
+		draw_Explosion(lcd, bombradius, grid, &livebombs, &score, &killedPlayer, player1_x, player1_y);
 		clear_Explosion(lcd, bombradius, grid);
 		x = lcd.drawText(5, 5, "Score: ", RGB(0, 0, 0), RGB(255, 255, 255), 1);
 		lcd.drawInteger(x, 5, score, 10, RGB(0, 0, 0), RGB(255, 255, 255), 1);
+		if (killedPlayer) {
+			lcd.fillScreen(RGB(255, 255, 255));
+			break;
+		}
 	}
 	return 0;
 }
