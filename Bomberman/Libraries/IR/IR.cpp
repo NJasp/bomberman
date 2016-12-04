@@ -26,7 +26,7 @@ data_store myData = IR_decode(data);	   // store received data in struct
 										   // data is now accessible through myData.type, myData.xData, myData.yData
 */
 
-#include "../Includes/Includes.h"
+#include "Includes.h"
 #include "IR.h"
 volatile uint8_t isOn = 0, isSending = 0, sendSpace = 0, dataReady = 0;
 volatile uint16_t timeDelta = 0;
@@ -44,7 +44,13 @@ void init_IR() {
 	DDRB |= (1 << PORTB5);
 
 	DDRD |= (1 << PORTD3);		// output OC2B pin (pin 3)
-	off_IR();
+
+	// send random junk
+	uint8_t i;
+	for (i = 0; i < 255; ++i) {
+		on_IR();
+		off_IR();
+	}
 
 	Serial.begin(9600);
 }
@@ -121,14 +127,14 @@ void processRecieve_IR(uint32_t currentTime, uint16_t *data) {
 		timeDelta = currentTime - lastTime;
 	else // failsafe for timer overflow, if it ever happens
 		timeDelta = 4294967295+currentTime - lastTime;
-	/* DEBUG
-	Serial.print("currentTime: ");
-	Serial.print(currentTime);
-	Serial.print(" | lastTime: ");
-	Serial.print(lastTime);
-	Serial.print(" | timeDelta: ");
-	Serial.println(timeDelta);
-	*/
+
+	// DEBUG
+//	Serial.print("currentTime: ");
+//	Serial.print(currentTime);
+//	Serial.print(" | lastTime: ");
+//	Serial.print(lastTime);
+//	Serial.print(" | timeDelta: ");
+//	Serial.println(timeDelta);
 
 	lastTime = currentTime;
 

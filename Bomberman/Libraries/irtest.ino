@@ -34,13 +34,13 @@ ISR(TIMER2_COMPA_vect){// 10 nano second timer
 }
 
 ISR(INT0_vect){ // receive interrupt
-	/* DEBUG
-	Serial.print("timer: ");
-	Serial.println(nTimer);
-	Serial.print("debug: ");
-	Serial.println(debugCounter);
-	debugCounter++;
-	*/
+	// DEBUG
+//	Serial.print("timer: ");
+//	Serial.println(nTimer);
+//	Serial.print("debug: ");
+//	Serial.println(debugCounter);
+//	debugCounter++;
+//	_delay_ms(1);
 
 	processRecieve_IR(nTimer, &IRdata);
 }
@@ -59,23 +59,45 @@ void init_Timer() {
 }
 
 int main(){
-	init();
 	init_Timer();
 	init_IR();
 	Serial.begin(9600);
+	uint8_t failCounter = 0;
+	uint8_t successCounter = 0;
+	uint8_t lol = 0;
 
 	for(;;){
 		if(clock>1 && clock<5){
-			send_IR(2, 69,69);
+			if(lol){
+				Serial.println("\nsent: 0:6:9");
+				send_IR(0, 6, 9);
+				lol = !lol;
+			}
+			else{
+				Serial.println("\nsent: 3:13:37");
+				send_IR(3, 13, 37);
+				lol = !lol;
+			}
+			clock = 6;
 		}
 
 		if(clock>250 && clock < 256){
-				Serial.print("type: ");
+				Serial.print("received:\ntype: ");
 				Serial.println(decode_IR(IRdata).type);
 				Serial.print("x: ");
 				Serial.println(decode_IR(IRdata).xData);
 				Serial.print("y: ");
 				Serial.println(decode_IR(IRdata).yData);
+				if((decode_IR(IRdata).type == 0 && decode_IR(IRdata).xData == 6 && decode_IR(IRdata).yData == 9 ) ||
+						(decode_IR(IRdata).type == 3 && decode_IR(IRdata).xData == 13 && decode_IR(IRdata).yData == 37))
+					successCounter++;
+				else
+					failCounter++;
+
+				Serial.print("\nfail: ");
+				Serial.println(failCounter);
+				Serial.print("success: ");
+				Serial.println(successCounter);
 				clock = 0;
 		}
 	}
