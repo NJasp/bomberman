@@ -76,12 +76,9 @@ void init_Timer() {
 	sei();
 }
 
-ISR(TIMER2_COMPA_vect) { // timer for receiving/sending
-	nTimer++;
 
-	// ms timer
-	timer++;
-	if(timer == 500*179){ // twice a second
+ISR(TIMER2_OVF_vect) {		//3906 voor een halve seconde (ongeveer)
+	if (interruptCounter >= 3906 /*3906*/) {
 		for (rowCounter = 0; rowCounter < 12; rowCounter++) {
 			for (collumnCounter = 0; collumnCounter < 16; collumnCounter++) {
 				if ((grid[collumnCounter][rowCounter] > 3 && grid[collumnCounter][rowCounter] < 7) || (grid[collumnCounter][rowCounter] > 7 && grid[collumnCounter][rowCounter] < 10)) {
@@ -89,31 +86,20 @@ ISR(TIMER2_COMPA_vect) { // timer for receiving/sending
 				}
 			}
 		}
-		timer = 0;
+		interruptCounter = 0;
 	}
 	else {
 		interruptCounter++;
 	}
 }
 
-ISR(TIMER2_COMPA_vect) { // timer for receiving/sending
-	nTimer++;
-
-	// ms timer
-	/*timer++;
-	if (timer == 179) {
-/*	timer++;
-	if(timer == 179){
-		clock++;
-		timer = 0;
-	}*/
-
-	// send function
-	if (isSending_IR()) {
-		processSend_IR(nTimer);
-	}
+/*ISR(TIMER2_COMPA_vect) {// 10 nano second timer
+nTimer++;
+// send function
+if (IR_isSending()) {
+IR_processSend(nTimer);
 }
-
+}
 ISR(INT0_vect) { // receive interrupt
-	processRecieve_IR(nTimer, &IRdata);
-}
+IR_processRecieve(nTimer, &IRdata);
+}/*/
