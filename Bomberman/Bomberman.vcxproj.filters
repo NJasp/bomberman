@@ -65,8 +65,5 @@
     <ClCompile Include="Libraries\Bomb\Bomb.cpp">
       <Filter>Header Files\Resource Files</Filter>
     </ClCompile>
-    <ClCompile Include="Libraries\IR\IR.cpp">
-      <Filter>Header Files\Resource Files</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

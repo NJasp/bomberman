@@ -1,6 +1,8 @@
 #ifndef IR_H_
 #define IR_H_
 
+#include "../Includes/Includes.h"
+
 // config
 static const uint16_t ONE_DELAY  = 60;
 static const uint16_t ZERO_DELAY = 40;
