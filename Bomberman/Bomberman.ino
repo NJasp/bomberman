@@ -29,6 +29,7 @@ uint8_t livebombs = 0;
 uint16_t IRdata, Background = RGB(222, 219, 214);
 uint32_t nTimer = 0;
 uint8_t hit = 0;
+uint8_t hitCounter = 0;
 uint8_t counter = 0;
 
 uint8_t bombradius = 5;
@@ -37,7 +38,8 @@ data_store player2_data;
 uint8_t max_bombs = 5;
 uint8_t score = 0;
 uint8_t killedPlayer = 0;
-uint8_t lives = 1;
+uint8_t lives = 3;
+uint8_t livesCheck = 3;
 
 void init_Timer();
 
@@ -58,8 +60,7 @@ int main() {
 		read_Nunchuck(nunchuck_buf, &joy_x_axis, &joy_y_axis);
 		calculate_Movement(&player1_x, &player1_y, joy_x_axis, joy_y_axis, &player1_xCounter, &player1_yCounter, player1_x_speed, player1_y_speed, grid);
 		checkPlayerHit(player1_x, player1_y, &hit, grid);
-		updateLives(&hit, &lives, lcd, score, &counter);
-		Serial.println(lives);
+		updateLives(&hit, &lives, &livesCheck, lcd, score, &hitCounter);
 		if (dataReady_IR() == 1) {
 			player2_data = decode_IR(IRdata);
 		}
