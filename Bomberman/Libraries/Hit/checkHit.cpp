@@ -6,9 +6,10 @@ void checkPlayerHit(uint8_t player1_x, uint8_t player1_y, uint8_t *hit, uint8_t 
 	}
 }
 
-void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t score, uint8_t* counter) {
+void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t score) {
+	uint8_t counter = 0;
 	if ((*hit) == 1) {
-		(*counter) = 1;
+
 	}
 		(*lives)--;
 		(*hit) == 0;
