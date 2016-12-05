@@ -26,7 +26,7 @@ uint8_t antiholdCounter = 0;				// 1 when the player holds the 'Z' button, so th
 uint16_t interruptCounter = 0;				//used to count seconds in the interrupt
 uint8_t livebombs = 0;
 uint16_t IRdata, Background = RGB(222, 219, 214);
-uint32_t nTimer = 0;
+uint32_t nTimer = 0, timer = 0;
 
 uint8_t bombradius = 5;
 uint8_t player1_x_speed = 0, player1_y_speed = 0; //Higher is slower
