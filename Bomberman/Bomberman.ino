@@ -83,9 +83,9 @@ void init_Timer() {
 	TCCR2A = 0;
 	TCCR2B = 0;
 	TIMSK2 = 0;
-	TCCR2A = (1 << COM2B0); 	// toggle OC2A on match
-	TCCR2B |= (1 << CS21); 		// 8 prescaler		
-	TIMSK2 |= (1 << OCIE2A);		// enable overflow interrupt|
+	TCCR2A = (1 << COM2B0) | (1 << WGM21); 	// toggle OC2B on match
+	TCCR2B |= (1 << CS21); 					// 8 prescaler
+	TIMSK2 |= (1 << OCIE2A);				// enable compare interrupt|
 	OCR2B = 26; 					// value to compare timer against	| 1/((2*26)*(1/16000000)*8) = 37,7kHz
 	OCR2A = 26;								// counter
 	sei();
