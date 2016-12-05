@@ -5,12 +5,12 @@
 #include "Libraries/Player/Player.h"
 #include "Libraries/Bomb/Bomb.h"
 #include "Libraries/MSD_shield/mSD_shield.h"
+#include "Libraries/IR/IR.h"
 
 MI0283QT9 lcd;					//LCD variabele
 char *wall_Type = "wall3.bmp";
 char *crate_Type = "crate3.bmp";
 char *level = "standaard";
-uint8_t x;
 uint8_t joy_x_axis, joy_y_axis;	//Nunchuck Data
 static uint8_t nunchuck_buf[6];	//Nunchuck Buffer
 uint8_t grid[16][12];		//Griddata
@@ -51,29 +51,22 @@ int main() {
 	//view_Griddata(grid);
 	draw_Walls_Crates(lcd, grid, wall_Type, crate_Type);
 	for (;;) {	// MAIN LOOP	
-		//send_IR(1, 13, 10);
 		read_Nunchuck(nunchuck_buf, &joy_x_axis, &joy_y_axis);
 		calculate_Movement(&player1_x, &player1_y, joy_x_axis, joy_y_axis, &player1_xCounter, &player1_yCounter, player1_x_speed, player1_y_speed, grid);
-		data_store player2_data = decode_IR(IRdata);
-		/*Serial.print("type: ");
-		Serial.print(player2_data.type);
-		Serial.print(" x:");
-		Serial.print(player2_data.xData);
-		Serial.print(" y:");
-		Serial.println(player2_data.yData);*/
+		if (dataReady_IR() == 1) {
+			data_store player2_data = decode_IR(IRdata);
+		}
 		check_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, max_bombs, &livebombs, &antiholdCounter, nunchuck_buf, grid);
-		draw_Player(player1_x, player1_y, &player1_x_old, &player1_y_old, player2_data, lcd);
+		draw_Player(player1_x, player1_y, &player1_x_old, &player1_y_old, lcd);
+		lcd.fillCircle(player2_data.xData, player2_data.yData, 10, RGB(0, 0, 255));
 		draw_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, lcd);
 		draw_Explosion(lcd, bombradius, grid, &livebombs, &score, &killedPlayer, player1_x, player1_y, &lives);
 		clear_Explosion(lcd, bombradius, grid);
 		if (killedPlayer) {
 			lcd.fillScreen(RGB(0, 0, 0));
-			//lcd is 240 bij 320
 			lcd.drawText(50, 60, "Game over", RGB(255, 255, 255), RGB(0, 0, 0), 3);
 			lcd.drawText(70, 100, "Score player 1: ", RGB(255, 255, 255), RGB(0, 0, 0), 1);
 			lcd.drawInteger(200, 100, score, 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
-			//x = lcd.drawText(140, 70, "Score player 2: ", RGB(0, 0, 0), RGB(255, 255, 255), 1);
-			//lcd.drawInteger(x, 70, score, 10, RGB(0, 0, 0), RGB(255, 255, 255), 1);
 			while (1);
 		}
 	}
@@ -111,15 +104,16 @@ ISR(TIMER2_OVF_vect) {		//3906 voor een halve seconde (ongeveer)
 
 ISR(TIMER2_COMPA_vect) {// 10 nano second timer
 	nTimer++;
+
 	// send function
-	if (isSending_IR()) {
-		processSend_IR(nTimer);
+	if (IR_isSending()) {
+		IR_processSend(nTimer);
 	}
 
 }
 
 ISR(INT0_vect) { // receive interrupt
-	processRecieve_IR(nTimer, &IRdata);
+	IR_processRecieve(nTimer, &IRdata);
 }
 
 
