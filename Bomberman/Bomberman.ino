@@ -37,7 +37,7 @@ data_store player2_data;
 uint8_t max_bombs = 5;
 uint8_t score = 0;
 uint8_t killedPlayer = 0;
-uint8_t lives = 1;
+uint8_t lives = 5;
 
 void init_Timer();
 
