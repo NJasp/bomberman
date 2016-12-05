@@ -7,14 +7,14 @@ void checkPlayerHit(uint8_t player1_x, uint8_t player1_y, uint8_t *hit, uint8_t 
 	}
 }
 
-void updateLives(uint8_t* hit, uint8_t* lives, uint8_t* livesCheck, MI0283QT9 lcd, uint8_t score, uint8_t* hitCounter) {
-	if (((*hit) == 1)  && ((*livesCheck) >= (*lives))) {
+void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t score, uint8_t* hitCounter) {
+	if ((*hit) == 1) {
+		(*hit) == 0;
 		(*hitCounter)++;
-		if (*hitCounter == (*lives)) {
+		if ((*hitCounter) == (*lives)) {
+			Serial.println((*lives));
 			(*lives)--;
 		}
-		(*hit) == 0;
-		counter2 = 0;
 		if ((*lives) == 0) {
 			lcd.fillScreen(RGB(0, 0, 0));
 			lcd.drawText(50, 60, "Game over", RGB(255, 255, 255), RGB(0, 0, 0), 3);
