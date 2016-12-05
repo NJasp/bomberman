@@ -7,8 +7,9 @@
 #include "Libraries/MSD_shield/mSD_shield.h"
 
 MI0283QT9 lcd;					//LCD variabele
-char *wall_Type = "wall.bmp";
-char *crate_Type = "crate.bmp";
+char *wall_Type = "wall3.bmp";
+char *crate_Type = "crate3.bmp";
+char *level = "level-3";
 uint8_t x;
 uint8_t joy_x_axis, joy_y_axis;	//Nunchuck Data
 static uint8_t nunchuck_buf[6];	//Nunchuck Buffer
@@ -40,7 +41,7 @@ int main() {
 	Serial.begin(9600);
 	init_Timer();
 	init_IR();
-	init_Level1(grid);
+	init_Level(grid, level);
 	init_LCD(lcd);
 	init_Nunchuck();
 	init_SDcart(lcd);
@@ -64,11 +65,15 @@ int main() {
 		draw_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, lcd);
 		draw_Explosion(lcd, bombradius, grid, &livebombs, &score, &killedPlayer, player1_x, player1_y);
 		clear_Explosion(lcd, bombradius, grid);
-		x = lcd.drawText(5, 5, "Score: ", RGB(0, 0, 0), RGB(255, 255, 255), 1);
-		lcd.drawInteger(x, 5, score, 10, RGB(0, 0, 0), RGB(255, 255, 255), 1);
 		if (killedPlayer) {
-			lcd.fillScreen(RGB(255, 255, 255));
-			break;
+			lcd.fillScreen(RGB(0, 0, 0));
+			//lcd is 240 bij 320
+			lcd.drawText(50, 60, "Game over", RGB(255, 255, 255), RGB(0, 0, 0), 3);
+			lcd.drawText(70, 100, "Score player 1: ", RGB(255, 255, 255), RGB(0, 0, 0), 1);
+			lcd.drawInteger(200, 100, score, 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
+			//x = lcd.drawText(140, 70, "Score player 2: ", RGB(0, 0, 0), RGB(255, 255, 255), 1);
+			//lcd.drawInteger(x, 70, score, 10, RGB(0, 0, 0), RGB(255, 255, 255), 1);
+			while (1);
 		}
 	}
 	return 0;
