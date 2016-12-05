@@ -45,6 +45,9 @@
     <ClInclude Include="Libraries\IR\IR.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Libraries\MSD_shield\mSD_shield.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Libraries\Levels\Levels.cpp">
@@ -66,6 +69,9 @@
       <Filter>Header Files\Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="Libraries\IR\IR.cpp">
+      <Filter>Header Files\Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\MSD_shield\mSD_shield.cpp">
       <Filter>Header Files\Resource Files</Filter>
     </ClCompile>
   </ItemGroup>
