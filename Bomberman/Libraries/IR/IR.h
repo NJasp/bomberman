@@ -5,9 +5,9 @@
 
 // config
 static const uint16_t ONE_DELAY  = 60;
-static const uint16_t ZERO_DELAY = 40;
-static const uint16_t SPACE_DELAY= 10;
-static const uint16_t DELAY_OFFSET= 6;
+static const uint16_t ZERO_DELAY = 30;
+static const uint16_t SPACE_DELAY= 100;
+static const uint16_t DELAY_OFFSET= 11;
 
 typedef struct data_store{
 	uint8_t type;
