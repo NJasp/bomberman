@@ -55,16 +55,6 @@ int main() {
 	for (;;) {	// MAIN LOOP	
 		read_Nunchuck(nunchuck_buf, &joy_x_axis, &joy_y_axis);
 		calculate_Movement(&player1_x, &player1_y, joy_x_axis, joy_y_axis, &player1_xCounter, &player1_yCounter, player1_x_speed, player1_y_speed, grid);
-		if (hit == 1) {
-			lives--;
-			hit = 0;
-			if (lives == 0) {
-				lcd.fillScreen(RGB(0, 0, 0));
-				lcd.drawText(50, 60, "Game over", RGB(255, 255, 255), RGB(0, 0, 0), 3);
-				lcd.drawText(70, 100, "Score player 1: ", RGB(255, 255, 255), RGB(0, 0, 0), 1);
-				lcd.drawInteger(200, 100, score, 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
-			}
-		}
 		check_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, max_bombs, &livebombs, &antiholdCounter, nunchuck_buf, grid);
 		draw_Player(player1_x, player1_y, &player1_x_old, &player1_y_old, lcd);
 		draw_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, lcd);
@@ -110,13 +100,10 @@ ISR(TIMER2_COMPA_vect) { // timer for receiving/sending
 	nTimer++;
 
 	// ms timer
-<<<<<<< HEAD
 	/*timer++;
 	if (timer == 179) {
-=======
 /*	timer++;
 	if(timer == 179){
->>>>>>> 1b3d3945da62877da5cb699ae1a01438e5749dd4
 		clock++;
 		timer = 0;
 	}*/
