@@ -11,6 +11,8 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 				grid[collumn][row] = 9;
 				//screen.fillRect(((collumn * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
 				init_Pictures("ex.bmp", (collumn * 20), (row * 20), screen);
+				//screen.drawText(5, 5, "Levens player 1: ", RGB(255, 255, 255), RGB(0, 0, 0), 1);
+				//screen.drawInteger(135, 5, (*lives), 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
 				icollumn = collumn;
 				irow = row;
 				for (collumn; collumn < (icollumn + bombradius); collumn++) {
@@ -86,7 +88,6 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 					}
 				}
 				(*livebombs)--;
-
 			}
 		}
 	}
