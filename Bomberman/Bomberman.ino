@@ -85,14 +85,18 @@ void init_Timer() {
 	TIMSK2 = 0;
 	TCCR2A = (1 << COM2B0); 	// toggle OC2A on match
 	TCCR2B |= (1 << CS21); 		// 8 prescaler		
-	TIMSK2 |= (1 << TOIE2) | (1 << OCIE2A);		// enable overflow interrupt|
+	TIMSK2 |= (1 << OCIE2A);		// enable overflow interrupt|
 	OCR2B = 26; 					// value to compare timer against	| 1/((2*26)*(1/16000000)*8) = 37,7kHz
 	OCR2A = 26;								// counter
 	sei();
 }
 
-ISR(TIMER2_OVF_vect) {		//3906 voor een halve seconde (ongeveer)
-	if (interruptCounter >= 3906 /*3906*/) {
+ISR(TIMER2_COMPA_vect) { // timer for receiving/sending
+	nTimer++;
+
+	// ms timer
+	timer++;
+	if(timer == 500*179){ // twice a second
 		for (rowCounter = 0; rowCounter < 12; rowCounter++) {
 			for (collumnCounter = 0; collumnCounter < 16; collumnCounter++) {
 				if ((grid[collumnCounter][rowCounter] > 3 && grid[collumnCounter][rowCounter] < 7) || (grid[collumnCounter][rowCounter] > 7 && grid[collumnCounter][rowCounter] < 10)) {
@@ -100,27 +104,8 @@ ISR(TIMER2_OVF_vect) {		//3906 voor een halve seconde (ongeveer)
 				}
 			}
 		}
-		interruptCounter = 0;
-	}
-	else {
-		interruptCounter++;
-	}
-}
-
-ISR(TIMER2_COMPA_vect) { // timer for receiving/sending
-	nTimer++;
-
-	// ms timer
-<<<<<<< HEAD
-	/*timer++;
-	if (timer == 179) {
-=======
-/*	timer++;
-	if(timer == 179){
->>>>>>> 1b3d3945da62877da5cb699ae1a01438e5749dd4
-		clock++;
 		timer = 0;
-	}*/
+	}
 
 	// send function
 	if (isSending_IR()) {
