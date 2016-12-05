@@ -111,8 +111,13 @@ ISR(TIMER2_COMPA_vect) { // timer for receiving/sending
 	nTimer++;
 
 	// ms timer
+<<<<<<< HEAD
 	/*timer++;
 	if (timer == 179) {
+=======
+/*	timer++;
+	if(timer == 179){
+>>>>>>> 1b3d3945da62877da5cb699ae1a01438e5749dd4
 		clock++;
 		timer = 0;
 	}*/
