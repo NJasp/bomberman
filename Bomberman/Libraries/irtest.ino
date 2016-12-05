@@ -62,24 +62,25 @@ int main(){
 			clock = 6;
 		}
 
-		if(clock>250 && clock < 256){
-				Serial.print("received:\ntype: ");
-				Serial.println(decode_IR(IRdata).type);
-				Serial.print("x: ");
-				Serial.println(decode_IR(IRdata).xData);
-				Serial.print("y: ");
-				Serial.println(decode_IR(IRdata).yData);
-				if((decode_IR(IRdata).type == 0 && decode_IR(IRdata).xData == 6 && decode_IR(IRdata).yData == 9 && !test1) ||
-						(decode_IR(IRdata).type == 3 && decode_IR(IRdata).xData == 127 && decode_IR(IRdata).yData == 127 && test1))
-					successCounter++;
-				else
-					failCounter++;
-
-				Serial.print("\nfail: ");
-				Serial.println(failCounter);
-				Serial.print("success: ");
-				Serial.println(successCounter);
-				clock = 0;
+		if(clock>250 && clock < 256 && dataReady_IR()){
+			Serial.print("received:\ntype: ");
+			Serial.println(decode_IR(IRdata).type);
+			Serial.print("x: ");
+			Serial.println(decode_IR(IRdata).xData);
+			Serial.print("y: ");
+			Serial.println(decode_IR(IRdata).yData);
+//				if((decode_IR(IRdata).type == 0 && decode_IR(IRdata).xData == 6 && decode_IR(IRdata).yData == 9 && !test1) ||
+//						(decode_IR(IRdata).type == 3 && decode_IR(IRdata).xData == 127 && decode_IR(IRdata).yData == 127 && test1))
+//					successCounter++;
+//				else
+//					failCounter++;
+//
+//				Serial.print("\nfail: ");
+//				Serial.println(failCounter);
+//				Serial.print("success: ");
+//				Serial.println(successCounter);
+			clock = 0;
+			IRdata = 0;
 		}
 	}
 
