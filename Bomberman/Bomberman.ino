@@ -5,6 +5,7 @@
 #include "Libraries/Player/Player.h"
 #include "Libraries/Bomb/Bomb.h"
 #include "Libraries/MSD_shield/mSD_shield.h"
+#include "Libraries/IR/IR.h"
 
 MI0283QT9 lcd;					//LCD variabele
 char *wall_Type = "wall3.bmp";
@@ -29,6 +30,7 @@ uint32_t nTimer = 0;
 
 uint8_t bombradius = 5;
 uint8_t player1_x_speed = 0, player1_y_speed = 0; //Higher is slower
+data_store player2_data;
 uint8_t max_bombs = 5;
 uint8_t score = 0;
 uint8_t killedPlayer = 0;
@@ -53,11 +55,11 @@ int main() {
 		read_Nunchuck(nunchuck_buf, &joy_x_axis, &joy_y_axis);
 		calculate_Movement(&player1_x, &player1_y, joy_x_axis, joy_y_axis, &player1_xCounter, &player1_yCounter, player1_x_speed, player1_y_speed, grid);
 		if (dataReady_IR() == 1) {
-			data_store player2_data = decode_IR(IRdata);
+			player2_data = decode_IR(IRdata);
 		}
 		check_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, max_bombs, &livebombs, &antiholdCounter, nunchuck_buf, grid);
 		draw_Player(player1_x, player1_y, &player1_x_old, &player1_y_old, lcd);
-		//lcd.fillCircle(player2_data.xData, player2_data.yData, 10, RGB(0, 0, 255));
+		lcd.fillCircle(player2_data.xData, player2_data.yData, 10, RGB(0, 0, 255));
 		draw_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, lcd);
 		draw_Explosion(lcd, bombradius, grid, &livebombs, &score, &killedPlayer, player1_x, player1_y, &lives);
 		clear_Explosion(lcd, bombradius, grid);
@@ -101,21 +103,22 @@ ISR(TIMER2_OVF_vect) {		//3906 voor een halve seconde (ongeveer)
 	}
 }
 
-/*ISR(TIMER2_COMPA_vect) {// 10 nano second timer
+ISR(TIMER2_COMPA_vect){ // timer for receiving/sending
 	nTimer++;
 
-	// send function
-	if (IR_isSending()) {
-		IR_processSend(nTimer);
-	}
+	// ms timer
+/*	timer++;
+	if(timer == 179){
+		clock++;
+		timer = 0;
+	}*/
 
+	// send function
+	if(isSending_IR()) {
+		processSend_IR(nTimer);
+	}
 }
 
-ISR(INT0_vect) { // receive interrupt
-	IR_processRecieve(nTimer, &IRdata);
-}/*
-
-
-
-
-
+ISR(INT0_vect){ // receive interrupt
+	processRecieve_IR(nTimer, &IRdata);
+}

@@ -19,6 +19,7 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 					irow = row;
 					for (collumn; collumn < (icollumn + bombradius); collumn++) {
 						if ((grid[player1_x][player1_y] == 7 || grid[player1_x][player1_y] == 8 || grid[player1_x][player1_y] == 9) && ((collumn == player1_x) && (row == player1_y))) {
+							(*lives)--;
 							(*killedPlayer) == 1;
 						}
 						if ((grid[collumn + 1][row] == 0) || (grid[collumn + 1][row] == 7) || (grid[collumn + 1][row] == 8) || (grid[collumn + 1][row] == 9)) {
@@ -40,6 +41,7 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 					}
 					for (collumn; collumn > (icollumn - bombradius); collumn--) {
 						if ((grid[player1_x][player1_y] == 7 || grid[player1_x][player1_y] == 8 || grid[player1_x][player1_y] == 9) && ((player1_x = collumn) && (player1_y = row))) {
+							(*lives)--;
 							(*killedPlayer) == 1;
 						}
 						if ((grid[collumn - 1][row] == 0) || (grid[collumn - 1][row] == 7) || (grid[collumn - 1][row] == 8) || (grid[collumn - 1][row] == 9)) {
@@ -62,6 +64,7 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 					row = irow;
 					for (row; row < (irow + bombradius); row++) {
 						if ((grid[player1_x][player1_y] == 7 || grid[player1_x][player1_y] == 8 || grid[player1_x][player1_y] == 9) && ((player1_x = collumn) && (player1_y = row))) {
+							(*lives)--;
 							(*killedPlayer) = 1;
 						}
 						if ((grid[collumn][row + 1] == 0) || (grid[collumn][row + 1] == 7) || (grid[collumn][row + 1] == 8) || (grid[collumn][row + 1] == 9)) {
@@ -82,6 +85,7 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 					}
 					for (row; row > (irow - bombradius); row--) {
 						if ((grid[player1_x][player1_y] == 7 || grid[player1_x][player1_y] == 8 || grid[player1_x][player1_y] == 9) && ((player1_x = collumn) && (player1_y = row))) {
+							(*lives)--;
 							(*killedPlayer) = 1;
 						}
 						if ((grid[collumn][row - 1] == 0) || (grid[collumn][row - 1] == 7) || (grid[collumn][row - 1] == 8) || (grid[collumn][row - 1] == 9)) {

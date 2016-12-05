@@ -10,6 +10,13 @@ void init_Testlevel(uint8_t grid[16][12])
 
 void init_Level(uint8_t grid[16][12], char* level, uint8_t* player1_x, uint8_t* player1_y, uint8_t* player1_x_old, uint8_t* player1_y_old)
 {
+	if (level == "test") {
+		*player1_x = 1;
+		*player1_y = 1;
+		*player1_x_old = 1;
+		*player1_y_old = 1;
+		init_OutsideWalls(grid);
+	}
 	if (level == "standaard") {
 		*player1_x = 1;
 		*player1_y = 1;
