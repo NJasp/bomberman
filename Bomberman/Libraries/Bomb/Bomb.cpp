@@ -10,7 +10,7 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 			if (grid[collumn][row] == 3) {
 				grid[collumn][row] = 9;
 				//screen.fillRect(((collumn * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
-				init_Pictures("ex.bmp", (collumn * 20), (row * 20), screen);
+				draw_Pictures("ex.bmp", (collumn * 20), (row * 20), screen);
 				//screen.drawText(5, 5, "Levens player 1: ", RGB(255, 255, 255), RGB(0, 0, 0), 1);
 				//screen.drawInteger(135, 5, (*lives), 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
 				icollumn = collumn;
@@ -20,13 +20,13 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 					if ((grid[collumn + 1][row] == 0) || (grid[collumn + 1][row] == 7) || (grid[collumn + 1][row] == 8) || (grid[collumn + 1][row] == 9)) {
 						grid[collumn + 1][row] = 9;
 						//screen.fillRect((((collumn + 1) * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
-						init_Pictures("ex.bmp", ((collumn + 1) * 20), (row * 20), screen);
+						draw_Pictures("ex.bmp", ((collumn + 1) * 20), (row * 20), screen);
 						//test
 					}
 					else if (grid[collumn + 1][row] == 2) {
 						grid[collumn + 1][row] = 9;
 						//screen.fillRect((((collumn + 1) * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
-						init_Pictures("ex.bmp", ((collumn + 1) * 20), (row * 20), screen);
+						draw_Pictures("ex.bmp", ((collumn + 1) * 20), (row * 20), screen);
 						(*score)++;
 						break;
 					}
@@ -38,12 +38,12 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 					if ((grid[collumn - 1][row] == 0) || (grid[collumn - 1][row] == 7) || (grid[collumn - 1][row] == 8) || (grid[collumn - 1][row] == 9)) {
 						grid[collumn - 1][row] = 9;
 						//screen.fillRect((((collumn - 1) * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
-						init_Pictures("ex.bmp", ((collumn - 1) * 20), (row * 20), screen);
+						draw_Pictures("ex.bmp", ((collumn - 1) * 20), (row * 20), screen);
 					}
 					else if (grid[collumn - 1][row] == 2) {
 						grid[collumn - 1][row] = 9;
 						//screen.fillRect((((collumn - 1) * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
-						init_Pictures("ex.bmp", ((collumn - 1) * 20), (row * 20), screen);
+						draw_Pictures("ex.bmp", ((collumn - 1) * 20), (row * 20), screen);
 						(*score)++;
 						break;
 					}
@@ -57,12 +57,12 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 					if ((grid[collumn][row + 1] == 0) || (grid[collumn][row + 1] == 7) || (grid[collumn][row + 1] == 8) || (grid[collumn][row + 1] == 9)) {
 						grid[collumn][row + 1] = 9;
 						//screen.fillRect(((collumn * 20) + 4), (((row + 1) * 20) + 4), 14, 14, RGB(255, 127, 0));
-						init_Pictures("ex.bmp", (collumn * 20), ((row + 1) * 20), screen);
+						draw_Pictures("ex.bmp", (collumn * 20), ((row + 1) * 20), screen);
 					}
 					else if (grid[collumn][row + 1] == 2) {
 						grid[collumn][row + 1] = 9;
 						//screen.fillRect(((collumn * 20) + 4), (((row + 1) * 20) + 4), 14, 14, RGB(255, 127, 0));
-						init_Pictures("ex.bmp", (collumn * 20), ((row + 1) * 20), screen);
+						draw_Pictures("ex.bmp", (collumn * 20), ((row + 1) * 20), screen);
 						(*score)++;
 						break;
 					}
@@ -74,12 +74,12 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 					if ((grid[collumn][row - 1] == 0) || (grid[collumn][row - 1] == 7) || (grid[collumn][row - 1] == 8) || (grid[collumn][row - 1] == 9)) {
 						grid[collumn][row - 1] = 9;
 						//screen.fillRect(((collumn * 20) + 4), (((row - 1) * 20) + 4), 14, 14, RGB(255, 127, 0));
-						init_Pictures("ex.bmp", (collumn * 20), ((row - 1) * 20), screen);
+						draw_Pictures("ex.bmp", (collumn * 20), ((row - 1) * 20), screen);
 					}
 					else if (grid[collumn][row - 1] == 2) {
 						grid[collumn][row - 1] = 9;
 						//screen.fillRect(((collumn * 20) + 4), (((row - 1) * 20) + 4), 14, 14, RGB(255, 127, 0));
-						init_Pictures("ex.bmp", (collumn * 20), ((row - 1) * 20), screen);
+						draw_Pictures("ex.bmp", (collumn * 20), ((row - 1) * 20), screen);
 						(*score)++;
 						break;
 					}
@@ -126,7 +126,7 @@ void draw_Bomb(uint8_t player1_x, uint8_t player1_y, uint8_t* player1_x_bombdrop
 {
 	if ((((*player1_x_bombdrop) != 0) && ((*player1_y_bombdrop) != 0)) && ((player1_x != (*player1_x_bombdrop)) || (player1_y != (*player1_y_bombdrop)))) {
 		//screen.fillRect((((*player1_x_bombdrop) * 20) + 4), (((*player1_y_bombdrop) * 20) + 4), 14, 14, RGB(180, 0, 0));
-		init_Pictures("bom.bmp", ((*player1_x_bombdrop) * 20), ((*player1_y_bombdrop) * 20), screen);
+		draw_Pictures("bom.bmp", ((*player1_x_bombdrop) * 20), ((*player1_y_bombdrop) * 20), screen);
 		(*player1_x_bombdrop) = 0;
 		(*player1_y_bombdrop) = 0;
 	}

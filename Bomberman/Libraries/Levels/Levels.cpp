@@ -1,13 +1,6 @@
 #include "Levels.h"
 #include "../MSD_shield/mSD_shield.h"
 
-void init_Testlevel(uint8_t grid[16][12])
-{
-	init_OutsideWalls(grid);
-	grid[7][4] = 2;
-	grid[8][5] = 1;
-}
-
 void init_Level(uint8_t grid[16][12], char* level, uint8_t* player1_x, uint8_t* player1_y, uint8_t* player1_x_old, uint8_t* player1_y_old)
 {
 	if (level == "test") {

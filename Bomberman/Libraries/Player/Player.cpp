@@ -3,14 +3,14 @@
 
 void init_Player(uint8_t player1_x, uint8_t player1_y, MI0283QT9 screen)
 {
-	init_Pictures("player1.bmp", player1_x * 20, player1_y * 20, screen);
+	draw_Pictures("player1.bmp", player1_x * 20, player1_y * 20, screen);
 }
 
 void draw_Player(uint8_t player1_x, uint8_t player1_y, uint8_t* player1_x_old, uint8_t* player1_y_old, MI0283QT9 screen)
 {
 	if ((*player1_y_old) != player1_y || (*player1_x_old) != player1_x) {
 		screen.fillRect((*player1_x_old) * 20, ((*player1_y_old) * 20), 20, 20, RGB(255, 255, 255));
-		init_Pictures("player1.bmp", player1_x * 20, player1_y * 20, screen);
+		draw_Pictures("player1.bmp", player1_x * 20, player1_y * 20, screen);
 		(*player1_x_old) = player1_x;
 		(*player1_y_old) = player1_y;
 
