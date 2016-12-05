@@ -25,7 +25,7 @@ uint8_t player1_x_bombdrop = 0, player1_y_bombdrop = 0;		//Location of the dropp
 uint8_t antiholdCounter = 0;				// 1 when the player holds the 'Z' button, so the game doesn't place too many bombs
 uint16_t interruptCounter = 0;				//used to count seconds in the interrupt
 uint8_t livebombs = 0;
-uint16_t IRdata, Background = RGB(222,219,214);
+uint16_t IRdata, Background = RGB(222, 219, 214);
 uint32_t nTimer = 0;
 
 uint8_t bombradius = 5;
@@ -56,6 +56,11 @@ int main() {
 		calculate_Movement(&player1_x, &player1_y, joy_x_axis, joy_y_axis, &player1_xCounter, &player1_yCounter, player1_x_speed, player1_y_speed, grid);
 		if (dataReady_IR() == 1) {
 			player2_data = decode_IR(IRdata);
+			Serial.print("X: ");
+			Serial.print(player2_data.xData);
+			Serial.print(" Y: ");
+			Serial.println(player2_data.yData);
+
 		}
 		check_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, max_bombs, &livebombs, &antiholdCounter, nunchuck_buf, grid);
 		draw_Player(player1_x, player1_y, &player1_x_old, &player1_y_old, lcd);
@@ -102,22 +107,22 @@ ISR(TIMER2_OVF_vect) {		//3906 voor een halve seconde (ongeveer)
 	}
 }
 
-ISR(TIMER2_COMPA_vect){ // timer for receiving/sending
+ISR(TIMER2_COMPA_vect) { // timer for receiving/sending
 	nTimer++;
 
 	// ms timer
-	timer++;
-	if(timer == 179){
+	/*timer++;
+	if (timer == 179) {
 		clock++;
 		timer = 0;
-	}
+	}*/
 
 	// send function
-	if(isSending_IR()) {
+	if (isSending_IR()) {
 		processSend_IR(nTimer);
 	}
 }
 
-ISR(INT0_vect){ // receive interrupt
+ISR(INT0_vect) { // receive interrupt
 	processRecieve_IR(nTimer, &IRdata);
 }
