@@ -6,11 +6,9 @@ void checkPlayerHit(uint8_t player1_x, uint8_t player1_y, uint8_t *hit, uint8_t 
 	}
 }
 
-void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t score) {
-	uint8_t counter = 0;
-	if ((*hit) == 1) {
-
-	}
+void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t score, uint8_t* counter) {
+	if ((*hit) == 1 && (*counter) == 0) {
+		(*counter) = 200;
 		(*lives)--;
 		(*hit) == 0;
 		if ((*lives) == 0) {
@@ -20,6 +18,9 @@ void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t score) {
 			lcd.drawInteger(200, 100, score, 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
 			while (1);
 		}
+	}
+	else {
+		(*counter)--;
 	}
 }
 
