@@ -3,34 +3,26 @@
                         implementaton:
        ===================----=======================
                    ===== interrupts =====
-ISR(TIMER2_COMPA_vect){ // timer for receiving/sending
+ISR(TIMER2_COMPA_vect){// 10 nano second timer
 	nTimer++;
 
-	// ms timer
-	timer++;
-	if(timer == 179){
-		clock++;
-		timer = 0;
+	// send function
+	if(IR_isSending()) {
+		IR_processSend(nTimer);
 	}
 
-	// send function
-	if(isSending_IR()) {
-		processSend_IR(nTimer);
-	}
 }
 
 ISR(INT0_vect){ // receive interrupt
-	processRecieve_IR(nTimer, &IRdata);
+	IR_processRecieve(nTimer, &IRdata);
 }
 
-***ms timer optional/but probably useful
-***ms
                ===== sending/handling data =====
-init_IR();								   // initialize timers/config
+IR_init();								   // initialize timers/config
 
-send_IR(type, xData, yData);			   // send data
+IR_send(type, xData, yData);			   // send data
 
-data_store myData = decode_IR(data);	   // store received data in struct
+data_store myData = IR_decode(data);	   // store received data in struct
 										   // data is now accessible through myData.type, myData.xData, myData.yData
 */
 
@@ -48,37 +40,36 @@ void init_IR() {
 	EIMSK |= (1 << INT0);		// enable INT0
 	EICRA |= (1 << ISC00);		// any change generates interrupt INT0
 
-	// wire for test reasons
-	//DDRB |= (1 << PORTB5);
+	// just use wire for test reasons
+	DDRB |= (1 << PORTB5);
 
 	DDRD |= (1 << PORTD3);		// output OC2B pin (pin 3)
+	off_IR();
 
-	// send random junk
-	uint8_t i;
-	for (i = 0; i < 255; ++i) {
-		on_IR();
-		off_IR();
-	}
+	Serial.begin(9600);
 }
 
 void toggle_IR() {
-	// wire for test reasons
-	//PORTB ^= (1 << PORTB5);
 	isOn ^= 1;
+	// just use wire for test reasons
+	PORTB ^= (1 << PORTB5);
+
 	DDRD ^= (1 << PORTD3);
 }
 
 void off_IR() {
-	// wire for test reasons
-	//PORTB &= ~(1 << PORTB5);
 	isOn = 0;
+	// just use wire for test reasons
+	PORTB &= ~(1 << PORTB5);
+
 	DDRD &= ~(1 << PORTD3);
 }
 
 void on_IR() {
-	// wire for test reasons
-	//PORTB |= (1 << PORTB5);
 	isOn = 1;
+	// just use wire for test reasons
+	PORTB |= (1 << PORTB5);
+
 	DDRD |= (1 << PORTD3);
 }
 
@@ -130,6 +121,14 @@ void processRecieve_IR(uint32_t currentTime, uint16_t *data) {
 		timeDelta = currentTime - lastTime;
 	else // failsafe for timer overflow, if it ever happens
 		timeDelta = 4294967295+currentTime - lastTime;
+	/* DEBUG
+	Serial.print("currentTime: ");
+	Serial.print(currentTime);
+	Serial.print(" | lastTime: ");
+	Serial.print(lastTime);
+	Serial.print(" | timeDelta: ");
+	Serial.println(timeDelta);
+	*/
 
 	lastTime = currentTime;
 
