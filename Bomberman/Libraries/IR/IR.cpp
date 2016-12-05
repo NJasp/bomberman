@@ -134,6 +134,7 @@ void processRecieve_IR(uint32_t currentTime, uint16_t *data) {
 
 	if (timeDelta > 200){
 		dataCount = 0;
+		dataReady = 0;
 	}
 
 	if(timeDelta > ZERO_DELAY-DELAY_OFFSET && timeDelta < ONE_DELAY+DELAY_OFFSET) {
