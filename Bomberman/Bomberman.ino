@@ -27,7 +27,7 @@ uint8_t antiholdCounter = 0;				// 1 when the player holds the 'Z' button, so th
 uint16_t interruptCounter = 0;				//used to count seconds in the interrupt
 uint8_t livebombs = 0;
 uint16_t IRdata, Background = RGB(222, 219, 214);
-uint32_t nTimer = 0;
+uint32_t nTimer = 0, timer = 0;
 
 uint8_t bombradius = 5;
 uint8_t player1_x_speed = 0, player1_y_speed = 0; //Higher is slower
@@ -78,16 +78,20 @@ void init_Timer() {
 	TCCR2A = 0;
 	TCCR2B = 0;
 	TIMSK2 = 0;
-	TCCR2A = (1 << COM2B0); 	// toggle OC2A on match
-	TCCR2B |= (1 << CS21); 		// 8 prescaler		
-	TIMSK2 |= (1 << TOIE2) | (1 << OCIE2A);		// enable overflow interrupt|
+	TCCR2A = (1 << COM2B0) | (1 << WGM21); 	// toggle OC2B on match
+	TCCR2B |= (1 << CS21); 					// 8 prescaler
+	TIMSK2 |= (1 << OCIE2A);				// enable compare interrupt|
 	OCR2B = 26; 					// value to compare timer against	| 1/((2*26)*(1/16000000)*8) = 37,7kHz
 	OCR2A = 26;								// counter
 	sei();
 }
 
-ISR(TIMER2_OVF_vect) {		//3906 voor een halve seconde (ongeveer)
-	if (interruptCounter >= 3906 /*3906*/) {
+ISR(TIMER2_COMPA_vect) { // timer for receiving/sending
+	nTimer++;
+
+	// ms timer
+	timer++;
+	if(timer == 500*179){ // twice a second
 		for (rowCounter = 0; rowCounter < 12; rowCounter++) {
 			for (collumnCounter = 0; collumnCounter < 16; collumnCounter++) {
 				if ((grid[collumnCounter][rowCounter] > 3 && grid[collumnCounter][rowCounter] < 7) || (grid[collumnCounter][rowCounter] > 7 && grid[collumnCounter][rowCounter] < 10)) {
@@ -95,7 +99,7 @@ ISR(TIMER2_OVF_vect) {		//3906 voor een halve seconde (ongeveer)
 				}
 			}
 		}
-		interruptCounter = 0;
+		timer = 0;
 	}
 	else {
 		interruptCounter++;
@@ -106,6 +110,7 @@ ISR(TIMER2_COMPA_vect) { // timer for receiving/sending
 	nTimer++;
 
 	// ms timer
+<<<<<<< HEAD
 	/*timer++;
 	if (timer == 179) {
 =======
