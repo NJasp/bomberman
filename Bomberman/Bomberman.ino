@@ -5,7 +5,6 @@
 #include "Libraries/Player/Player.h"
 #include "Libraries/Bomb/Bomb.h"
 #include "Libraries/MSD_shield/mSD_shield.h"
-#include "Libraries/IR/IR.h"
 
 MI0283QT9 lcd;					//LCD variabele
 char *wall_Type = "wall3.bmp";
@@ -58,7 +57,7 @@ int main() {
 		}
 		check_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, max_bombs, &livebombs, &antiholdCounter, nunchuck_buf, grid);
 		draw_Player(player1_x, player1_y, &player1_x_old, &player1_y_old, lcd);
-		lcd.fillCircle(player2_data.xData, player2_data.yData, 10, RGB(0, 0, 255));
+		//lcd.fillCircle(player2_data.xData, player2_data.yData, 10, RGB(0, 0, 255));
 		draw_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, lcd);
 		draw_Explosion(lcd, bombradius, grid, &livebombs, &score, &killedPlayer, player1_x, player1_y, &lives);
 		clear_Explosion(lcd, bombradius, grid);
@@ -102,7 +101,7 @@ ISR(TIMER2_OVF_vect) {		//3906 voor een halve seconde (ongeveer)
 	}
 }
 
-ISR(TIMER2_COMPA_vect) {// 10 nano second timer
+/*ISR(TIMER2_COMPA_vect) {// 10 nano second timer
 	nTimer++;
 
 	// send function
@@ -114,7 +113,7 @@ ISR(TIMER2_COMPA_vect) {// 10 nano second timer
 
 ISR(INT0_vect) { // receive interrupt
 	IR_processRecieve(nTimer, &IRdata);
-}
+}/*
 
 
 
