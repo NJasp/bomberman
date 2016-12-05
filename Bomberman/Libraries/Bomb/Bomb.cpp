@@ -8,104 +8,85 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 	for (row = 0; row < 12; row++) {
 		for (collumn = 0; collumn < 16; collumn++) {
 			if (grid[collumn][row] == 3) {
-				if (grid[collumn][row] == grid[player1_x][player1_y]) {
-					grid[collumn][row] = 6;
+				grid[collumn][row] = 9;
+				//screen.fillRect(((collumn * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
+				init_Pictures("ex.bmp", (collumn * 20), (row * 20), screen);
+				icollumn = collumn;
+				irow = row;
+				for (collumn; collumn < (icollumn + bombradius); collumn++) {
+
+					if ((grid[collumn + 1][row] == 0) || (grid[collumn + 1][row] == 7) || (grid[collumn + 1][row] == 8) || (grid[collumn + 1][row] == 9)) {
+						grid[collumn + 1][row] = 9;
+						//screen.fillRect((((collumn + 1) * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
+						init_Pictures("ex.bmp", ((collumn + 1) * 20), (row * 20), screen);
+						//test
+					}
+					else if (grid[collumn + 1][row] == 2) {
+						grid[collumn + 1][row] = 9;
+						//screen.fillRect((((collumn + 1) * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
+						init_Pictures("ex.bmp", ((collumn + 1) * 20), (row * 20), screen);
+						(*score)++;
+						break;
+					}
+					else if (grid[collumn + 1][row] == 1) {
+						break;
+					}
 				}
-				else {
-					grid[collumn][row] = 9;
-					//screen.fillRect(((collumn * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
-					init_Pictures("ex.bmp", (collumn * 20), (row * 20), screen);
-					icollumn = collumn;
-					irow = row;
-					for (collumn; collumn < (icollumn + bombradius); collumn++) {
-						if ((grid[player1_x][player1_y] == 7 || grid[player1_x][player1_y] == 8 || grid[player1_x][player1_y] == 9) && ((collumn == player1_x) && (row == player1_y))) {
-					
-							(*killedPlayer) == 1;
-						}
-						if ((grid[collumn + 1][row] == 0) || (grid[collumn + 1][row] == 7) || (grid[collumn + 1][row] == 8) || (grid[collumn + 1][row] == 9)) {
-							grid[collumn + 1][row] = 9;
-							//screen.fillRect((((collumn + 1) * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
-							init_Pictures("ex.bmp", ((collumn + 1) * 20), (row * 20), screen);
-							//test
-						}
-						else if (grid[collumn + 1][row] == 2) {
-							grid[collumn + 1][row] = 9;
-							//screen.fillRect((((collumn + 1) * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
-							init_Pictures("ex.bmp", ((collumn + 1) * 20), (row * 20), screen);
-							(*score)++;
-							break;
-						}
-						else if (grid[collumn + 1][row] == 1) {
-							break;
-						}
+				for (collumn; collumn > (icollumn - bombradius); collumn--) {
+					if ((grid[collumn - 1][row] == 0) || (grid[collumn - 1][row] == 7) || (grid[collumn - 1][row] == 8) || (grid[collumn - 1][row] == 9)) {
+						grid[collumn - 1][row] = 9;
+						//screen.fillRect((((collumn - 1) * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
+						init_Pictures("ex.bmp", ((collumn - 1) * 20), (row * 20), screen);
 					}
-					for (collumn; collumn > (icollumn - bombradius); collumn--) {
-						if ((grid[player1_x][player1_y] == 7 || grid[player1_x][player1_y] == 8 || grid[player1_x][player1_y] == 9) && ((player1_x = collumn) && (player1_y = row))) {
-							
-							(*killedPlayer) == 1;
-						}
-						if ((grid[collumn - 1][row] == 0) || (grid[collumn - 1][row] == 7) || (grid[collumn - 1][row] == 8) || (grid[collumn - 1][row] == 9)) {
-							grid[collumn - 1][row] = 9;
-							//screen.fillRect((((collumn - 1) * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
-							init_Pictures("ex.bmp", ((collumn - 1) * 20), (row * 20), screen);
-						}
-						else if (grid[collumn - 1][row] == 2) {
-							grid[collumn - 1][row] = 9;
-							//screen.fillRect((((collumn - 1) * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
-							init_Pictures("ex.bmp", ((collumn - 1) * 20), (row * 20), screen);
-							(*score)++;
-							break;
-						}
-						else if (grid[collumn - 1][row] == 1) {
-							break;
-						}
+					else if (grid[collumn - 1][row] == 2) {
+						grid[collumn - 1][row] = 9;
+						//screen.fillRect((((collumn - 1) * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
+						init_Pictures("ex.bmp", ((collumn - 1) * 20), (row * 20), screen);
+						(*score)++;
+						break;
 					}
-					collumn = icollumn;
-					row = irow;
-					for (row; row < (irow + bombradius); row++) {
-						if ((grid[player1_x][player1_y] == 7 || grid[player1_x][player1_y] == 8 || grid[player1_x][player1_y] == 9) && ((player1_x = collumn) && (player1_y = row))) {
-							
-							(*killedPlayer) = 1;
-						}
-						if ((grid[collumn][row + 1] == 0) || (grid[collumn][row + 1] == 7) || (grid[collumn][row + 1] == 8) || (grid[collumn][row + 1] == 9)) {
-							grid[collumn][row + 1] = 9;
-							//screen.fillRect(((collumn * 20) + 4), (((row + 1) * 20) + 4), 14, 14, RGB(255, 127, 0));
-							init_Pictures("ex.bmp", (collumn * 20), ((row + 1) * 20), screen);
-						}
-						else if (grid[collumn][row + 1] == 2) {
-							grid[collumn][row + 1] = 9;
-							//screen.fillRect(((collumn * 20) + 4), (((row + 1) * 20) + 4), 14, 14, RGB(255, 127, 0));
-							init_Pictures("ex.bmp", (collumn * 20), ((row + 1) * 20), screen);
-							(*score)++;
-							break;
-						}
-						else if (grid[collumn][row + 1] == 1) {
-							break;
-						}
+					else if (grid[collumn - 1][row] == 1) {
+						break;
 					}
-					for (row; row > (irow - bombradius); row--) {
-						if ((grid[player1_x][player1_y] == 7 || grid[player1_x][player1_y] == 8 || grid[player1_x][player1_y] == 9) && ((player1_x = collumn) && (player1_y = row))) {
-							
-							(*killedPlayer) = 1;
-						}
-						if ((grid[collumn][row - 1] == 0) || (grid[collumn][row - 1] == 7) || (grid[collumn][row - 1] == 8) || (grid[collumn][row - 1] == 9)) {
-							grid[collumn][row - 1] = 9;
-							//screen.fillRect(((collumn * 20) + 4), (((row - 1) * 20) + 4), 14, 14, RGB(255, 127, 0));
-							init_Pictures("ex.bmp", (collumn * 20), ((row - 1) * 20), screen);
-						}
-						else if (grid[collumn][row - 1] == 2) {
-							grid[collumn][row - 1] = 9;
-							//screen.fillRect(((collumn * 20) + 4), (((row - 1) * 20) + 4), 14, 14, RGB(255, 127, 0));
-							init_Pictures("ex.bmp", (collumn * 20), ((row - 1) * 20), screen);
-							(*score)++;
-							break;
-						}
-						else if (grid[collumn][row - 1] == 1) {
-							break;
-						}
-					}
-					(*livebombs)--;
 				}
+				collumn = icollumn;
+				row = irow;
+				for (row; row < (irow + bombradius); row++) {
+					if ((grid[collumn][row + 1] == 0) || (grid[collumn][row + 1] == 7) || (grid[collumn][row + 1] == 8) || (grid[collumn][row + 1] == 9)) {
+						grid[collumn][row + 1] = 9;
+						//screen.fillRect(((collumn * 20) + 4), (((row + 1) * 20) + 4), 14, 14, RGB(255, 127, 0));
+						init_Pictures("ex.bmp", (collumn * 20), ((row + 1) * 20), screen);
+					}
+					else if (grid[collumn][row + 1] == 2) {
+						grid[collumn][row + 1] = 9;
+						//screen.fillRect(((collumn * 20) + 4), (((row + 1) * 20) + 4), 14, 14, RGB(255, 127, 0));
+						init_Pictures("ex.bmp", (collumn * 20), ((row + 1) * 20), screen);
+						(*score)++;
+						break;
+					}
+					else if (grid[collumn][row + 1] == 1) {
+						break;
+					}
+				}
+				for (row; row > (irow - bombradius); row--) {
+					if ((grid[collumn][row - 1] == 0) || (grid[collumn][row - 1] == 7) || (grid[collumn][row - 1] == 8) || (grid[collumn][row - 1] == 9)) {
+						grid[collumn][row - 1] = 9;
+						//screen.fillRect(((collumn * 20) + 4), (((row - 1) * 20) + 4), 14, 14, RGB(255, 127, 0));
+						init_Pictures("ex.bmp", (collumn * 20), ((row - 1) * 20), screen);
+					}
+					else if (grid[collumn][row - 1] == 2) {
+						grid[collumn][row - 1] = 9;
+						//screen.fillRect(((collumn * 20) + 4), (((row - 1) * 20) + 4), 14, 14, RGB(255, 127, 0));
+						init_Pictures("ex.bmp", (collumn * 20), ((row - 1) * 20), screen);
+						(*score)++;
+						break;
+					}
+					else if (grid[collumn][row - 1] == 1) {
+						break;
+					}
+				}
+				(*livebombs)--;
+
 			}
 		}
 	}

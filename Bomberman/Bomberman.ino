@@ -6,6 +6,7 @@
 #include "Libraries/Bomb/Bomb.h"
 #include "Libraries/MSD_shield/mSD_shield.h"
 #include "Libraries/IR/IR.h"
+#include "Libraries/Hit/checkHit.h"
 
 MI0283QT9 lcd;					//LCD variabele
 char *wall_Type = "wall3.bmp";
@@ -27,6 +28,8 @@ uint16_t interruptCounter = 0;				//used to count seconds in the interrupt
 uint8_t livebombs = 0;
 uint16_t IRdata, Background = RGB(222, 219, 214);
 uint32_t nTimer = 0;
+uint8_t hit = 0;
+uint8_t counter = 0;
 
 uint8_t bombradius = 5;
 uint8_t player1_x_speed = 0, player1_y_speed = 0; //Higher is slower
@@ -54,6 +57,9 @@ int main() {
 	for (;;) {	// MAIN LOOP	
 		read_Nunchuck(nunchuck_buf, &joy_x_axis, &joy_y_axis);
 		calculate_Movement(&player1_x, &player1_y, joy_x_axis, joy_y_axis, &player1_xCounter, &player1_yCounter, player1_x_speed, player1_y_speed, grid);
+		checkPlayerHit(player1_x, player1_y, &hit, grid);
+		updateLives(&hit, &lives, lcd, score, &counter);
+		Serial.println(lives);
 		if (dataReady_IR() == 1) {
 			player2_data = decode_IR(IRdata);
 		}
