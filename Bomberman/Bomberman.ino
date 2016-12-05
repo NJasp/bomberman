@@ -9,18 +9,18 @@
 MI0283QT9 lcd;					//LCD variabele
 char *wall_Type = "wall3.bmp";
 char *crate_Type = "crate3.bmp";
-char *level = "level-3";
+char *level = "standaard";
 uint8_t x;
 uint8_t joy_x_axis, joy_y_axis;	//Nunchuck Data
 static uint8_t nunchuck_buf[6];	//Nunchuck Buffer
 uint8_t grid[16][12];		//Griddata
 uint8_t collumnCounter;		//collumnCounter
 uint8_t rowCounter;			//rowCounter
-uint8_t player1_x = 1, player1_y = 1;		//player locations
+uint8_t player1_x = 7, player1_y = 2;		//player locations
 uint8_t player2_x = 14, player2_y = 10;
 uint8_t player1_xCounter = 0, player1_yCounter = 0;		//Player movement speed
 uint8_t player2_x_old = 0, player2_y_old = 0;
-uint8_t player1_x_old = 1, player1_y_old = 1;		//Old locations of the player;
+uint8_t player1_x_old = 7, player1_y_old = 2;		//Old locations of the player;
 uint8_t player1_x_bombdrop = 0, player1_y_bombdrop = 0;		//Location of the dropped bomb;
 uint8_t antiholdCounter = 0;				// 1 when the player holds the 'Z' button, so the game doesn't place too many bombs
 uint16_t interruptCounter = 0;				//used to count seconds in the interrupt
@@ -33,6 +33,7 @@ uint8_t player1_x_speed = 0, player1_y_speed = 0; //Higher is slower
 uint8_t max_bombs = 5;
 uint8_t score = 0;
 uint8_t killedPlayer = 0;
+uint8_t lives = 1;
 
 void init_Timer();
 
@@ -41,7 +42,7 @@ int main() {
 	Serial.begin(9600);
 	init_Timer();
 	init_IR();
-	init_Level(grid, level);
+	init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old);
 	init_LCD(lcd);
 	init_Nunchuck();
 	init_SDcart(lcd);
@@ -63,7 +64,7 @@ int main() {
 		check_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, max_bombs, &livebombs, &antiholdCounter, nunchuck_buf, grid);
 		draw_Player(player1_x, player1_y, &player1_x_old, &player1_y_old, player2_data, lcd);
 		draw_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, lcd);
-		draw_Explosion(lcd, bombradius, grid, &livebombs, &score, &killedPlayer, player1_x, player1_y);
+		draw_Explosion(lcd, bombradius, grid, &livebombs, &score, &killedPlayer, player1_x, player1_y, &lives);
 		clear_Explosion(lcd, bombradius, grid);
 		if (killedPlayer) {
 			lcd.fillScreen(RGB(0, 0, 0));

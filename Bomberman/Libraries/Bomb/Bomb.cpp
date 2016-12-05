@@ -2,7 +2,7 @@
 #include "string.h"
 #include "../MSD_shield/mSD_shield.h"
 
-void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], uint8_t* livebombs, uint8_t* score, uint8_t* killedPlayer, uint8_t player1_x, uint8_t player1_y)
+void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], uint8_t* livebombs, uint8_t* score, uint8_t* killedPlayer, uint8_t player1_x, uint8_t player1_y, uint8_t* lives)
 {
 	uint8_t row, collumn, icollumn, irow;
 	for (row = 0; row < 12; row++) {

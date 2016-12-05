@@ -8,9 +8,13 @@ void init_Testlevel(uint8_t grid[16][12])
 	grid[8][5] = 1;
 }
 
-void init_Level(uint8_t grid[16][12], char* level)
+void init_Level(uint8_t grid[16][12], char* level, uint8_t* player1_x, uint8_t* player1_y, uint8_t* player1_x_old, uint8_t* player1_y_old)
 {
 	if (level == "standaard") {
+		*player1_x = 1;
+		*player1_y = 1;
+		*player1_x_old = 1;
+		*player1_y_old = 1;
 		int j = 1;
 		init_OutsideWalls(grid);
 		grid[3][j] = 2;
@@ -161,6 +165,10 @@ void init_Level(uint8_t grid[16][12], char* level)
 		grid[14][j] = 0;
 	}
 	if (level == "level-2") {
+		*player1_x = 7;
+		*player1_y = 2;
+		*player1_x_old = 7;
+		*player1_y_old = 2;
 		int j = 1;
 		init_OutsideWalls(grid);
 		grid[1][j] = 2;
@@ -314,6 +322,10 @@ void init_Level(uint8_t grid[16][12], char* level)
 		grid[14][j] = 2;
 	}
 	if (level == "level-3") {
+		*player1_x = 1;
+		*player1_y = 1;
+		*player1_x_old = 1;
+		*player1_y_old = 1;
 		int j = 1;
 		init_OutsideWalls(grid);
 		grid[1][j] = 0;
