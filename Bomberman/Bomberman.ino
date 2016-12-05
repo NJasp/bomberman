@@ -29,6 +29,7 @@ uint8_t livebombs = 0;
 uint16_t IRdata, Background = RGB(222, 219, 214);
 uint32_t nTimer = 0;
 uint8_t hit = 0;
+uint8_t hitCounter = 0;
 uint8_t counter = 0;
 
 uint8_t bombradius = 5;
@@ -37,7 +38,8 @@ data_store player2_data;
 uint8_t max_bombs = 5;
 uint8_t score = 0;
 uint8_t killedPlayer = 0;
-uint8_t lives = 5;
+uint8_t lives = 3;
+uint8_t livesCheck = 3;
 
 void init_Timer();
 
@@ -58,8 +60,7 @@ int main() {
 		read_Nunchuck(nunchuck_buf, &joy_x_axis, &joy_y_axis);
 		calculate_Movement(&player1_x, &player1_y, joy_x_axis, joy_y_axis, &player1_xCounter, &player1_yCounter, player1_x_speed, player1_y_speed, grid);
 		checkPlayerHit(player1_x, player1_y, &hit, grid);
-		updateLives(&hit, &lives, lcd, score, &counter);
-		Serial.println(lives);
+		updateLives(&hit, &lives, &livesCheck, lcd, score, &hitCounter);
 		if (dataReady_IR() == 1) {
 			player2_data = decode_IR(IRdata);
 		}
@@ -69,13 +70,6 @@ int main() {
 		draw_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, lcd);
 		draw_Explosion(lcd, bombradius, grid, &livebombs, &score, &killedPlayer, player1_x, player1_y, &lives);
 		clear_Explosion(lcd, bombradius, grid);
-		if (killedPlayer) {
-			lcd.fillScreen(RGB(0, 0, 0));
-			lcd.drawText(50, 60, "Game over", RGB(255, 255, 255), RGB(0, 0, 0), 3);
-			lcd.drawText(70, 100, "Score player 1: ", RGB(255, 255, 255), RGB(0, 0, 0), 1);
-			lcd.drawInteger(200, 100, score, 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
-			while (1);
-		}
 	}
 	return 0;
 }
