@@ -12,7 +12,7 @@
 MI0283QT9 lcd;					//LCD variabele
 char *wall_Type = "wall3.bmp";
 char *crate_Type = "crate3.bmp";
-char *level = "standaard";
+char *level = "level-1";
 char *player1 = "1-grey.bmp";
 char *bom = "bomGREY.bmp";
 char *explosion = "exg.bmp";
@@ -52,12 +52,6 @@ void init_Timer();
 int main() {
 	init();
 	Serial.begin(9600);
-	init_Timer();
-	init_IR();
-	init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old);
-	init_Nunchuck();
-	init_SDcart(lcd);
-	init_Player(player1_x, player1_y, lcd, player1);
 	init_LCD(lcd);
 	lcd.touchStartCal();
 	startScherm(lcd);
@@ -80,9 +74,21 @@ int main() {
 				menucounter++;
 			}
 		}
+		if (menucounter == 2 && lcd.touchRead()) {
+			if (touchx >= 20 && touchx <= 120 && touchy >= 60 && touchy <= 90) {
+				level = "level-1";
+				break;
+			}
+		}
 	}
+	init_Timer();
+	init_IR();
+	init_Nunchuck();
+	init_SDcart(lcd);
+	init_Player(player1_x, player1_y, lcd, player1);
 	//draw_Grid(lcd);
 	//view_Griddata(grid);
+	init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old);
 	draw_Walls_Crates(lcd, grid, wall_Type, crate_Type);
 	for (;;) {	// MAIN LOOP	
 		read_Nunchuck(nunchuck_buf, &joy_x_axis, &joy_y_axis);
@@ -132,19 +138,7 @@ ISR(TIMER2_OVF_vect) {		//3906 voor een halve seconde (ongeveer)
 }
 
 ISR(TIMER2_COMPA_vect) { // timer for receiving/sending
-	nTimer++;
 
-	// ms timer
-	/*	timer++;
-	if(timer == 179){
-	clock++;
-	timer = 0;
-	}*/
-
-	// send function
-	if (isSending_IR()) {
-		processSend_IR(nTimer);
-	}
 }
 
 ISR(INT0_vect) { // receive interrupt
