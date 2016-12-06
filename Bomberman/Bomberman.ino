@@ -12,11 +12,7 @@
 MI0283QT9 lcd;					//LCD variabele
 char *wall_Type = "wall3.bmp";
 char *crate_Type = "crate3.bmp";
-<<<<<<< HEAD
 char *level = "level-1";
-=======
-char *level = "test";
->>>>>>> cc1dbd6b15279e5d7909737f0a993fc547e0f119
 char *player1 = "1-grey.bmp";
 char *bom = "bomGREY.bmp";
 char *explosion = "ex.bmp";
@@ -98,7 +94,6 @@ int main() {
 		read_Nunchuck(nunchuck_buf, &joy_x_axis, &joy_y_axis);
 		calculate_Movement(&player1_x, &player1_y, joy_x_axis, joy_y_axis, &player1_xCounter, &player1_yCounter, player1_x_speed, player1_y_speed, grid);
 		checkPlayerHit(player1_x, player1_y, &hit, grid);
-		updateLives(&hit, &lives, &livesCheck, lcd, score, &hitCounter);
 		if (dataReady_IR() == 1) {
 			player2_data = decode_IR(IRdata);
 		}
