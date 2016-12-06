@@ -5,17 +5,17 @@ void init_SDcart(MI0283QT9 screen)
 	int x;
 
 	screen.begin();
-	screen.fillScreen(RGB(255, 255, 255));
+	screen.fillScreen(Background);
 
-	x = screen.drawText(5, 5, "Init SD-Card...", RGB(0, 0, 0), RGB(255, 255, 255), 1);
+	x = screen.drawText(5, 5, "Init SD-Card...", RGB(0, 0, 0), Background, 1);
 	if (!SD.begin(4)) //cs-pin=4
 	{
-		screen.drawText(x, 5, "failed", RGB(0, 0, 0), RGB(255, 255, 255), 1);
+		screen.drawText(x, 5, "failed", RGB(0, 0, 0), Background, 1);
 		while (1);
 	}
 }
 
-void init_Pictures(char *file, int16_t x, int16_t y, MI0283QT9 screen)
+void draw_Pictures(char *file, int16_t x, int16_t y, MI0283QT9 screen)
 {
 	int i;
 		
@@ -67,7 +67,7 @@ void init_Pictures(char *file, int16_t x, int16_t y, MI0283QT9 screen)
 				}
 				else
 				{
-					screen.drawText(x, y, "Pic out of screen!", RGB(0, 0, 0), RGB(255, 255, 255), 1);
+					screen.drawText(x, y, "Pic out of screen!", RGB(0, 0, 0), Background, 1);
 				}
 			}
 		}

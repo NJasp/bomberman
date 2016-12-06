@@ -6,35 +6,42 @@
 #include "Libraries/Bomb/Bomb.h"
 #include "Libraries/MSD_shield/mSD_shield.h"
 #include "Libraries/IR/IR.h"
+#include "Libraries/Hit/checkHit.h"
 
 MI0283QT9 lcd;					//LCD variabele
 char *wall_Type = "wall3.bmp";
 char *crate_Type = "crate3.bmp";
 char *level = "standaard";
+char *player1 = "1-grey.bmp";
+char *bom = "bomGREY.bmp";
+char *explosion = "exg.bmp";
 uint8_t joy_x_axis, joy_y_axis;	//Nunchuck Data
 static uint8_t nunchuck_buf[6];	//Nunchuck Buffer
 uint8_t grid[16][12];		//Griddata
 uint8_t collumnCounter;		//collumnCounter
 uint8_t rowCounter;			//rowCounter
-uint8_t player1_x = 7, player1_y = 2;		//player locations
+uint8_t player1_x = 0, player1_y = 0;		//player locations
 uint8_t player2_x = 14, player2_y = 10;
 uint8_t player1_xCounter = 0, player1_yCounter = 0;		//Player movement speed
 uint8_t player2_x_old = 0, player2_y_old = 0;
-uint8_t player1_x_old = 7, player1_y_old = 2;		//Old locations of the player;
+uint8_t player1_x_old = 0, player1_y_old = 0;		//Old locations of the player;
 uint8_t player1_x_bombdrop = 0, player1_y_bombdrop = 0;		//Location of the dropped bomb;
 uint8_t antiholdCounter = 0;				// 1 when the player holds the 'Z' button, so the game doesn't place too many bombs
 uint16_t interruptCounter = 0;				//used to count seconds in the interrupt
 uint8_t livebombs = 0;
-uint16_t IRdata, Background = RGB(222, 219, 214);
+uint16_t IRdata;
 uint32_t nTimer = 0;
+uint8_t hit = 0;
+uint8_t hitCounter = 0;
+uint8_t counter = 0;
 
 uint8_t bombradius = 5;
 uint8_t player1_x_speed = 0, player1_y_speed = 0; //Higher is slower
 data_store player2_data;
 uint8_t max_bombs = 5;
 uint8_t score = 0;
-uint8_t killedPlayer = 0;
-uint8_t lives = 1;
+uint8_t lives = 5;
+uint8_t livesCheck = 5;
 
 void init_Timer();
 
@@ -47,29 +54,24 @@ int main() {
 	init_LCD(lcd);
 	init_Nunchuck();
 	init_SDcart(lcd);
-	init_Player(player1_x, player1_y, lcd);
+	init_Player(player1_x, player1_y, lcd, player1);
 	//draw_Grid(lcd);
 	//view_Griddata(grid);
 	draw_Walls_Crates(lcd, grid, wall_Type, crate_Type);
 	for (;;) {	// MAIN LOOP	
 		read_Nunchuck(nunchuck_buf, &joy_x_axis, &joy_y_axis);
 		calculate_Movement(&player1_x, &player1_y, joy_x_axis, joy_y_axis, &player1_xCounter, &player1_yCounter, player1_x_speed, player1_y_speed, grid);
+		checkPlayerHit(player1_x, player1_y, &hit, grid);
+		updateLives(&hit, &lives, &livesCheck, lcd, score, &hitCounter);
 		if (dataReady_IR() == 1) {
 			player2_data = decode_IR(IRdata);
 		}
 		check_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, max_bombs, &livebombs, &antiholdCounter, nunchuck_buf, grid);
-		draw_Player(player1_x, player1_y, &player1_x_old, &player1_y_old, lcd);
-		lcd.fillCircle(player2_data.xData, player2_data.yData, 10, RGB(0, 0, 255));
-		draw_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, lcd);
-		draw_Explosion(lcd, bombradius, grid, &livebombs, &score, &killedPlayer, player1_x, player1_y, &lives);
+		draw_Player(player1_x, player1_y, &player1_x_old, &player1_y_old, lcd, player1);
+		//lcd.fillCircle(player2_data.xData, player2_data.yData, 10, RGB(0, 0, 255));
+		draw_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, lcd, bom);
+		draw_Explosion(lcd, bombradius, grid, &livebombs, &score, explosion);
 		clear_Explosion(lcd, bombradius, grid);
-		if (killedPlayer) {
-			lcd.fillScreen(RGB(0, 0, 0));
-			lcd.drawText(50, 60, "Game over", RGB(255, 255, 255), RGB(0, 0, 0), 3);
-			lcd.drawText(70, 100, "Score player 1: ", RGB(255, 255, 255), RGB(0, 0, 0), 1);
-			lcd.drawInteger(200, 100, score, 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
-			while (1);
-		}
 	}
 	return 0;
 }

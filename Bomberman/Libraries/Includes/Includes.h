@@ -1,6 +1,6 @@
 #ifndef Includes_H_
 #define Includes_H_
-
+#define Background RGB(102, 102, 102)
 
 #include <stdint.h>
 #include <avr/io.h>
