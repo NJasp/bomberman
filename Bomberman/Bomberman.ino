@@ -12,11 +12,8 @@
 MI0283QT9 lcd;					//LCD variabele
 char *wall_Type = "wall3.bmp";
 char *crate_Type = "crate3.bmp";
-<<<<<<< HEAD
 char *level = "level-1";
-=======
 char *level = "test";
->>>>>>> cc1dbd6b15279e5d7909737f0a993fc547e0f119
 char *player1 = "1-grey.bmp";
 char *bom = "bomGREY.bmp";
 char *explosion = "ex.bmp";
