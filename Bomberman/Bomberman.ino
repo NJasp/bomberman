@@ -87,8 +87,6 @@ int main() {
 	for (;;) {	// MAIN LOOP	
 		read_Nunchuck(nunchuck_buf, &joy_x_axis, &joy_y_axis);
 		calculate_Movement(&player1_x, &player1_y, joy_x_axis, joy_y_axis, &player1_xCounter, &player1_yCounter, player1_x_speed, player1_y_speed, grid);
-		checkPlayerHit(player1_x, player1_y, &hit, grid);
-		updateLives(&hit, &lives, &livesCheck, lcd, score, &hitCounter);
 		if (dataReady_IR() == 1) {
 			player2_data = decode_IR(IRdata);
 		}
@@ -134,19 +132,7 @@ ISR(TIMER2_OVF_vect) {		//3906 voor een halve seconde (ongeveer)
 }
 
 ISR(TIMER2_COMPA_vect) { // timer for receiving/sending
-	nTimer++;
 
-	// ms timer
-	/*	timer++;
-	if(timer == 179){
-	clock++;
-	timer = 0;
-	}*/
-
-	// send function
-	if (isSending_IR()) {
-		processSend_IR(nTimer);
-	}
 }
 
 ISR(INT0_vect) { // receive interrupt
