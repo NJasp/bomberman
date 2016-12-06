@@ -5,6 +5,7 @@ void startScherm(MI0283QT9 lcd)
 {
 	lcd.fillScreen(RGB(255, 255, 255));
 	lcd.drawText(55, 20, "Bomberman", (RGB(0, 0, 0)), (RGB(255, 255, 255)), 3);
+	lcd.drawText(28, 80, "Touch anywhere to start ...", RGB(0,0,0), RGB(255,255,255), 2);
 }
 
 void menuLevelSelect(MI0283QT9 lcd)
