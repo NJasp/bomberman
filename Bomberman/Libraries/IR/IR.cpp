@@ -9,8 +9,8 @@ ISR(TIMER2_COMPA_vect){// timer for receiving/sending
 	if(tTimer == 10){
 		nTimer++;
 		// send function
-		if(isSending_IR()) {
-			processSend_IR(nTimer);
+		if(isSendingIR) {
+			processSend_IR(nTimer, &isSendingIR);
 		}
 		tTimer = 0;
 	}
@@ -27,12 +27,13 @@ ISR(TIMER2_COMPA_vect){// timer for receiving/sending
 ISR(INT0_vect){ // receive interrupt
 	processRecieve_IR(nTimer, &IRdata);
 }
-
 ***ms timer optional/but probably useful
+
                ===== sending/handling data =====
+uint8_t isSendingIR = 0; 					// local value for keeping track of sending or not
 init_IR();								   // initialize timers/config
 
-send_IR(type, xData, yData);			   // send data
+send_IR(&isSendingIR, type, xData, yData);			   // send data
 
 data_store myData = decode_IR(data);	   // store received data in struct
 										   // data is now accessible through myData.type, myData.xData, myData.yData
@@ -56,46 +57,13 @@ void init_IR() {
 	//DDRB |= (1 << PORTB5);
 
 	DDRD |= (1 << PORTD3);		// output OC2B pin (pin 3)
-	isOn=0;
-	isSending=0;
-	sendSpace=0;
-	dataReady=0;
 
 	// send random junk
 	uint8_t i;
 	for (i = 0; i < 255; ++i) {
-		on_IR();
-		off_IR();
+		DDRD |= (1 << PORTD3);
+		DDRD &= ~(1 << PORTD3);
 	}
-}
-
-void toggle_IR() {
-	// wire for test reasons
-	//PORTB ^= (1 << PORTB5);
-	isOn ^= 1;
-	DDRD ^= (1 << PORTD3);
-}
-
-void off_IR() {
-	// wire for test reasons
-	//PORTB &= ~(1 << PORTB5);
-	isOn = 0;
-	DDRD &= ~(1 << PORTD3);
-}
-
-void on_IR() {
-	// wire for test reasons
-	//PORTB |= (1 << PORTB5);
-	isOn = 1;
-	DDRD |= (1 << PORTD3);
-}
-
-uint8_t isOn_IR(){
-	return isOn;
-}
-
-uint8_t isSending_IR(){
-	return isSending;
 }
 
 uint8_t dataReady_IR() {
@@ -163,7 +131,7 @@ void processRecieve_IR(uint32_t currentTime, uint16_t *data) {
 
 }
 
-void processSend_IR(uint32_t currentTime) {
+void processSend_IR(uint32_t currentTime, uint8_t *isSending) {
 	if(sendSpace) {  // send space | do nothing one cycle while IR is off
 		if(spaceCounter == SPACE_DELAY){
 			sendSpace = 0;
@@ -174,8 +142,10 @@ void processSend_IR(uint32_t currentTime) {
 	}
 	else {	       // send bit
 		// send 1|0
-		if(currentTime == nextSend && isOn_IR()) {
-			off_IR();
+		if(currentTime == nextSend && isOn) {
+			// turn IR off
+			isOn = 0;
+			DDRD &= ~(1 << PORTD3);
 			sendSpace = 1;
 		}
 
@@ -185,22 +155,26 @@ void processSend_IR(uint32_t currentTime) {
 			else
 				nextSend = currentTime + ZERO_DELAY;
 
-			on_IR();
+			// turn IR on
+			isOn = 1;
+			DDRD |= (1 << PORTD3);
 			msgCount++;
 		}
 	}
 
 	if(msgCount == 17) {// end sending
-		off_IR();
+		// turn IR on
+		isOn = 0;
+		DDRD &= ~(1 << PORTD3);
 		msgCount = 0;
-		isSending = 0;
+		*isSending = 0;
 		sendSpace = 0;
 		nextSend = 0;
 	}
 
 }
 // TODO: add receive/send buffer somehow
-void send_IR(uint8_t type, uint8_t xData, uint8_t yData) {
+void send_IR(uint8_t *isSending, uint8_t type, uint8_t xData, uint8_t yData) {
 	msgData = encode_IR(type, xData, yData);
-	isSending = 1;
+	*isSending = 1;
 }

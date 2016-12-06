@@ -19,16 +19,11 @@ static const uint8_t BOMB 		= 2;
 static const uint8_t MAP 		= 3;
 
 void init_IR();
-void toggle_IR();
-void off_IR();
-void on_IR();
-uint8_t isOn_IR();
-uint8_t isSending_IR();
 uint8_t dataReady_IR();
 data_store decode_IR(uint16_t data);
 uint16_t encode_IR(uint8_t type, uint8_t xData, uint8_t yData);
-void send_IR(uint8_t type, uint8_t xData, uint8_t yData);
+void send_IR(uint8_t *isSending, uint8_t type, uint8_t xData, uint8_t yData);
 void processRecieve_IR(uint32_t currentTime, uint16_t *data);
-void processSend_IR(uint32_t currentTime);
+void processSend_IR(uint32_t currentTime, uint8_t *isSending);
 
 #endif /* IR_H_ */
