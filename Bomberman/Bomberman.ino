@@ -11,10 +11,10 @@
 MI0283QT9 lcd;					//LCD variabele
 char *wall_Type = "wall3.bmp";
 char *crate_Type = "crate3.bmp";
-char *level = "standaard";
+char *level = "test";
 char *player1 = "1-grey.bmp";
 char *bom = "bomGREY.bmp";
-char *explosion = "exg.bmp";
+char *explosion = "ex.bmp";
 uint8_t joy_x_axis, joy_y_axis;	//Nunchuck Data
 static uint8_t nunchuck_buf[6];	//Nunchuck Buffer
 uint8_t grid[16][12];		//Griddata
@@ -32,7 +32,6 @@ uint8_t livebombs = 0;
 uint16_t IRdata;
 uint32_t nTimer = 0;
 uint8_t hit = 0;
-uint8_t hitCounter = 0;
 uint8_t counter = 0;
 
 uint8_t bombradius = 5;
@@ -40,8 +39,9 @@ uint8_t player1_x_speed = 0, player1_y_speed = 0; //Higher is slower
 data_store player2_data;
 uint8_t max_bombs = 5;
 uint8_t score = 0;
-uint8_t lives = 5;
-uint8_t livesCheck = 5;
+uint8_t lives = 2;
+uint8_t livescheck = 5;
+uint8_t hitCounter = 0;
 
 void init_Timer();
 
@@ -61,16 +61,16 @@ int main() {
 	for (;;) {	// MAIN LOOP	
 		read_Nunchuck(nunchuck_buf, &joy_x_axis, &joy_y_axis);
 		calculate_Movement(&player1_x, &player1_y, joy_x_axis, joy_y_axis, &player1_xCounter, &player1_yCounter, player1_x_speed, player1_y_speed, grid);
-		checkPlayerHit(player1_x, player1_y, &hit, grid);
-		updateLives(&hit, &lives, &livesCheck, lcd, score, &hitCounter);
 		if (dataReady_IR() == 1) {
 			player2_data = decode_IR(IRdata);
 		}
+		//updateLives(&hit, &lives, lcd, score);
 		check_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, max_bombs, &livebombs, &antiholdCounter, nunchuck_buf, grid);
 		draw_Player(player1_x, player1_y, &player1_x_old, &player1_y_old, lcd, player1);
 		//lcd.fillCircle(player2_data.xData, player2_data.yData, 10, RGB(0, 0, 255));
 		draw_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, lcd, bom);
-		draw_Explosion(lcd, bombradius, grid, &livebombs, &score, explosion);
+		draw_Explosion(lcd, bombradius, grid, &livebombs, &score, explosion,&hit,player1_x,player1_y);
+		updateLives(&hit, &lives, lcd, score);
 		clear_Explosion(lcd, bombradius, grid);
 	}
 	return 0;
