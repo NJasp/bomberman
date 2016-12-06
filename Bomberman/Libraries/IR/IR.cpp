@@ -3,8 +3,17 @@
                         implementaton:
        ===================----=======================
                    ===== interrupts =====
-ISR(TIMER2_COMPA_vect){ // timer for receiving/sending
-	nTimer++;
+ISR(TIMER2_COMPA_vect){// timer for receiving/sending
+
+	tTimer++;
+	if(tTimer == 10){
+		nTimer++;
+		// send function
+		if(isSending_IR()) {
+			processSend_IR(nTimer);
+		}
+		tTimer = 0;
+	}
 
 	// ms timer
 	timer++;
@@ -13,10 +22,6 @@ ISR(TIMER2_COMPA_vect){ // timer for receiving/sending
 		timer = 0;
 	}
 
-	// send function
-	if(isSending_IR()) {
-		processSend_IR(nTimer);
-	}
 }
 
 ISR(INT0_vect){ // receive interrupt
@@ -24,7 +29,6 @@ ISR(INT0_vect){ // receive interrupt
 }
 
 ***ms timer optional/but probably useful
-***ms
                ===== sending/handling data =====
 init_IR();								   // initialize timers/config
 
@@ -34,6 +38,7 @@ data_store myData = decode_IR(data);	   // store received data in struct
 										   // data is now accessible through myData.type, myData.xData, myData.yData
 */
 
+#include "Includes.h"
 #include "IR.h"
 volatile uint8_t isOn = 0, isSending = 0, sendSpace = 0, dataReady = 0;
 volatile uint16_t timeDelta = 0;
@@ -51,6 +56,10 @@ void init_IR() {
 	//DDRB |= (1 << PORTB5);
 
 	DDRD |= (1 << PORTD3);		// output OC2B pin (pin 3)
+	isOn=0;
+	isSending=0;
+	sendSpace=0;
+	dataReady=0;
 
 	// send random junk
 	uint8_t i;

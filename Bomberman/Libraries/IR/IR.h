@@ -1,13 +1,11 @@
 #ifndef IR_H_
 #define IR_H_
 
-#include "../Includes/Includes.h"
-
 // config
-static const uint16_t ONE_DELAY  = 60;
-static const uint16_t ZERO_DELAY = 30;
-static const uint16_t SPACE_DELAY= 100;
-static const uint16_t DELAY_OFFSET= 11;
+static const uint16_t ONE_DELAY  = 6;
+static const uint16_t ZERO_DELAY = 3;
+static const uint16_t SPACE_DELAY= 10;
+static const uint16_t DELAY_OFFSET= 2;
 
 typedef struct data_store{
 	uint8_t type;
