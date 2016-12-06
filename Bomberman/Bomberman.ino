@@ -92,6 +92,7 @@ int main() {
 	for (;;) {	// MAIN LOOP	
 		read_Nunchuck(nunchuck_buf, &joy_x_axis, &joy_y_axis);
 		calculate_Movement(&player1_x, &player1_y, joy_x_axis, joy_y_axis, &player1_xCounter, &player1_yCounter, player1_x_speed, player1_y_speed, grid);
+		checkPlayerHit(player1_x, player1_y, &hit, grid);
 		if (dataReady_IR() == 1) {
 			player2_data = decode_IR(IRdata);
 		}
