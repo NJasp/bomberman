@@ -67,6 +67,18 @@ int main() {
 		touchy = lcd.touchY();
 		if (menucounter == 0 && lcd.touchRead()) {
 			menuScherm(lcd);
+			menucounter++;
+		}
+		if (menucounter == 1 && lcd.touchRead()) {
+			if (touchx >= 80 && touchx <= 240 && touchy >= 40 && touchy <= 90) {
+				levelSelect(lcd);
+				menucounter++;
+			}
+			else if (touchx >= 65 && touchx <= 270 && touchy >= 160 && touchy <= 210)
+			{
+				options(lcd);
+				menucounter++;
+			}
 		}
 	}
 	//draw_Grid(lcd);

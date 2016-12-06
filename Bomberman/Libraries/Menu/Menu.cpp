@@ -46,21 +46,18 @@ void levelSelect(MI0283QT9 lcd)
 
 void level1(MI0283QT9 lcd)
 {
-	lcd.drawRect(20, 60, 120, 30, (RGB(0, 0, 0)));
-	lcd.fillRect(20, 60, 120, 30, (RGB(0, 0, 0)));
+	lcd.fillRect(20, 60, 120, 30, (RGB(255, 0, 0)));
 	lcd.drawText(28, 65, "Level 1", (RGB(255, 255, 255)), (RGB(0, 0, 0)), 2);
 }
 
 void level2(MI0283QT9 lcd)
 {
-	lcd.drawRect(20, 120, 120, 30, (RGB(0, 0, 0)));
 	lcd.fillRect(20, 120, 120, 30, (RGB(0, 0, 0)));
 	lcd.drawText(28, 125, "Level 2", (RGB(255, 255, 255)), (RGB(0, 0, 0)), 2);
 }
 
 void level3(MI0283QT9 lcd)
 {
-	lcd.drawRect(20, 180, 120, 30, (RGB(0, 0, 0)));
 	lcd.fillRect(20, 180, 120, 30, (RGB(0, 0, 0)));
 	lcd.drawText(28, 185, "Level 3", (RGB(255, 255, 255)), (RGB(0, 0, 0)), 2);
 }
