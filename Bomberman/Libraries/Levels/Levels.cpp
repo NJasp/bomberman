@@ -157,7 +157,7 @@ void init_Level(uint8_t grid[16][12], char* level, uint8_t* player1_x, uint8_t* 
 		grid[13][j] = 0;
 		grid[14][j] = 0;
 	}
-	if (level == "standaard") {
+	if (level == "level-1") {
 		*player1_x = 1;
 		*player1_y = 1;
 		*player1_x_old = 1;
