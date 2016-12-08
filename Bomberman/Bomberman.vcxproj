@@ -47,7 +47,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Program Files (x86)\Arduino\libraries\MI0283QT9;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SPI\src;C:\Program Files (x86)\Arduino\libraries\digitalWriteFast;C:\Program Files (x86)\Arduino\libraries\GraphicsLib;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\src;C:\Program Files (x86)\Arduino\libraries\SD\src;C:\Program Files (x86)\Arduino\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;C:\Users\gebruiker-pc\Documents\Arduino\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;C:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\standard;C:\Users\gebruiker-pc\Documents\GitHub\Bomberman;C:\Program Files (x86)\Arduino\hardware\tools\avr/avr/include/;C:\Program Files (x86)\Arduino\hardware\tools\avr//avr/include/avr/;C:\Program Files (x86)\Arduino\hardware\tools\avr/lib\gcc\avr\4.8.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Arduino\libraries\MI0283QT9;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SPI\src;C:\Program Files (x86)\Arduino\libraries\digitalWriteFast;C:\Program Files (x86)\Arduino\libraries\GraphicsLib;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\src;C:\Program Files (x86)\Arduino\libraries\SD\src;C:\Program Files (x86)\Arduino\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;C:\Users\mikes_000\Documents\Arduino\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;C:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\standard;C:\Users\mikes_000\Documents\GitHub\Bomberman;C:\Program Files (x86)\Arduino\hardware\tools\avr/avr/include/;C:\Program Files (x86)\Arduino\hardware\tools\avr//avr/include/avr/;C:\Program Files (x86)\Arduino\hardware\tools\avr/lib\gcc\avr\4.8.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>C:\Users\Martijn\Git\Bomberman\__vm\.Bomberman.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
       <PreprocessorDefinitions>__AVR_ATmega328p__;__AVR_ATmega328P__;F_CPU=16000000L;ARDUINO=10609;ARDUINO_AVR_UNO;ARDUINO_ARCH_AVR;__cplusplus=201103L;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -84,10 +84,12 @@
   <ItemGroup>
     <ClInclude Include="Libraries\Bomb\Bomb.h" />
     <ClInclude Include="Libraries\DebugTools\DebugTools.h" />
+    <ClInclude Include="Libraries\Hit\checkHit.h" />
     <ClInclude Include="Libraries\Includes\Includes.h" />
     <ClInclude Include="Libraries\IR\IR.h" />
     <ClInclude Include="Libraries\LCD\LCD.h" />
     <ClInclude Include="Libraries\Levels\Levels.h" />
+    <ClInclude Include="Libraries\MSD_shield\mSD_shield.h" />
     <ClInclude Include="Libraries\Nunchuck\Nunchuck.h" />
     <ClInclude Include="Libraries\Player\Player.h" />
     <ClInclude Include="__vm\.Bomberman.vsarduino.h" />
@@ -95,8 +97,11 @@
   <ItemGroup>
     <ClCompile Include="Libraries\Bomb\Bomb.cpp" />
     <ClCompile Include="Libraries\DebugTools\DebugTools.cpp" />
+    <ClCompile Include="Libraries\Hit\checkHit.cpp" />
+    <ClCompile Include="Libraries\IR\IR.cpp" />
     <ClCompile Include="Libraries\LCD\LCD.cpp" />
     <ClCompile Include="Libraries\Levels\Levels.cpp" />
+    <ClCompile Include="Libraries\MSD_shield\mSD_shield.cpp" />
     <ClCompile Include="Libraries\Nunchuck\Nunchuck.cpp" />
     <ClCompile Include="Libraries\Player\Player.cpp" />
   </ItemGroup>
