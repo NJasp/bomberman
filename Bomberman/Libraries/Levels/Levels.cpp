@@ -1,9 +1,9 @@
 #include "Levels.h"
 #include "../MSD_shield/mSD_shield.h"
 
-void init_Level(uint8_t grid[16][12], char* level, uint8_t* player1_x, uint8_t* player1_y, uint8_t* player1_x_old, uint8_t* player1_y_old)
+void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t* player1_y, uint8_t* player1_x_old, uint8_t* player1_y_old)
 {
-	if (level == "test") {
+	if (level == 0) {
 		*player1_x = 1;
 		*player1_y = 1;
 		*player1_x_old = 1;
@@ -157,7 +157,7 @@ void init_Level(uint8_t grid[16][12], char* level, uint8_t* player1_x, uint8_t* 
 		grid[13][j] = 0;
 		grid[14][j] = 0;
 	}
-	if (level == "level-1") {
+	if (level == 1) {
 		*player1_x = 1;
 		*player1_y = 1;
 		*player1_x_old = 1;
@@ -311,7 +311,7 @@ void init_Level(uint8_t grid[16][12], char* level, uint8_t* player1_x, uint8_t* 
 		grid[13][j] = 0;
 		grid[14][j] = 0;
 	}
-	if (level == "level-2") {
+	if (level == 2) {
 		*player1_x = 7;
 		*player1_y = 2;
 		*player1_x_old = 7;
@@ -468,7 +468,7 @@ void init_Level(uint8_t grid[16][12], char* level, uint8_t* player1_x, uint8_t* 
 		grid[13][j] = 2;
 		grid[14][j] = 2;
 	}
-	if (level == "level-3") {
+	if (level == 3) {
 		*player1_x = 1;
 		*player1_y = 1;
 		*player1_x_old = 1;
@@ -660,7 +660,7 @@ void draw_Walls_Crates(MI0283QT9 screen, uint8_t grid[16][12],char *wall_Type, c
 			else {
 				if (grid[collumn][row] == 2) {
 					if (debug) {
-						//screen.fillRect(collumn * 20, row * 20, 20, 20, RGB(222, 184, 135));
+						screen.fillRect(collumn * 20, row * 20, 20, 20, RGB(222, 184, 135));
 					}
 					else {
 						draw_Pictures(crate_Type, collumn * 20, row * 20, screen);

@@ -12,7 +12,6 @@
 MI0283QT9 lcd;					//LCD variabele
 char *wall_Type = "wall3.bmp";
 char *crate_Type = "crate3.bmp";
-char *level = "test";
 char *player1 = "1-grey.bmp";
 char *bom = "bomGREY.bmp";
 char *explosion = "ex.bmp";
@@ -38,6 +37,7 @@ uint8_t counter = 0;
 uint16_t touchx = 0, touchy = 0;
 uint8_t menucounter = 0;
 uint8_t debug = 1;
+uint8_t begin = 0;
 
 uint8_t bombradius = 5;
 uint8_t player1_x_speed = 0, player1_y_speed = 0; //Higher is slower
@@ -45,6 +45,7 @@ data_store player2_data;
 uint8_t max_bombs = 5;
 uint8_t score = 0;
 uint8_t lives = 1;
+uint8_t level = 0;
 
 void init_Timer();
 
@@ -53,15 +54,12 @@ int main() {
 	Serial.begin(9600);
 	init_Timer();
 	init_IR();
-	init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old);
 	init_Nunchuck();
-	if (debug) {
+	if (!debug) {
 		init_SDcart(lcd);
 	}
 	init_Player(player1_x, player1_y, lcd, player1);
 	init_LCD(lcd);
-	/*lcd.touchStartCal();
-	startScherm(lcd);
 	for (;;)
 	{
 		touchx = lcd.touchX();
@@ -83,13 +81,21 @@ int main() {
 		}
 		if (menucounter == 2 && lcd.touchRead()) {
 			if (touchx >= 20 && touchx <= 120 && touchy >= 60 && touchy <= 90) {
-				level = "level-1";
+				lcd.fillScreen(Background);
+				if (debug) {
+					level = 1;
+				}
+				else {
+					begin = 1;
+					level = 1;
+				}
 				break;
 			}
 		}
-	}/**/
+	}
 	//draw_Grid(lcd);
 	//view_Griddata(grid);
+	init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old);
 	draw_Walls_Crates(lcd, grid, wall_Type, crate_Type, debug);
 	for (;;) {	// MAIN LOOP	
 		read_Nunchuck(nunchuck_buf, &joy_x_axis, &joy_y_axis);
