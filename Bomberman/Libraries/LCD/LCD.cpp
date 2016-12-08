@@ -3,7 +3,7 @@
 void init_LCD(MI0283QT9 screen)
 {										//INITIALIZE (SETUP)
 	screen.begin(8);
-	screen.fillScreen(RGB(255,255,255));
+	screen.fillScreen(Background);
 }
 
 void draw_Grid(MI0283QT9 screen)
