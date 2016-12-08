@@ -12,7 +12,7 @@
 MI0283QT9 lcd;					//LCD variabele
 char *wall_Type = "wall3.bmp";
 char *crate_Type = "crate3.bmp";
-char *level = "level-1";
+char *level = "";
 char *player1 = "1-grey.bmp";
 char *bom = "bomGREY.bmp";
 char *explosion = "ex.bmp";
@@ -100,7 +100,7 @@ int main() {
 		draw_Player(player1_x, player1_y, &player1_x_old, &player1_y_old, lcd, player1);
 		//lcd.fillCircle(player2_data.xData, player2_data.yData, 10, RGB(0, 0, 255));
 		draw_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, lcd, bom);
-		draw_Explosion(lcd, bombradius, grid, &livebombs, &score, explosion,&hit,player1_x,player1_y);
+		draw_Explosion(lcd, bombradius, grid, &livebombs, &score, explosion, &hit, player1_x, player1_y);
 		updateLives(&hit, &lives, lcd, score);
 		clear_Explosion(lcd, bombradius, grid);
 		updateLives(&hit, &lives, lcd, score);
