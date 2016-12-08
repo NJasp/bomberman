@@ -51,6 +51,9 @@
     <ClInclude Include="Libraries\Hit\checkHit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Libraries\Menu\Menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Libraries\Levels\Levels.cpp">
@@ -78,6 +81,9 @@
       <Filter>Header Files\Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="Libraries\Hit\checkHit.cpp">
+      <Filter>Header Files\Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\Menu\Menu.cpp">
       <Filter>Header Files\Resource Files</Filter>
     </ClCompile>
   </ItemGroup>

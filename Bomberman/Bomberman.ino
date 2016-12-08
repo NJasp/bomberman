@@ -81,10 +81,11 @@ int main() {
 			}
 		}
 	}
+	init_SDcart(lcd);
 	init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old);
 	draw_Walls_Crates(lcd, grid, wall_Type, crate_Type);
 	init_Player(player1_x, player1_y, lcd, player1);
-	init_SDcart(lcd);
+	
 	init_Timer();
 	init_IR();
 	//draw_Grid(lcd);
