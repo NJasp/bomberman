@@ -22,8 +22,8 @@ void init_IR();
 uint8_t dataReady_IR();
 data_store decode_IR(uint16_t data);
 uint16_t encode_IR(uint8_t type, uint8_t xData, uint8_t yData);
-void send_IR(uint8_t *isSending, uint8_t type, uint8_t xData, uint8_t yData);
-void processRecieve_IR(uint32_t currentTime, uint16_t *data);
-void processSend_IR(uint32_t currentTime, uint8_t *isSending);
+void send_IR(volatile uint8_t *isSending, uint8_t type, uint8_t xData, uint8_t yData);
+void processRecieve_IR(uint32_t currentTime, volatile uint16_t *data);
+void processSend_IR(uint32_t currentTime, volatile uint8_t *isSending);
 
 #endif /* IR_H_ */
