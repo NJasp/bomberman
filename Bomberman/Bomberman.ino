@@ -6,13 +6,13 @@
 #include "Libraries/Bomb/Bomb.h"
 #include "Libraries/MSD_shield/mSD_shield.h"
 #include "Libraries/IR/IR.h"
-#include "Libraries/Hit/checkHit.h"
 #include "Libraries/Menu/Menu.h"
+#include "Libraries/Hit/checkHit.h"
 
 MI0283QT9 lcd;					//LCD variabele
 char *wall_Type = "wall3.bmp";
 char *crate_Type = "crate3.bmp";
-char *level = "";
+char *level = "test";
 char *player1 = "1-grey.bmp";
 char *bom = "bomGREY.bmp";
 char *explosion = "ex.bmp";
@@ -33,6 +33,7 @@ uint8_t livebombs = 0;
 uint16_t IRdata;
 uint32_t nTimer = 0;
 uint8_t hit = 0;
+uint8_t hitCounter = 0;
 uint8_t counter = 0;
 uint16_t touchx = 0, touchy = 0;
 uint8_t menucounter = 0;
@@ -43,17 +44,21 @@ uint8_t player1_x_speed = 0, player1_y_speed = 0; //Higher is slower
 data_store player2_data;
 uint8_t max_bombs = 5;
 uint8_t score = 0;
-uint8_t lives = 2;
-uint8_t livescheck = 5;
-uint8_t hitCounter = 0;
+uint8_t lives = 1;
 
 void init_Timer();
 
 int main() {
 	init();
 	Serial.begin(9600);
+	init_Timer();
+	init_IR();
+	init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old);
+	init_Nunchuck();
+	init_SDcart(lcd);
+	init_Player(player1_x, player1_y, lcd, player1);
 	init_LCD(lcd);
-	lcd.touchStartCal();
+	/*lcd.touchStartCal();
 	startScherm(lcd);
 	for (;;)
 	{
@@ -80,19 +85,14 @@ int main() {
 				break;
 			}
 		}
-	}
-	init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old);
-	draw_Walls_Crates(lcd, grid, wall_Type, crate_Type);
-	init_Player(player1_x, player1_y, lcd, player1);
-	init_SDcart(lcd);
-	init_Timer();
-	init_IR();
+	}/**/
 	//draw_Grid(lcd);
 	//view_Griddata(grid);
+	draw_Walls_Crates(lcd, grid, wall_Type, crate_Type);
 	for (;;) {	// MAIN LOOP	
 		read_Nunchuck(nunchuck_buf, &joy_x_axis, &joy_y_axis);
 		calculate_Movement(&player1_x, &player1_y, joy_x_axis, joy_y_axis, &player1_xCounter, &player1_yCounter, player1_x_speed, player1_y_speed, grid);
-		checkPlayerHit(player1_x, player1_y, &hit, grid);
+		//updateLives(&hit, &lives, &livesCheck, lcd, score, &hitCounter);
 		if (dataReady_IR() == 1) {
 			player2_data = decode_IR(IRdata);
 		}
@@ -101,7 +101,6 @@ int main() {
 		//lcd.fillCircle(player2_data.xData, player2_data.yData, 10, RGB(0, 0, 255));
 		draw_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, lcd, bom);
 		draw_Explosion(lcd, bombradius, grid, &livebombs, &score, explosion, &hit, player1_x, player1_y);
-		updateLives(&hit, &lives, lcd, score);
 		clear_Explosion(lcd, bombradius, grid);
 		updateLives(&hit, &lives, lcd, score);
 	}
@@ -138,7 +137,19 @@ ISR(TIMER2_OVF_vect) {		//3906 voor een halve seconde (ongeveer)
 }
 
 ISR(TIMER2_COMPA_vect) { // timer for receiving/sending
+	nTimer++;
 
+	// ms timer
+	/*	timer++;
+	if(timer == 179){
+	clock++;
+	timer = 0;
+	}*/
+
+	// send function
+//	if (isSending_IR()) {
+//		processSend_IR(nTimer);
+//	}
 }
 
 ISR(INT0_vect) { // receive interrupt
