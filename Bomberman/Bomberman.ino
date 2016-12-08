@@ -37,7 +37,7 @@ uint8_t hitCounter = 0;
 uint8_t counter = 0;
 uint16_t touchx = 0, touchy = 0;
 uint8_t menucounter = 0;
-
+uint8_t debug = 1;
 
 uint8_t bombradius = 5;
 uint8_t player1_x_speed = 0, player1_y_speed = 0; //Higher is slower
@@ -55,7 +55,9 @@ int main() {
 	init_IR();
 	init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old);
 	init_Nunchuck();
-	init_SDcart(lcd);
+	if (debug) {
+		init_SDcart(lcd);
+	}
 	init_Player(player1_x, player1_y, lcd, player1);
 	init_LCD(lcd);
 	/*lcd.touchStartCal();
@@ -88,7 +90,7 @@ int main() {
 	}/**/
 	//draw_Grid(lcd);
 	//view_Griddata(grid);
-	draw_Walls_Crates(lcd, grid, wall_Type, crate_Type);
+	draw_Walls_Crates(lcd, grid, wall_Type, crate_Type, debug);
 	for (;;) {	// MAIN LOOP	
 		read_Nunchuck(nunchuck_buf, &joy_x_axis, &joy_y_axis);
 		calculate_Movement(&player1_x, &player1_y, joy_x_axis, joy_y_axis, &player1_xCounter, &player1_yCounter, player1_x_speed, player1_y_speed, grid);
@@ -97,10 +99,10 @@ int main() {
 			player2_data = decode_IR(IRdata);
 		}
 		check_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, max_bombs, &livebombs, &antiholdCounter, nunchuck_buf, grid);
-		draw_Player(player1_x, player1_y, &player1_x_old, &player1_y_old, lcd, player1);
+		draw_Player(player1_x, player1_y, &player1_x_old, &player1_y_old, lcd, player1, debug);
 		//lcd.fillCircle(player2_data.xData, player2_data.yData, 10, RGB(0, 0, 255));
-		draw_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, lcd, bom);
-		draw_Explosion(lcd, bombradius, grid, &livebombs, &score, explosion, &hit, player1_x, player1_y);
+		draw_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, lcd, bom, debug);
+		draw_Explosion(lcd, bombradius, grid, &livebombs, &score, explosion, &hit, player1_x, player1_y, debug);
 		clear_Explosion(lcd, bombradius, grid);
 		updateLives(&hit, &lives, lcd, score);
 	}
