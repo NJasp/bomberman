@@ -81,7 +81,7 @@ int main() {
 			}
 		}
 	}
-	init_SDcart(lcd);
+	//init_SDcart(lcd);
 	init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old);
 	draw_Walls_Crates(lcd, grid, wall_Type, crate_Type);
 	init_Player(player1_x, player1_y, lcd, player1);
@@ -90,7 +90,7 @@ int main() {
 	init_IR();
 	//draw_Grid(lcd);
 	//view_Griddata(grid);
-	for (;;) {	// MAIN LOOP	
+	for (;;) {	// MAIN LOOP
 		read_Nunchuck(nunchuck_buf, &joy_x_axis, &joy_y_axis);
 		calculate_Movement(&player1_x, &player1_y, joy_x_axis, joy_y_axis, &player1_xCounter, &player1_yCounter, player1_x_speed, player1_y_speed, grid);
 		checkPlayerHit(player1_x, player1_y, &hit, grid);
