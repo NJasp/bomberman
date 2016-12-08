@@ -60,6 +60,8 @@ int main() {
 	}
 	init_Player(player1_x, player1_y, lcd, player1);
 	init_LCD(lcd);
+	lcd.touchStartCal();
+	startScherm(lcd);
 	for (;;)
 	{
 		touchx = lcd.touchX();
@@ -82,13 +84,7 @@ int main() {
 		if (menucounter == 2 && lcd.touchRead()) {
 			if (touchx >= 20 && touchx <= 120 && touchy >= 60 && touchy <= 90) {
 				lcd.fillScreen(Background);
-				if (debug) {
-					level = 1;
-				}
-				else {
-					begin = 1;
-					level = 1;
-				}
+				level = 0;
 				break;
 			}
 		}
