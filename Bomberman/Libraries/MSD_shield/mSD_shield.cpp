@@ -4,9 +4,6 @@ void init_SDcart(MI0283QT9 screen)
 {
 	int x;
 
-	screen.begin();
-	screen.fillScreen(Background);
-
 	x = screen.drawText(5, 5, "Init SD-Card...", RGB(0, 0, 0), Background, 1);
 	if (!SD.begin(4)) //cs-pin=4
 	{
@@ -28,9 +25,10 @@ void draw_Pictures(char *file, int16_t x, int16_t y, MI0283QT9 screen)
 
 	//open file
 	myFile = SD.open(file);
-
+	Serial.println("HAllO2");
 	if (myFile)
 	{
+		Serial.println("HAllO3");
 		result = 1;
 		//BMP Header
 		myFile.read(&buf, sizeof(BMP_Header));
@@ -52,6 +50,7 @@ void draw_Pictures(char *file, int16_t x, int16_t y, MI0283QT9 screen)
 				{
 					result = 4;
 					screen.setArea(x, y, x + width - 1, y + height - 1);
+					Serial.println("BAllO");
 					for (h = (y + height - 1); h >= y; h--) //for every line
 					{
 						for (w = x; w < (x + width); w++) //for every pixel in line
@@ -75,3 +74,5 @@ void draw_Pictures(char *file, int16_t x, int16_t y, MI0283QT9 screen)
 		myFile.close();
 	}
 }
+
+
