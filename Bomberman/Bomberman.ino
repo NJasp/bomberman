@@ -25,19 +25,18 @@ uint8_t tTimer = 0;
 volatile uint8_t isSendingIR = 0;
 volatile uint16_t IRdata;
 uint16_t interruptCounter = 0;				//used to count seconds in the interrupt
-uint16_t touchx = 0, touchy = 0;
 uint8_t livebombs = 0;
 uint8_t hit = 0;
-uint8_t menucounter = 0;
 uint8_t stage = 1;
+uint8_t level = 1;
+data_store player2_data;
 
 uint8_t bombradius = 5;
 uint8_t player1_x_speed = 0, player1_y_speed = 0; //Higher is slower
-data_store player2_data;
 uint8_t max_bombs = 5;
 uint8_t score = 0;
 uint8_t lives = 1;
-uint8_t level = 1;
+
 
 void init_Timer();
 
@@ -54,7 +53,7 @@ int main() {
 	for (;;) {	// MAIN LOOP	
 		if (stage == 1)
 		{
-			menu();
+			menu(lcd, &stage, &level);
 		}
 		if (stage == 2) {
 			init_Player(player1_x, player1_y, lcd);
@@ -141,54 +140,4 @@ ISR(TIMER2_COMPA_vect) {// timer for receiving/sending
 
 ISR(INT0_vect) { // receive interrupt
 	processRecieve_IR(nTimer, &IRdata);
-}
-
-void menu()
-{
-	for (;;)
-	{
-		touchx = lcd.touchX();
-		touchy = lcd.touchY();
-		if (menucounter == 0 && lcd.touchRead()) {
-			menuScherm(lcd);
-			menucounter++;
-		}
-		if (menucounter == 1 && lcd.touchRead()) {
-			if (touchx >= 80 && touchx <= 240 && touchy >= 40 && touchy <= 90) {
-				levelSelect(lcd);
-				menucounter++;
-			}
-			else if (touchx >= 65 && touchx <= 270 && touchy >= 160 && touchy <= 210)
-			{
-				options(lcd);
-				menucounter++;
-			}
-		}
-		if (menucounter == 2 && lcd.touchRead()) {
-			if (touchx >= 20 && touchx <= 120 && touchy >= 60 && touchy <= 90) {
-				stage = 2;
-				lcd.fillScreen(Background);
-				level = 1;
-				break;
-			}
-			if (touchx >= 20 && touchx <= 120 && touchy >= 120 && touchy <= 150) {
-				stage = 2;
-				lcd.fillScreen(Background);
-				level = 2;
-				break;
-			}
-			if (touchx >= 20 && touchx <= 120 && touchy >= 180 && touchy <= 210) {
-				stage = 2;
-				lcd.fillScreen(Background);
-				level = 3;
-				break;
-			}
-			if (touchx >= 180 && touchx <= 250 && touchy >= 200 && touchy <= 230) {
-				stage = 1;
-				lcd.fillScreen(Background);
-				menucounter = 0;
-				menu();
-			}
-		}
-	}
 }
