@@ -26,6 +26,7 @@ void options(MI0283QT9 lcd)
 {
 	lcd.fillScreen(RGB(255, 255, 255));
 	lcd.drawText(55, 20, "Options", (RGB(0, 0, 0)), (RGB(255, 255, 255)), 3);
+	backToMenu(lcd);
 }
 
 void menuScherm(MI0283QT9 lcd)
@@ -77,4 +78,59 @@ void backToMenu(MI0283QT9 lcd)
 {
 	lcd.fillRect(180, 200, 100, 30, (RGB(0, 0, 0)));
 	lcd.drawText(188, 205, "Menu", (RGB(255, 255, 255)), (RGB(0, 0, 0)), 2);
+}
+
+void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level)
+{
+	uint8_t menucounter = 0;
+	for (;;)
+	{
+		uint16_t touchx = 0, touchy = 0;
+		touchx = lcd.touchX();
+		touchy = lcd.touchY();
+
+		if (menucounter == 0 && lcd.touchRead()) {
+			menuScherm(lcd);
+			menucounter = 1;
+		}
+		if (menucounter == 1 && lcd.touchRead()) {
+			if (touchx >= 80 && touchx <= 240 && touchy >= 40 && touchy <= 90) {
+				levelSelect(lcd);
+				menucounter = 2;
+			}
+			else if (touchx >= 65 && touchx <= 270 && touchy >= 160 && touchy <= 210)
+			{
+				options(lcd);
+				menucounter = 3;
+			}
+		}
+		if (menucounter == 2 && lcd.touchRead()) {
+			if (touchx >= 20 && touchx <= 120 && touchy >= 60 && touchy <= 90) {
+				(*stage) = 2;
+				lcd.fillScreen(Background);
+				(*level) = 1;
+				break;
+			}
+			if (touchx >= 20 && touchx <= 120 && touchy >= 120 && touchy <= 150) {
+				(*stage) = 2;
+				lcd.fillScreen(Background);
+				(*level) = 2;
+				break;
+			}
+			if (touchx >= 20 && touchx <= 120 && touchy >= 180 && touchy <= 210) {
+				(*stage) = 2;
+				lcd.fillScreen(Background);
+				(*level) = 3;
+				break;
+			}
+			if (touchx >= 180 && touchx <= 250 && touchy >= 200 && touchy <= 230) {
+				menucounter = 0;
+			}
+		}
+		if (menucounter == 3 && lcd.touchRead()) {
+			if (touchx >= 180 && touchx <= 250 && touchy >= 200 && touchy <= 230) {
+				menucounter = 0;
+			}
+		}
+	}
 }
