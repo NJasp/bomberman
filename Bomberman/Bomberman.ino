@@ -4,17 +4,11 @@
 #include "Libraries/DebugTools/DebugTools.h"
 #include "Libraries/Player/Player.h"
 #include "Libraries/Bomb/Bomb.h"
-#include "Libraries/MSD_shield/mSD_shield.h"
 #include "Libraries/IR/IR.h"
 #include "Libraries/Menu/Menu.h"
 #include "Libraries/Hit/checkHit.h"
 
 MI0283QT9 lcd;					//LCD variabele
-char *wall_Type = "wall3.bmp";
-char *crate_Type = "crate3.bmp";
-char *player1 = "player1.bmp";
-char *bom = "bomGREY.bmp";
-char *explosion = "ex.bmp";
 uint8_t joy_x_axis, joy_y_axis;	//Nunchuck Data
 static uint8_t nunchuck_buf[6];	//Nunchuck Buffer
 uint8_t grid[16][12];		//Griddata
@@ -27,15 +21,14 @@ uint8_t player1_x_old = 0, player1_y_old = 0;		//Old locations of the player;
 uint8_t player1_x_bombdrop = 0, player1_y_bombdrop = 0;		//Location of the dropped bomb;
 uint8_t antiholdCounter = 0;				// 1 when the player holds the 'Z' button, so the game doesn't place too many bombs
 uint32_t nTimer = 0;
+uint8_t tTimer = 0;
+volatile uint8_t isSendingIR = 0;
 uint16_t IRdata;
 uint16_t interruptCounter = 0;				//used to count seconds in the interrupt
 uint16_t touchx = 0, touchy = 0;
 uint8_t livebombs = 0;
-uint16_t IRdata;
-uint32_t nTimer = 0;
 uint8_t hit = 0;
 uint8_t menucounter = 0;
-uint8_t debug = 0;
 uint8_t stage = 1;
 
 uint8_t bombradius = 5;
@@ -45,57 +38,51 @@ uint8_t max_bombs = 5;
 uint8_t score = 0;
 uint8_t lives = 1;
 uint8_t level = 1;
-uint8_t begin = 0;
 
 void init_Timer();
 
 int main() {
 	init();
 	Serial.begin(9600);
-	Serial.println("test of ik hier kom");
 	init_Timer();
 	init_IR();
 	init_Nunchuck();
-	if (!debug) {
-		init_SDcart(lcd);
-	}
+	init_LCD(lcd);
 	if (stage == 1) {
 		lcd.touchStartCal();
 		startScherm(lcd);
 	}
 	for (;;) {	// MAIN LOOP	
-				/*if (stage == 1) {
-				touchx = lcd.touchX();
-				touchy = lcd.touchY();
-				if (menucounter == 0 && lcd.touchRead()) {
+		if (stage == 1) {
+			touchx = lcd.touchX();
+			touchy = lcd.touchY();
+			if (menucounter == 0 && lcd.touchRead()) {
 				menuScherm(lcd);
 				menucounter++;
-				}
-				if (menucounter == 1 && lcd.touchRead()) {
+			}
+			if (menucounter == 1 && lcd.touchRead()) {
 				if (touchx >= 80 && touchx <= 240 && touchy >= 40 && touchy <= 90) {
-				levelSelect(lcd);
-				menucounter++;
+					levelSelect(lcd);
+					menucounter++;
 				}
 				else if (touchx >= 65 && touchx <= 270 && touchy >= 160 && touchy <= 210)
 				{
-				options(lcd);
-				menucounter++;
+					options(lcd);
+					menucounter++;
 				}
-				}
-				if (menucounter == 2 && lcd.touchRead()) {
+			}
+			if (menucounter == 2 && lcd.touchRead()) {
 				if (touchx >= 20 && touchx <= 120 && touchy >= 60 && touchy <= 90) {
-				lcd.fillScreen(Background);
-				level = 0;
-				stage++;
+					lcd.fillScreen(Background);
+					level = 0;
+					stage++;
 				}
-				}
-				}*/
+			}
+		}
 		if (stage == 2) {
-			init_Player(player1_x, player1_y, lcd, player1);
+			init_Player(player1_x, player1_y, lcd);
 			init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old);
-			draw_Walls_Crates(lcd, grid, wall_Type, crate_Type, debug);
-			draw_Pictures(explosion, (player1_x), (player1_y), lcd);
-
+			draw_Walls_Crates(lcd, grid);
 			for (;;) {
 				read_Nunchuck(nunchuck_buf, &joy_x_axis, &joy_y_axis);
 				calculate_Movement(&player1_x, &player1_y, joy_x_axis, joy_y_axis, &player1_xCounter, &player1_yCounter, player1_x_speed, player1_y_speed, grid);
@@ -120,10 +107,10 @@ int main() {
 				}
 
 				check_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, max_bombs, &livebombs, &antiholdCounter, nunchuck_buf, grid);
-				draw_Player(player1_x, player1_y, &player1_x_old, &player1_y_old, lcd, player1, debug);
+				draw_Player(player1_x, player1_y, &player1_x_old, &player1_y_old, lcd);
 				//lcd.fillCircle(player2_data.xData, player2_data.yData, 10, RGB(0, 0, 255));
-				draw_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, lcd, bom, debug);
-				draw_Explosion(lcd, bombradius, grid, &livebombs, &score, explosion, &hit, player1_x, player1_y, debug);
+				draw_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, lcd);
+				draw_Explosion(lcd, bombradius, grid, &livebombs, &score, &hit, player1_x, player1_y);
 				clear_Explosion(lcd, bombradius, grid);
 				updateLives(&hit, &lives, lcd, score);
 
@@ -161,34 +148,20 @@ void init_Timer() {
 	sei();
 }
 
-ISR(TIMER2_COMPA_vect){// timer for receiving/sending
+ISR(TIMER2_COMPA_vect) {// timer for receiving/sending
 
 	tTimer++;
-	if(tTimer == 10){
+	if (tTimer == 10) {
 		nTimer++;
 		// send function
-		if(isSendingIR) {
+		if (isSendingIR) {
 			processSend_IR(nTimer, &isSendingIR);
 		}
 		tTimer = 0;
 	}
 
-ISR(TIMER2_COMPA_vect) { // timer for receiving/sending
-	nTimer++;
-
-	// ms timer
-	/*	timer++;
-	if(timer == 179){
-	clock++;
-	timer = 0;
-	}*/
-
-	// send function
-//	if (isSending_IR()) {
-//		processSend_IR(nTimer);
-//	}
 }
 
-ISR(INT0_vect){ // receive interrupt
+ISR(INT0_vect) { // receive interrupt
 	processRecieve_IR(nTimer, &IRdata);
 }
