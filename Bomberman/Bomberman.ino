@@ -149,11 +149,11 @@ void menu()
 	{
 		touchx = lcd.touchX();
 		touchy = lcd.touchY();
-		if (menucounter == 0 && lcd.touchRead()) {
+		if (menucounter == 0 && lcd.touchRead()) { //startscherm
 			menuScherm(lcd);
 			menucounter++;
 		}
-		if (menucounter == 1 && lcd.touchRead()) {
+		if (menucounter == 1 && lcd.touchRead()) { // menu of options
 			if (touchx >= 80 && touchx <= 240 && touchy >= 40 && touchy <= 90) {
 				levelSelect(lcd);
 				menucounter++;
@@ -161,7 +161,7 @@ void menu()
 			else if (touchx >= 65 && touchx <= 270 && touchy >= 160 && touchy <= 210)
 			{
 				options(lcd);
-				menucounter++;
+				menucounter = 3; // to menu
 			}
 		}
 		if (menucounter == 2 && lcd.touchRead()) {
@@ -183,11 +183,9 @@ void menu()
 				level = 3;
 				break;
 			}
-			if (touchx >= 180 && touchx <= 250 && touchy >= 200 && touchy <= 230) {
+			if (touchx >= 180 && touchx <= 250 && touchy >= 200 && touchy <= 230) { // back to menu button
 				stage = 1;
-				lcd.fillScreen(Background);
 				menucounter = 0;
-				menu();
 			}
 		}
 	}
