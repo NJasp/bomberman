@@ -5,7 +5,7 @@ void startScherm(MI0283QT9 lcd)
 {
 	lcd.fillScreen(RGB(255, 255, 255));
 	lcd.drawText(55, 20, "Bomberman", (RGB(0, 0, 0)), (RGB(255, 255, 255)), 3);
-	lcd.drawText(28, 80, "Touch anywhere to start ...", RGB(0,0,0), RGB(255,255,255), 2);
+	lcd.drawText(30, 80, "Touch to continue", RGB(0,0,0), RGB(255,255,255), 2);
 }
 
 void menuLevelSelect(MI0283QT9 lcd)
@@ -43,11 +43,12 @@ void levelSelect(MI0283QT9 lcd)
 	level2(lcd);
 	level3(lcd);
 	levelRandom(lcd);
+	backToMenu(lcd);
 }
 
 void level1(MI0283QT9 lcd)
 {
-	lcd.fillRect(20, 60, 120, 30, (RGB(255, 0, 0)));
+	lcd.fillRect(20, 60, 120, 30, (RGB(0, 0, 0)));
 	lcd.drawText(28, 65, "Level 1", (RGB(255, 255, 255)), (RGB(0, 0, 0)), 2);
 }
 
@@ -65,7 +66,6 @@ void level3(MI0283QT9 lcd)
 
 void levelRandom(MI0283QT9 lcd)
 {
-	lcd.drawRect(180, 60, 120, 100, (RGB(0, 0, 0)));
 	lcd.fillRect(180, 60, 120, 100, (RGB(0, 0, 0)));
 	lcd.drawText(188, 65, "Random", (RGB(255, 255, 255)), (RGB(0, 0, 0)), 2);
 	lcd.drawText(188, 90, "Gene-", (RGB(255, 255, 255)), (RGB(0, 0, 0)), 2);
@@ -73,3 +73,8 @@ void levelRandom(MI0283QT9 lcd)
 	lcd.drawText(188, 130, "Level", (RGB(255, 255, 255)), (RGB(0, 0, 0)), 2);
 }
 
+void backToMenu(MI0283QT9 lcd)
+{
+	lcd.fillRect(180, 200, 100, 30, (RGB(0, 0, 0)));
+	lcd.drawText(188, 205, "Menu", (RGB(255, 255, 255)), (RGB(0, 0, 0)), 2);
+}
