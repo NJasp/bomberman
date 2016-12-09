@@ -23,7 +23,7 @@ uint8_t antiholdCounter = 0;				// 1 when the player holds the 'Z' button, so th
 uint32_t nTimer = 0;
 uint8_t tTimer = 0;
 volatile uint8_t isSendingIR = 0;
-uint16_t IRdata;
+volatile uint16_t IRdata;
 uint16_t interruptCounter = 0;				//used to count seconds in the interrupt
 uint16_t touchx = 0, touchy = 0;
 uint8_t livebombs = 0;
