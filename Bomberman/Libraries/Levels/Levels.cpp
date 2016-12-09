@@ -1,5 +1,4 @@
 #include "Levels.h"
-#include "../MSD_shield/mSD_shield.h"
 
 void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t* player1_y, uint8_t* player1_x_old, uint8_t* player1_y_old)
 {
@@ -643,28 +642,18 @@ void init_OutsideWalls(uint8_t grid[16][12])
 	}
 }
 
-void draw_Walls_Crates(MI0283QT9 screen, uint8_t grid[16][12],char *wall_Type, char *crate_Type, uint8_t debug)
+void draw_Walls_Crates(MI0283QT9 screen, uint8_t grid[16][12])
 {
 	uint8_t row, collumn;
 	//	draw stuff in grid
 	for (row = 0; row < 12; row++) {
 		for (collumn = 0; collumn < 16; collumn++) {
 			if (grid[collumn][row] == 1) {
-				if (debug) {
 					screen.fillRect(collumn * 20, row * 20, 20, 20, RGB(0, 0, 0));
-				}
-				else {
-					draw_Pictures(wall_Type, collumn * 20, row * 20, screen);
-				}
 			}
 			else {
 				if (grid[collumn][row] == 2) {
-					if (debug) {
 						screen.fillRect(collumn * 20, row * 20, 20, 20, RGB(222, 184, 135));
-					}
-					else {
-						draw_Pictures(crate_Type, collumn * 20, row * 20, screen);
-					}
 				}
 			}
 		}
