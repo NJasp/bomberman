@@ -27,12 +27,12 @@ uint8_t player1_x_old = 0, player1_y_old = 0;		//Old locations of the player;
 uint8_t player1_x_bombdrop = 0, player1_y_bombdrop = 0;		//Location of the dropped bomb;
 uint8_t antiholdCounter = 0;				// 1 when the player holds the 'Z' button, so the game doesn't place too many bombs
 uint32_t nTimer = 0;
+uint8_t tTimer = 0;
+volatile uint8_t isSendingIR = 0;
 uint16_t IRdata;
 uint16_t interruptCounter = 0;				//used to count seconds in the interrupt
 uint16_t touchx = 0, touchy = 0;
 uint8_t livebombs = 0;
-uint16_t IRdata;
-uint32_t nTimer = 0;
 uint8_t hit = 0;
 uint8_t menucounter = 0;
 uint8_t debug = 0;
@@ -173,20 +173,6 @@ ISR(TIMER2_COMPA_vect){// timer for receiving/sending
 		tTimer = 0;
 	}
 
-ISR(TIMER2_COMPA_vect) { // timer for receiving/sending
-	nTimer++;
-
-	// ms timer
-	/*	timer++;
-	if(timer == 179){
-	clock++;
-	timer = 0;
-	}*/
-
-	// send function
-//	if (isSending_IR()) {
-//		processSend_IR(nTimer);
-//	}
 }
 
 ISR(INT0_vect){ // receive interrupt
