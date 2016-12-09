@@ -54,12 +54,12 @@ int main() {
 		if (stage == 1)
 		{
 			menu(lcd, &stage, &level);
-		}
-		if (stage == 2) {
 			init_Player(player1_x, player1_y, lcd);
 			init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old);
 			draw_Walls_Crates(lcd, grid);
-			for (;;) {
+		}
+		if (stage == 2) {
+			
 				read_Nunchuck(nunchuck_buf, &joy_x_axis, &joy_y_axis);
 				calculate_Movement(&player1_x, &player1_y, joy_x_axis, joy_y_axis, &player1_xCounter, &player1_yCounter, player1_x_speed, player1_y_speed, grid);
 				//updateLives(&hit, &lives, &livesCheck, lcd, score, &hitCounter);
@@ -88,7 +88,7 @@ int main() {
 				draw_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, lcd);
 				draw_Explosion(lcd, bombradius, grid, &livebombs, &score, &hit, player1_x, player1_y);
 				clear_Explosion(lcd, bombradius, grid);
-				updateLives(&hit, &lives, lcd, score);
+				updateLives(&hit, &lives, lcd, &score, &stage);
 
 				// Bomb update | IR send interval
 				if (interruptCounter >= 100 /*3906*/) {
@@ -105,7 +105,7 @@ int main() {
 				else {
 					interruptCounter++;
 				}
-			}
+			
 		}
 	}
 	return 0;
