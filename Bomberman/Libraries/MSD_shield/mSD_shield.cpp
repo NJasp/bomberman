@@ -1,5 +1,5 @@
 //werkende code msd_shield.cpp
-
+/*
 #include "mSD_shield.h"
 SdFat SD;
 
@@ -75,5 +75,6 @@ void draw_Pictures(char *file, int16_t x, int16_t y, MI0283QT9 screen)
 		myFile.close();
 	}
 }
+*/
 
 
