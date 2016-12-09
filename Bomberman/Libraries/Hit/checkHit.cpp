@@ -5,14 +5,17 @@ void checkPlayerHit(uint8_t player1_x, uint8_t player1_y, uint8_t *hit, uint8_t 
 	}
 }
 
-void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t score) {
+void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t* score, uint8_t* stage) {
 	if (!(*lives)) {
-		Serial.println("player is dead");
+		//Serial.println("player is dead");
 		lcd.fillScreen(RGB(0, 0, 0));
 		lcd.drawText(50, 60, "Game over", RGB(255, 255, 255), RGB(0, 0, 0), 3);
 		lcd.drawText(70, 100, "Score player 1: ", RGB(255, 255, 255), RGB(0, 0, 0), 1);
-		lcd.drawInteger(200, 100, score, 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
-		while (1);
+		lcd.drawInteger(200, 100, (*score), 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
+		(*score) = 0;
+		(*lives) = 1;
+		(*stage) = 1;
+		lcd.drawText(30, 200, "Touch to continue", RGB(255, 255, 255), RGB(0, 0, 0), 2);
 	}
 	if ((*hit) && (*lives)) {
 		//Serial.println("level--");
