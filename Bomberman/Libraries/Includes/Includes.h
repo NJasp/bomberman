@@ -12,6 +12,7 @@
 #include "Wire.h"
 #include "SPI.h"
 #include <BMPheader.h>
-#include <SD.h>
+#include "SdFat.h"
+//#include <SD.h>
 
 #endif

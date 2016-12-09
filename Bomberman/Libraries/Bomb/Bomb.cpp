@@ -10,8 +10,8 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 		for (collumn = 0; collumn < 16; collumn++) {
 			if (grid[collumn][row] == 3) {
 				grid[collumn][row] = 9;
-				//screen.fillRect(((collumn * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
-				draw_Pictures(explosion, (collumn * 20), (row * 20), screen);
+				screen.fillRect(((collumn * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
+				//draw_Pictures(explosion, (collumn * 20), (row * 20), screen);
 				//screen.drawText(5, 5, "Levens player 1: ", RGB(255, 255, 255), RGB(0, 0, 0), 1);
 				//screen.drawInteger(135, 5, (*lives), 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
 				icollumn = collumn;
@@ -24,7 +24,8 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 							screen.fillRect((((collumn + 1) * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
 						}
 						else {
-							draw_Pictures(explosion, ((collumn + 1) * 20), (row * 20), screen);
+							//draw_Pictures(explosion, ((collumn + 1) * 20), (row * 20), screen);
+							screen.fillRect((((collumn + 1) * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
 						}
 						//test
 					}
@@ -34,7 +35,8 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 							screen.fillRect((((collumn + 1) * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
 						}
 						else {
-							draw_Pictures(explosion, ((collumn + 1) * 20), (row * 20), screen);
+							//draw_Pictures(explosion, ((collumn + 1) * 20), (row * 20), screen);
+							screen.fillRect((((collumn + 1) * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
 						}
 						(*score)++;
 						break;
@@ -51,7 +53,8 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 							screen.fillRect((((collumn - 1) * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
 						}
 						else {
-							draw_Pictures(explosion, ((collumn - 1) * 20), (row * 20), screen);
+							//draw_Pictures(explosion, ((collumn - 1) * 20), (row * 20), screen);
+							screen.fillRect((((collumn - 1) * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
 						}
 					}
 					else if (grid[collumn - 1][row] == 2) {
@@ -60,7 +63,8 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 							screen.fillRect((((collumn - 1) * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
 						}
 						else {
-							draw_Pictures(explosion, ((collumn - 1) * 20), (row * 20), screen);
+							//draw_Pictures(explosion, ((collumn - 1) * 20), (row * 20), screen);
+							screen.fillRect((((collumn - 1) * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
 						}
 						(*score)++;
 						break;
@@ -79,7 +83,8 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 							screen.fillRect(((collumn * 20) + 4), (((row + 1) * 20) + 4), 14, 14, RGB(255, 127, 0));
 						}
 						else {
-							draw_Pictures(explosion, (collumn * 20), ((row + 1) * 20), screen);
+							//draw_Pictures(explosion, (collumn * 20), ((row + 1) * 20), screen);
+							screen.fillRect(((collumn * 20) + 4), (((row + 1) * 20) + 4), 14, 14, RGB(255, 127, 0));
 						}
 					}
 					else if (grid[collumn][row + 1] == 2) {
@@ -88,7 +93,8 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 							screen.fillRect(((collumn * 20) + 4), (((row + 1) * 20) + 4), 14, 14, RGB(255, 127, 0));
 						}
 						else {
-							draw_Pictures(explosion, (collumn * 20), ((row + 1) * 20), screen);
+							//draw_Pictures(explosion, (collumn * 20), ((row + 1) * 20), screen);
+							screen.fillRect(((collumn * 20) + 4), (((row + 1) * 20) + 4), 14, 14, RGB(255, 127, 0));
 						}
 						(*score)++;
 						break;
@@ -105,7 +111,8 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 							screen.fillRect(((collumn * 20) + 4), (((row - 1) * 20) + 4), 14, 14, RGB(255, 127, 0));
 						}
 						else {
-							draw_Pictures(explosion, (collumn * 20), ((row - 1) * 20), screen);
+							//draw_Pictures(explosion, (collumn * 20), ((row - 1) * 20), screen);
+							screen.fillRect(((collumn * 20) + 4), (((row - 1) * 20) + 4), 14, 14, RGB(255, 127, 0));
 						}
 					}
 					else if (grid[collumn][row - 1] == 2) {
@@ -114,7 +121,8 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 							screen.fillRect(((collumn * 20) + 4), (((row - 1) * 20) + 4), 14, 14, RGB(255, 127, 0));
 						}
 						else {
-							draw_Pictures(explosion, (collumn * 20), ((row - 1) * 20), screen);
+							//draw_Pictures(explosion, (collumn * 20), ((row - 1) * 20), screen);
+							screen.fillRect(((collumn * 20) + 4), (((row - 1) * 20) + 4), 14, 14, RGB(255, 127, 0));
 						}
 						(*score)++;
 						break;
@@ -165,7 +173,8 @@ void draw_Bomb(uint8_t collumn, uint8_t row, uint8_t* collumn_bombdrop, uint8_t*
 			screen.fillRect((((*collumn_bombdrop) * 20) + 4), (((*row_bombdrop) * 20) + 4), 14, 14, RGB(180, 0, 0));
 		}
 		else {
-			draw_Pictures(bom, ((*collumn_bombdrop) * 20), ((*row_bombdrop) * 20), screen);
+			//draw_Pictures(bom, ((*collumn_bombdrop) * 20), ((*row_bombdrop) * 20), screen);
+			screen.fillRect((((*collumn_bombdrop) * 20) + 4), (((*row_bombdrop) * 20) + 4), 14, 14, RGB(180, 0, 0));
 		}
 		(*collumn_bombdrop) = 0;
 		(*row_bombdrop) = 0;

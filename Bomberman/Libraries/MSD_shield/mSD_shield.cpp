@@ -1,13 +1,12 @@
+//werkende code msd_shield.cpp
+
 #include "mSD_shield.h"
+SdFat SD;
 
-void init_SDcart(MI0283QT9 screen)
-{
-	int x;
+void init_SDcart(MI0283QT9 screen) {
 
-	x = screen.drawText(5, 5, "Init SD-Card...", RGB(0, 0, 0), Background, 1);
 	if (!SD.begin(4)) //cs-pin=4
 	{
-		screen.drawText(x, 5, "failed", RGB(0, 0, 0), Background, 1);
 		while (1);
 	}
 }
@@ -15,7 +14,7 @@ void init_SDcart(MI0283QT9 screen)
 void draw_Pictures(char *file, int16_t x, int16_t y, MI0283QT9 screen)
 {
 	int i;
-		
+
 	File myFile;
 	uint8_t buf[40]; //read buf (min. size = sizeof(BMP_DIPHeader))
 	BMP_Header *bmp_hd;
@@ -25,19 +24,21 @@ void draw_Pictures(char *file, int16_t x, int16_t y, MI0283QT9 screen)
 
 	//open file
 	myFile = SD.open(file);
-	Serial.println("HAllO2");
+	Serial.println("AAllO2");
 	if (myFile)
 	{
-		Serial.println("HAllO3");
+		Serial.println("BAllO3");
 		result = 1;
 		//BMP Header
 		myFile.read(&buf, sizeof(BMP_Header));
 		bmp_hd = (BMP_Header*)&buf[0];
 		if ((bmp_hd->magic[0] == 'B') && (bmp_hd->magic[1] == 'M') && (bmp_hd->offset == 54))
 		{
+			Serial.println("CAllO3");
 			result = 2;
 			//BMP DIP-Header
 			myFile.read(&buf, sizeof(BMP_DIPHeader));
+			Serial.println("DAllO3");
 			bmp_dip = (BMP_DIPHeader*)&buf[0];
 			if ((bmp_dip->size == sizeof(BMP_DIPHeader)) && (bmp_dip->bitspp == 24) && (bmp_dip->compress == 0))
 			{
@@ -50,7 +51,7 @@ void draw_Pictures(char *file, int16_t x, int16_t y, MI0283QT9 screen)
 				{
 					result = 4;
 					screen.setArea(x, y, x + width - 1, y + height - 1);
-					Serial.println("BAllO");
+					Serial.println("CAllO");
 					for (h = (y + height - 1); h >= y; h--) //for every line
 					{
 						for (w = x; w < (x + width); w++) //for every pixel in line

@@ -3,8 +3,8 @@
 
 void init_Player(uint8_t player1_x, uint8_t player1_y, MI0283QT9 screen, char* player1)
 {
-	//screen.fillRect(player1_x * 20, player1_y * 20, 20, 20, Background);
-	draw_Pictures(player1, player1_x * 20, player1_y * 20, screen);
+	screen.fillRect(player1_x * 20, player1_y * 20, 20, 20, RGB(255,0,0));
+	//draw_Pictures(player1, player1_x * 20, player1_y * 20, screen);
 }
 
 void draw_Player(uint8_t player1_x, uint8_t player1_y, uint8_t* player1_x_old, uint8_t* player1_y_old, MI0283QT9 screen, char* player1, uint8_t debug)
@@ -16,6 +16,7 @@ void draw_Player(uint8_t player1_x, uint8_t player1_y, uint8_t* player1_x_old, u
 		}
 		else {
 			draw_Pictures(player1, player1_x * 20, player1_y * 20, screen);
+			//screen.fillRect(player1_x * 20, player1_y * 20, 20, 20, RGB(0, 255, 0));
 		}
 		(*player1_x_old) = player1_x;
 		(*player1_y_old) = player1_y;
