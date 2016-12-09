@@ -1,6 +1,5 @@
 #include "Bomb.h"
 #include "string.h"
-#include "../MSD_shield/mSD_shield.h"
 #include "../Hit/checkHit.h"
 
 void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], uint8_t* livebombs, uint8_t* score, uint8_t* hit, uint8_t player1_x, uint8_t player1_y)
