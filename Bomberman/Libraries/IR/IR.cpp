@@ -101,7 +101,7 @@ uint16_t encode_IR(uint8_t type, uint8_t xData, uint8_t yData){
 	return encoded;
 }
 
-void processRecieve_IR(uint32_t currentTime, uint16_t *data) {
+void processRecieve_IR(uint32_t currentTime, volatile uint16_t *data) {
 	if(currentTime >= lastTime)
 		timeDelta = currentTime - lastTime;
 	else // failsafe for timer overflow, if it ever happens
@@ -131,7 +131,7 @@ void processRecieve_IR(uint32_t currentTime, uint16_t *data) {
 
 }
 
-void processSend_IR(uint32_t currentTime, uint8_t *isSending) {
+void processSend_IR(uint32_t currentTime, volatile uint8_t *isSending) {
 	if(sendSpace) {  // send space | do nothing one cycle while IR is off
 		if(spaceCounter == SPACE_DELAY){
 			sendSpace = 0;
@@ -174,7 +174,7 @@ void processSend_IR(uint32_t currentTime, uint8_t *isSending) {
 
 }
 // TODO: add receive/send buffer somehow
-void send_IR(uint8_t *isSending, uint8_t type, uint8_t xData, uint8_t yData) {
+void send_IR(volatile uint8_t *isSending, uint8_t type, uint8_t xData, uint8_t yData) {
 	msgData = encode_IR(type, xData, yData);
 	*isSending = 1;
 }
