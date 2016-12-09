@@ -48,36 +48,13 @@ int main() {
 	init_IR();
 	init_Nunchuck();
 	init_LCD(lcd);
-	if (stage == 1) {
-		lcd.touchStartCal();
-		startScherm(lcd);
-	}
+	lcd.touchStartCal();
+	startScherm(lcd);
+
 	for (;;) {	// MAIN LOOP	
-		if (stage == 1) {
-			touchx = lcd.touchX();
-			touchy = lcd.touchY();
-			if (menucounter == 0 && lcd.touchRead()) {
-				menuScherm(lcd);
-				menucounter++;
-			}
-			if (menucounter == 1 && lcd.touchRead()) {
-				if (touchx >= 80 && touchx <= 240 && touchy >= 40 && touchy <= 90) {
-					levelSelect(lcd);
-					menucounter++;
-				}
-				else if (touchx >= 65 && touchx <= 270 && touchy >= 160 && touchy <= 210)
-				{
-					options(lcd);
-					menucounter++;
-				}
-			}
-			if (menucounter == 2 && lcd.touchRead()) {
-				if (touchx >= 20 && touchx <= 120 && touchy >= 60 && touchy <= 90) {
-					lcd.fillScreen(Background);
-					level = 0;
-					stage++;
-				}
-			}
+		if (stage == 1)
+		{
+			menu();
 		}
 		if (stage == 2) {
 			init_Player(player1_x, player1_y, lcd);
@@ -164,4 +141,54 @@ ISR(TIMER2_COMPA_vect) {// timer for receiving/sending
 
 ISR(INT0_vect) { // receive interrupt
 	processRecieve_IR(nTimer, &IRdata);
+}
+
+void menu()
+{
+	for (;;)
+	{
+		touchx = lcd.touchX();
+		touchy = lcd.touchY();
+		if (menucounter == 0 && lcd.touchRead()) {
+			menuScherm(lcd);
+			menucounter++;
+		}
+		if (menucounter == 1 && lcd.touchRead()) {
+			if (touchx >= 80 && touchx <= 240 && touchy >= 40 && touchy <= 90) {
+				levelSelect(lcd);
+				menucounter++;
+			}
+			else if (touchx >= 65 && touchx <= 270 && touchy >= 160 && touchy <= 210)
+			{
+				options(lcd);
+				menucounter++;
+			}
+		}
+		if (menucounter == 2 && lcd.touchRead()) {
+			if (touchx >= 20 && touchx <= 120 && touchy >= 60 && touchy <= 90) {
+				stage = 2;
+				lcd.fillScreen(Background);
+				level = 1;
+				break;
+			}
+			if (touchx >= 20 && touchx <= 120 && touchy >= 120 && touchy <= 150) {
+				stage = 2;
+				lcd.fillScreen(Background);
+				level = 2;
+				break;
+			}
+			if (touchx >= 20 && touchx <= 120 && touchy >= 180 && touchy <= 210) {
+				stage = 2;
+				lcd.fillScreen(Background);
+				level = 3;
+				break;
+			}
+			if (touchx >= 180 && touchx <= 250 && touchy >= 200 && touchy <= 230) {
+				stage = 1;
+				lcd.fillScreen(Background);
+				menucounter = 0;
+				menu();
+			}
+		}
+	}
 }
