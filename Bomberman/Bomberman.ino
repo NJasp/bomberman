@@ -20,12 +20,13 @@ uint8_t player2_x = 1, player2_y = 1, player2_x_old = 1, player2_y_old = 1;
 //uint8_t player2_x = 14, player2_y = 10, player2_x_old = 14, player2_y_old = 10;
 uint8_t player1_xCounter = 0, player1_yCounter = 0;		//Player movement speed
 uint8_t player1_x_old = 0, player1_y_old = 0;		//Old locations of the player;
-uint8_t player1_x_bombdrop = 0, player1_y_bombdrop = 0;		//Location of the dropped bomb;
+uint8_t player1_x_bombdrop = 0, player1_y_bombdrop = 0;		//Location of the dropped bomb p1
+uint8_t player2_x_bombdrop = 0, player2_y_bombdrop = 0;		//Location of the dropped bomb p2
 uint8_t antiholdCounter = 0;				// 1 when the player holds the 'Z' button, so the game doesn't place too many bombs
 uint32_t nTimer = 0;
 uint8_t tTimer = 0;
 volatile uint8_t isSendingIR = 0;
-uint16_t IRdata;
+volatile uint16_t IRdata;
 uint16_t interruptCounter = 0;				//used to count seconds in the interrupt
 uint16_t touchx = 0, touchy = 0;
 uint8_t livebombs = 0;
@@ -72,32 +73,36 @@ int main() {
 				draw_Explosion(lcd, bombradius, grid, &livebombs, &score, &hit, player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop);
 				clear_Explosion(lcd, bombradius, grid, player1_x,player1_y);
 				updateLives(&hit, &lives, lcd, &score, &stage);
-				if (dataReady_IR()) {
+
+				if (dataReady_IR() && IRdata != 0) {
 					player2_data = decode_IR(IRdata);
 
 					// process IR data
 					if (player2_data.type == PLAYER) {
 						player2_x_old = player2_x;
 						player2_y_old = player2_y;
-						player2_x = player2_data.xData;
-						player2_y = player2_data.yData;
+						if(!grid[player2_data.xData][player2_data.yData]) {
+							player2_x = player2_data.xData;
+							player2_y = player2_data.yData;
+						}
 					}
-
-					// TODO: implement other types
+					else if(player2_data.type == BOMB) {
+						player2_x_bombdrop = player2_data.xData;
+						player2_y_bombdrop = player2_data.yData;
+						IRdata = 0;
+					}
 				}
 
 				// draw other player position if new
 				if (player2_x != player2_x_old || player2_y != player2_y_old) {
-					if(!grid[player2_x_old][player2_y_old])
 						lcd.fillRect(player2_x_old * 20, player2_y_old * 20, 20, 20, Background);
-					if(!grid[player2_x][player2_y])
 						lcd.fillRect(player2_x * 20, player2_y * 20, 20, 20, RGB(0, 0, 255));
 				}
 
 				draw_Player(player1_x, player1_y, &player1_x_old, &player1_y_old, lcd);
-				//lcd.fillCircle(player2_data.xData, player2_data.yData, 10, RGB(0, 0, 255));
 				check_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, max_bombs, &livebombs, &antiholdCounter, nunchuck_buf, grid, &isSendingIR);
 				draw_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, lcd, grid);
+				draw_Bomb(player2_x, player2_y, &player2_x_bombdrop, &player2_y_bombdrop, lcd, grid);
 				//checkPlayerHit(player1_x, player1_y, &hit, grid);
 
 				// Bomb update | IR send interval
