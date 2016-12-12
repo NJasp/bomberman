@@ -1,8 +1,9 @@
 #include "Bomb.h"
 #include "string.h"
 #include "../Hit/checkHit.h"
+#include "../Sprites/Sprites.h"
 
-void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], uint8_t* livebombs, uint8_t* score, uint8_t* hit, uint8_t player1_x, uint8_t player1_y)
+void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], uint8_t* livebombs, uint8_t* score, uint8_t* hit, uint8_t player1_x, uint8_t player1_y, uint8_t* collumn_bombdrop, uint8_t* row_bombdrop)
 {
 	uint8_t row, collumn, icollumn, irow;
 	for (row = 0; row < 12; row++) {
@@ -16,12 +17,12 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 					checkPlayerHit(player1_x, player1_y, hit, grid);
 					if ((grid[collumn + 1][row] == 0) || (grid[collumn + 1][row] == 7) || (grid[collumn + 1][row] == 8) || (grid[collumn + 1][row] == 9)) {
 						grid[collumn + 1][row] = 9;
-							screen.fillRect((((collumn + 1) * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
+						screen.fillRect((((collumn + 1) * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
 						//test
 					}
 					else if (grid[collumn + 1][row] == 2) {
 						grid[collumn + 1][row] = 9;
-							screen.fillRect((((collumn + 1) * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
+						screen.fillRect((((collumn + 1) * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
 						(*score)++;
 						break;
 					}
@@ -33,11 +34,11 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 					checkPlayerHit(player1_x, player1_y, hit, grid);
 					if ((grid[collumn - 1][row] == 0) || (grid[collumn - 1][row] == 7) || (grid[collumn - 1][row] == 8) || (grid[collumn - 1][row] == 9)) {
 						grid[collumn - 1][row] = 9;
-							screen.fillRect((((collumn - 1) * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
+						screen.fillRect((((collumn - 1) * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
 					}
 					else if (grid[collumn - 1][row] == 2) {
 						grid[collumn - 1][row] = 9;
-							screen.fillRect((((collumn - 1) * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
+						screen.fillRect((((collumn - 1) * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
 						(*score)++;
 						break;
 					}
@@ -51,11 +52,11 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 					checkPlayerHit(player1_x, player1_y, hit, grid);
 					if ((grid[collumn][row + 1] == 0) || (grid[collumn][row + 1] == 7) || (grid[collumn][row + 1] == 8) || (grid[collumn][row + 1] == 9)) {
 						grid[collumn][row + 1] = 9;
-							screen.fillRect(((collumn * 20) + 4), (((row + 1) * 20) + 4), 14, 14, RGB(255, 127, 0));
+						screen.fillRect(((collumn * 20) + 4), (((row + 1) * 20) + 4), 14, 14, RGB(255, 127, 0));
 					}
 					else if (grid[collumn][row + 1] == 2) {
 						grid[collumn][row + 1] = 9;
-							screen.fillRect(((collumn * 20) + 4), (((row + 1) * 20) + 4), 14, 14, RGB(255, 127, 0));
+						screen.fillRect(((collumn * 20) + 4), (((row + 1) * 20) + 4), 14, 14, RGB(255, 127, 0));
 						(*score)++;
 						break;
 					}
@@ -67,11 +68,11 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 					checkPlayerHit(player1_x, player1_y, hit, grid);
 					if ((grid[collumn][row - 1] == 0) || (grid[collumn][row - 1] == 7) || (grid[collumn][row - 1] == 8) || (grid[collumn][row - 1] == 9)) {
 						grid[collumn][row - 1] = 9;
-							screen.fillRect(((collumn * 20) + 4), (((row - 1) * 20) + 4), 14, 14, RGB(255, 127, 0));
+						screen.fillRect(((collumn * 20) + 4), (((row - 1) * 20) + 4), 14, 14, RGB(255, 127, 0));
 					}
 					else if (grid[collumn][row - 1] == 2) {
 						grid[collumn][row - 1] = 9;
-							screen.fillRect(((collumn * 20) + 4), (((row - 1) * 20) + 4), 14, 14, RGB(255, 127, 0));
+						screen.fillRect(((collumn * 20) + 4), (((row - 1) * 20) + 4), 14, 14, RGB(255, 127, 0));
 						(*score)++;
 						break;
 					}
@@ -81,18 +82,28 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 				}
 				(*livebombs)--;
 			}
+			//checkPlayerHit(player1_x, player1_y, hit, grid);
 		}
+
 	}
 }
 
-void clear_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12])
+void clear_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], uint8_t player1_x, uint8_t player1_y)
 {
 	uint8_t row, collumn, icollumn, irow;
 	for (row = 0; row < 12; row++) {
 		for (collumn = 0; collumn < 16; collumn++) {
 			if (grid[collumn][row] == 7) {
-				grid[collumn][row] = 0;
-				screen.fillRect(collumn * 20, row * 20, 20, 20, Background);
+				if (grid[collumn][row] == 7 && grid[player1_x][player1_y] == 7) {
+					Serial.println("Ik print de player opnieuw");
+					screen.fillRect(collumn * 20, row * 20, 20, 20, Background);
+					draw_PlayerSprite(screen, player1_x, player1_y);
+					grid[collumn][row] = 0;
+				}
+				else {
+					grid[collumn][row] = 0;
+					screen.fillRect(collumn * 20, row * 20, 20, 20, Background);
+				}
 			}
 		}
 	}
@@ -116,12 +127,15 @@ void check_Bomb(uint8_t collumn, uint8_t row, uint8_t* collumn_bombdrop, uint8_t
 	}
 }
 
-void draw_Bomb(uint8_t collumn, uint8_t row, uint8_t* collumn_bombdrop, uint8_t* row_bombdrop, MI0283QT9 screen)
+void draw_Bomb(uint8_t collumn, uint8_t row, uint8_t* collumn_bombdrop, uint8_t* row_bombdrop, MI0283QT9 screen, uint8_t grid[16][12])
 {
 	if ((((*collumn_bombdrop) != 0) && ((*row_bombdrop) != 0)) && ((collumn != (*collumn_bombdrop)) || (row != (*row_bombdrop)))) {
-			screen.fillRect((((*collumn_bombdrop) * 20) + 4), (((*row_bombdrop) * 20) + 4), 14, 14, RGB(180, 0, 0));
-		(*collumn_bombdrop) = 0;
-		(*row_bombdrop) = 0;
+		//screen.fillRect((((*collumn_bombdrop) * 20) + 4), (((*row_bombdrop) * 20) + 4), 14, 14, RGB(180, 0, 0));
+		draw_BombSprite(screen, (*collumn_bombdrop), (*row_bombdrop));
+		if (((collumn == (*collumn_bombdrop)) || (row == (*row_bombdrop)))) {
+			(*collumn_bombdrop) = 0;
+			(*row_bombdrop) = 0;
+		}
+		//}
 	}
 }
-

@@ -14,6 +14,7 @@ void view_Griddata(uint8_t grid[16][12])	//print the grid to serial
 				Serial.println(grid[collumn][row]);
 				i = 0;
 			}
+			Serial.flush();
 
 		}
 	}

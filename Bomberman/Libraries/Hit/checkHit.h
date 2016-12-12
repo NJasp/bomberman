@@ -7,4 +7,3 @@ void checkPlayerHit(uint8_t player1_x, uint8_t player1_y, uint8_t *hit, uint8_t 
 void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t* score, uint8_t* stage);
 
 #endif
-

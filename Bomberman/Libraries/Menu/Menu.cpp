@@ -39,7 +39,7 @@ void startScherm(MI0283QT9 lcd, uint8_t* stage)
 			lcd.fillTriangle(50, 18, 46, 25, 55, 25, RGB(255, 127, 0));
 			lcd.fillTriangle(50, 28, 46, 20, 55, 20, RGB(255, 0, 0));
 			toggle1 = 1;
-		}	
+		}
 		if ((!toggle2) && redraw) {//Elke 10e loop toggle tekst aan en uit (en teken het maar 1 keer)
 			lcd.drawText(25, 200, "Touch to continue", RGB(0, 0, 127), RGB(127, 127, 127), 2);
 			redraw = 0;
