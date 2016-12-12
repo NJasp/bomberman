@@ -45,9 +45,6 @@
     <ClInclude Include="Libraries\IR\IR.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Libraries\MSD_shield\mSD_shield.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Libraries\Hit\checkHit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
