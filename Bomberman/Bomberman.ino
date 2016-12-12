@@ -84,8 +84,7 @@ int main() {
 						}
 					}
 					else if(player2_data.type == BOMB) {
-						player2_x_bombdrop = player2_data.xData;
-						player2_y_bombdrop = player2_data.yData;
+						grid[player2_data.xData][player2_data.yData] = 6;
 						IRdata = 0;
 					}
 				}
@@ -99,7 +98,6 @@ int main() {
 				draw_Player(player1_x, player1_y, &player1_x_old, &player1_y_old, lcd);
 				check_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, max_bombs, &livebombs, &antiholdCounter, nunchuck_buf, grid, &isSendingIR);
 				draw_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, lcd, grid);
-				draw_Bomb(player2_x, player2_y, &player2_x_bombdrop, &player2_y_bombdrop, lcd, grid);
 				//checkPlayerHit(player1_x, player1_y, &hit, grid);
 
 				// Bomb update | IR send interval
