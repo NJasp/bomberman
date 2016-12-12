@@ -32,7 +32,7 @@ uint16_t touchx = 0, touchy = 0;
 uint8_t livebombs = 0;
 uint8_t hit = 0;
 uint8_t menucounter = 0;
-uint8_t stage = 2;
+uint8_t stage = 0;
 
 uint8_t bombradius = 5;
 uint8_t player1_x_speed = 0, player1_y_speed = 0; //Higher is slower
@@ -41,6 +41,7 @@ uint8_t score = 0;
 uint8_t lives = 1;
 uint8_t level = 1;
 data_store player2_data;
+uint8_t menuOff = 0;
 
 void init_Timer();
 
@@ -51,7 +52,10 @@ int main() {
 	init_IR();
 	init_Nunchuck();
 	init_LCD(lcd);
-//	lcd.touchStartCal();
+	if(!menuOff)
+		lcd.touchStartCal();
+	else
+		stage = 2;
 	for (;;) {	// MAIN LOOP	
 		if (stage == 0) {
 			startScherm(lcd, &stage);
@@ -59,14 +63,18 @@ int main() {
 		if (stage == 1)
 		{
 			menu(lcd, &stage, &level);
-//			init_Player(player1_x, player1_y, lcd);
-//			init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old);
-//			draw_Sprites(lcd, grid);
+			if(!menuOff) {
+				init_Player(player1_x, player1_y, lcd);
+				init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old);
+				draw_Sprites(lcd, grid);
+			}
 		}
 		if (stage == 2) {
-			init_Player(player1_x, player1_y, lcd);
-			init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old);
-			draw_Sprites(lcd, grid);
+			if(menuOff) {
+				init_Player(player1_x, player1_y, lcd);
+				init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old);
+				draw_Sprites(lcd, grid);
+			}
 			for (;;) {
 				read_Nunchuck(nunchuck_buf, &joy_x_axis, &joy_y_axis);
 				calculate_Movement(&player1_x, &player1_y, joy_x_axis, joy_y_axis, &player1_xCounter, &player1_yCounter, player1_x_speed, player1_y_speed, grid, &hit);
