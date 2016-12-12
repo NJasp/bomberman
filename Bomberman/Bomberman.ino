@@ -87,8 +87,6 @@ int main() {
 						}
 					}
 					else if(player2_data.type == BOMB) {
-						Serial.print("bombx: "); Serial.println(player2_data.xData);
-						Serial.print("bomby: "); Serial.println(player2_data.yData);
 						player2_x_bombdrop	= player2_data.xData;
 						player2_y_bombdrop	= player2_data.yData;
 						grid[player2_data.xData][player2_data.yData] = 6;
@@ -96,11 +94,17 @@ int main() {
 					}
 				}
 
-				Serial.print("grid: ");
-				Serial.println(grid[player2_x_bombdrop][player2_y_bombdrop]);
-
 				// draw other player position if new
 				if (player2_x != player2_x_old || player2_y != player2_y_old) {
+						lcd.fillRect(player2_x_old * 20, player2_y_old * 20, 20, 20, Background);
+
+						// draw the bomb again when drawing over it
+						if(player2_x_old == player2_x_bombdrop && player2_y == player2_y_bombdrop){
+							draw_BombSprite(lcd, player2_x_bombdrop, player1_y_bombdrop);
+							player2_x_bombdrop = 0;
+							player2_y_bombdrop = 0;
+						}
+
 						lcd.fillRect(player2_x_old * 20, player2_y_old * 20, 20, 20, Background);
 						lcd.fillRect(player2_x * 20, player2_y * 20, 20, 20, RGB(0, 0, 255));
 				}
