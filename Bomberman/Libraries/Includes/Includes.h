@@ -15,6 +15,6 @@
 #include "Wire.h"
 #include "SPI.h"
 #include <BMPheader.h>
-#include "eeprom.h"
+#include "avr/eeprom.h"
 
 #endif
