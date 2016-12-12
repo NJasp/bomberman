@@ -16,7 +16,8 @@ uint8_t grid[16][12];		//Griddata
 uint8_t collumnCounter;		//collumnCounter
 uint8_t rowCounter;			//rowCounter
 uint8_t player1_x = 0, player1_y = 0;		//player locations
-uint8_t player2_x = 14, player2_y = 10, player2_x_old = 14, player2_y_old = 10;
+uint8_t player2_x = 1, player2_y = 1, player2_x_old = 1, player2_y_old = 1;
+//uint8_t player2_x = 14, player2_y = 10, player2_x_old = 14, player2_y_old = 10;
 uint8_t player1_xCounter = 0, player1_yCounter = 0;		//Player movement speed
 uint8_t player1_x_old = 0, player1_y_old = 0;		//Old locations of the player;
 uint8_t player1_x_bombdrop = 0, player1_y_bombdrop = 0;		//Location of the dropped bomb;
@@ -79,6 +80,8 @@ int main() {
 
 					// process IR data
 					if (player2_data.type == PLAYER) {
+						player2_x_old = player2_x;
+						player2_y_old = player2_y;
 						player2_x = player2_data.xData;
 						player2_y = player2_data.yData;
 					}
@@ -88,9 +91,12 @@ int main() {
 
 				// draw other player position if new
 				if (player2_x != player2_x_old || player2_y != player2_y_old) {
-					lcd.fillRect(player2_x_old * 20, player2_y_old * 20, 20, 20, Background);
-					lcd.fillRect(player2_x * 20, player2_y * 20, 20, 20, RGB(0, 0, 255));
+					if(!grid[player2_x_old][player2_y_old])
+						lcd.fillRect(player2_x_old * 20, player2_y_old * 20, 20, 20, Background);
+					if(!grid[player2_x][player2_y])
+						lcd.fillRect(player2_x * 20, player2_y * 20, 20, 20, RGB(0, 0, 255));
 				}
+
 				draw_Player(player1_x, player1_y, &player1_x_old, &player1_y_old, lcd);
 				//lcd.fillCircle(player2_data.xData, player2_data.yData, 10, RGB(0, 0, 255));
 				check_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, max_bombs, &livebombs, &antiholdCounter, nunchuck_buf, grid, &isSendingIR);
