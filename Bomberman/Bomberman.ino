@@ -28,7 +28,7 @@ volatile uint16_t IRdata;
 uint16_t interruptCounter = 0;				//used to count seconds in the interrupt
 uint8_t livebombs = 0;
 uint8_t hit = 0;
-uint8_t stage = 1;
+uint8_t stage = 0;
 uint8_t level = 1;
 data_store player2_data;
 
@@ -49,9 +49,11 @@ int main() {
 	init_Nunchuck();
 	init_LCD(lcd);
 	lcd.touchStartCal();
-	startScherm(lcd);
 
 	for (;;) {	// MAIN LOOP	
+		if (stage == 0) {
+			startScherm(lcd, &stage);
+		}
 		if (stage == 1)
 		{
 			menu(lcd, &stage, &level);
