@@ -22,6 +22,7 @@ void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t* score, ui
 	}
 	if (!(*lives)) {
 		uint8_t a, b, c;
+
 		if (read_eeprom_word(&eeprom_Storagearray[0]) < (*score)) { //if score of player1 in eeprom < score in game
 			write_eeprom_word(&eeprom_Storagearray[0], (*score));  // write highest score to [0] = player 1 in eeprom
 		}
@@ -45,11 +46,16 @@ void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t* score, ui
 		b = lcd.drawInteger(a, 140, player_scoreArray[2], 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
 		c = lcd.drawText(b, 140, ": ", RGB(255, 255, 255), RGB(0, 0, 0), 1);
 		lcd.drawInteger(c, 140, player_scoreArray[3], 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
-		(*score) = 0;
-		(*lives) = 1;
-		(*stage) = 1;
+
 		lcd.drawText(30, 200, "Touch to continue", RGB(255, 255, 255), RGB(0, 0, 0), 2);
-		while (1);
+		for (;;)
+		{
+			if (lcd.touchRead()) {
+				(*score) = 0;
+				(*lives) = 1;
+				(*stage) = 1;
+			}
+		}
 	}
 	if ((*hit) && (*lives)) {
 		(*lives)--;

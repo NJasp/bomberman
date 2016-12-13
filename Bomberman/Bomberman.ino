@@ -59,9 +59,10 @@ int main() {
 			menu(lcd, &stage, &level);
 			init_Player(player1_x, player1_y, lcd);
 			init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old);
+			draw_Sprites(lcd, grid);
 		}
 		if (stage == 2) {
-			draw_Sprites(lcd, grid);
+			
 			//draw_Walls_Crates(lcd, grid);
 			for (;;) {
 				read_Nunchuck(nunchuck_buf, &joy_x_axis, &joy_y_axis);

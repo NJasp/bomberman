@@ -67,8 +67,8 @@ void startScherm(MI0283QT9 lcd, uint8_t* stage)
 
 void menuLevelSelect(MI0283QT9 lcd)
 {
-	lcd.fillRect(80, 40, 160, 50, (RGB(0, 0, 0)));
-	lcd.drawText(105, 55, "Level", (RGB(255, 255, 255)), (RGB(0, 0, 0)), 3);
+	lcd.fillRect(80, 20, 160, 50, (RGB(0, 0, 0)));
+	lcd.drawText(105, 35, "Level", (RGB(255, 255, 255)), (RGB(0, 0, 0)), 3);
 }
 
 void menuHighscores(MI0283QT9 lcd)
@@ -79,9 +79,8 @@ void menuHighscores(MI0283QT9 lcd)
 
 void menuOptions(MI0283QT9 lcd)
 {
-	lcd.drawRect(65, 160, 185, 50, (RGB(0, 0, 0)));
-	lcd.fillRect(65, 160, 185, 50, (RGB(0, 0, 0)));
-	lcd.drawText(80, 175, "Options", (RGB(255, 255, 255)), (RGB(0, 0, 0)), 3);
+	lcd.fillRect(65, 180, 185, 50, (RGB(0, 0, 0)));
+	lcd.drawText(80, 195, "Options", (RGB(255, 255, 255)), (RGB(0, 0, 0)), 3);
 }
 
 void Highscores(MI0283QT9 lcd)
@@ -153,62 +152,70 @@ void backToMenu(MI0283QT9 lcd)
 void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level)
 {
 	uint8_t menucounter = 0;
+	uint16_t touchx, touchy;
 	for (;;)
 	{
-		uint16_t touchx = 0, touchy = 0;
-		touchx = lcd.touchX();
-		touchy = lcd.touchY();
-
-		if (menucounter == 0 && lcd.touchRead()) {
+		touchx = 0;
+		touchy = 0;
+		if (menucounter == 0 /*&& lcd.touchRead()*/) {
 			menuScherm(lcd);
 			menucounter = 1;
 		}
 		if (menucounter == 1 && lcd.touchRead()) {
-			if (touchx >= 80 && touchx <= 240 && touchy >= 40 && touchy <= 90) {
+			touchx = lcd.touchX();
+			touchy = lcd.touchY();
+			if (touchx >= 80 && touchx <= 240 && touchy >= 20 && touchy <= 70) // Level select
+			{
 				levelSelect(lcd);
 				menucounter = 2;
 			}
-			else if (touchx >= 65 && touchx <= 270 && touchy >= 160 && touchy <= 210)
+			else if (touchx >= 65 && touchx <= 270 && touchy >= 180 && touchy <= 230) // Options
 			{
 				options(lcd);
 				menucounter = 3;
 			}
-			else if (touchx >= 40 && touchx <= 290 && touchy >= 100 && touchy <= 150)
+			else if (touchx >= 40 && touchx <= 290 && touchy >= 100 && touchy <= 150) // Highscores
 			{
 				Highscores(lcd);
 				menucounter = 4;
 			}
 		}
 		if (menucounter == 2 && lcd.touchRead()) {
-			if (touchx >= 20 && touchx <= 120 && touchy >= 60 && touchy <= 90) {
+			touchx = lcd.touchX();
+			touchy = lcd.touchY();
+			if (touchx >= 20 && touchx <= 120 && touchy >= 60 && touchy <= 90) { // level 1
 				(*stage) = 2;
 				lcd.fillScreen(Background);
 				(*level) = 1;
 				break;
 			}
-			if (touchx >= 20 && touchx <= 120 && touchy >= 120 && touchy <= 150) {
+			if (touchx >= 20 && touchx <= 120 && touchy >= 120 && touchy <= 150) { // level 2
 				(*stage) = 2;
 				lcd.fillScreen(Background);
 				(*level) = 2;
 				break;
 			}
-			if (touchx >= 20 && touchx <= 120 && touchy >= 180 && touchy <= 210) {
+			if (touchx >= 20 && touchx <= 120 && touchy >= 180 && touchy <= 210) { // level 3
 				(*stage) = 2;
 				lcd.fillScreen(Background);
 				(*level) = 3;
 				break;
 			}
-			if (touchx >= 180 && touchx <= 250 && touchy >= 200 && touchy <= 230) {
+			if (touchx >= 180 && touchx <= 250 && touchy >= 200 && touchy <= 230) { // back to menu
 				menucounter = 0;
 			}
 		}
 		if (menucounter == 3 && lcd.touchRead()) {
-			if (touchx >= 180 && touchx <= 250 && touchy >= 200 && touchy <= 230) {
+			touchx = lcd.touchX();
+			touchy = lcd.touchY();
+			if (touchx >= 180 && touchx <= 250 && touchy >= 200 && touchy <= 230) { // back to menu
 				menucounter = 0;
 			}
 		}
 		if (menucounter == 4 && lcd.touchRead()) {
-			if (touchx >= 180 && touchx <= 250 && touchy >= 200 && touchy <= 230) {
+			touchx = lcd.touchX();
+			touchy = lcd.touchY();
+			if (touchx >= 180 && touchx <= 250 && touchy >= 200 && touchy <= 230) { // back to menu
 				menucounter = 0;
 			}
 		}
