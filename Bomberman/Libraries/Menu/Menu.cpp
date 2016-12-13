@@ -1,6 +1,8 @@
 #include "Menu.h"
 
 
+
+
 void startScherm(MI0283QT9 lcd, uint8_t* stage)
 {
 	uint8_t toggle1 = 0, toggle2 = 0, drawfreq = 0, redraw = 1;
@@ -49,7 +51,7 @@ void startScherm(MI0283QT9 lcd, uint8_t* stage)
 			redraw = 0;
 		}
 		//TOGGLE SETTINGS
-		if (drawfreq >	100) {//Als er 10 loops voorbij zijn, toggle tekst en reset counter
+		if (drawfreq >    100) {//Als er 10 loops voorbij zijn, toggle tekst en reset counter
 			redraw = 1;
 			drawfreq = 0;
 			toggle2 = ~(toggle2);
@@ -65,11 +67,14 @@ void startScherm(MI0283QT9 lcd, uint8_t* stage)
 }
 
 
+
+
 void menuLevelSelect(MI0283QT9 lcd)
 {
 	lcd.fillRect(80, 20, 160, 50, (RGB(0, 0, 0)));
 	lcd.drawText(105, 35, "Level", (RGB(255, 255, 255)), (RGB(0, 0, 0)), 3);
 }
+
 
 void menuHighscores(MI0283QT9 lcd)
 {
@@ -77,11 +82,13 @@ void menuHighscores(MI0283QT9 lcd)
 	lcd.drawText(50, 115, "Highscores", (RGB(255, 255, 255)), (RGB(0, 0, 0)), 3);
 }
 
+
 void menuOptions(MI0283QT9 lcd)
 {
 	lcd.fillRect(65, 180, 185, 50, (RGB(0, 0, 0)));
 	lcd.drawText(80, 195, "Options", (RGB(255, 255, 255)), (RGB(0, 0, 0)), 3);
 }
+
 
 void Highscores(MI0283QT9 lcd)
 {
@@ -90,12 +97,14 @@ void Highscores(MI0283QT9 lcd)
 	backToMenu(lcd);
 }
 
+
 void options(MI0283QT9 lcd)
 {
 	lcd.fillScreen(RGB(255, 255, 255));
 	lcd.drawText(55, 20, "Options", (RGB(0, 0, 0)), (RGB(255, 255, 255)), 3);
 	backToMenu(lcd);
 }
+
 
 void menuScherm(MI0283QT9 lcd)
 {
@@ -104,6 +113,7 @@ void menuScherm(MI0283QT9 lcd)
 	menuHighscores(lcd);
 	menuOptions(lcd);
 }
+
 
 void levelSelect(MI0283QT9 lcd)
 {
@@ -116,11 +126,13 @@ void levelSelect(MI0283QT9 lcd)
 	backToMenu(lcd);
 }
 
+
 void level1(MI0283QT9 lcd)
 {
 	lcd.fillRect(20, 60, 120, 30, (RGB(0, 0, 0)));
 	lcd.drawText(28, 65, "Level 1", (RGB(255, 255, 255)), (RGB(0, 0, 0)), 2);
 }
+
 
 void level2(MI0283QT9 lcd)
 {
@@ -128,11 +140,13 @@ void level2(MI0283QT9 lcd)
 	lcd.drawText(28, 125, "Level 2", (RGB(255, 255, 255)), (RGB(0, 0, 0)), 2);
 }
 
+
 void level3(MI0283QT9 lcd)
 {
 	lcd.fillRect(20, 180, 120, 30, (RGB(0, 0, 0)));
 	lcd.drawText(28, 185, "Level 3", (RGB(255, 255, 255)), (RGB(0, 0, 0)), 2);
 }
+
 
 void levelRandom(MI0283QT9 lcd)
 {
@@ -143,11 +157,13 @@ void levelRandom(MI0283QT9 lcd)
 	lcd.drawText(188, 130, "Level", (RGB(255, 255, 255)), (RGB(0, 0, 0)), 2);
 }
 
+
 void backToMenu(MI0283QT9 lcd)
 {
 	lcd.fillRect(180, 200, 100, 30, (RGB(0, 0, 0)));
 	lcd.drawText(188, 205, "Menu", (RGB(255, 255, 255)), (RGB(0, 0, 0)), 2);
 }
+
 
 void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level)
 {
@@ -221,3 +237,5 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level)
 		}
 	}
 }
+
+
