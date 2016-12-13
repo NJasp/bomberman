@@ -1,6 +1,7 @@
 #include "Sprites.h"
 
 void draw_Sprites(MI0283QT9 lcd, uint8_t grid[16][12]) {
+	lcd.fillScreen(Background);
 	uint8_t pixelCounterX, pixelCounterY;
 	uint32_t row, collumn, redPixelCounter = 0, greenPixelCounter = 1, bluePixelCounter = 2;
 	uint8_t red, green, blue;

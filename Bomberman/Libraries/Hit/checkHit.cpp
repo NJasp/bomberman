@@ -15,12 +15,13 @@ void checkPlayerHit(uint8_t player1_x, uint8_t player1_y, uint8_t *hit, uint8_t 
 }
 
 
-void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t* score, uint8_t* stage) {
+void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t* score, uint8_t* stage, uint8_t grid[16][12]) {
 	if (reset_EEPROM) {
 		write_eeprom_word(&eeprom_Storagearray[0], 0);
 		write_eeprom_word(&eeprom_Storagearray[1], 0);
 	}
 	if (!(*lives)) {
+		(*stage) = 3;
 		uint8_t a, b, c;
 
 		if (read_eeprom_word(&eeprom_Storagearray[0]) < (*score)) { //if score of player1 in eeprom < score in game
@@ -46,19 +47,35 @@ void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t* score, ui
 		b = lcd.drawInteger(a, 140, player_scoreArray[2], 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
 		c = lcd.drawText(b, 140, ": ", RGB(255, 255, 255), RGB(0, 0, 0), 1);
 		lcd.drawInteger(c, 140, player_scoreArray[3], 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
-
+		
 		lcd.drawText(30, 200, "Touch to continue", RGB(255, 255, 255), RGB(0, 0, 0), 2);
 		for (;;)
 		{
-			if (lcd.touchRead()) {
-				(*score) = 0;
-				(*lives) = 1;
-				(*stage) = 1;
+			if (lcd.touchRead())
+			{
+				resetVariables(score, stage, lives, grid);
+				break;
 			}
 		}
+		
 	}
 	if ((*hit) && (*lives)) {
 		(*lives)--;
 		(*hit) = 0;
+	}
+}
+
+void resetVariables(uint8_t* score, uint8_t* stage, uint8_t* lives, uint8_t grid[16][12])
+{
+	uint8_t row, collumn;
+
+	(*score) = 0;
+	(*lives) = 3;
+	(*stage) = 1;
+
+	for (row = 0; row < 12; row++) {
+		for (collumn = 0; collumn < 16; collumn++) {
+			grid[collumn][row] = 0;
+		}
 	}
 }
