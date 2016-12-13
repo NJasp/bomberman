@@ -34,9 +34,9 @@ uint8_t hit = 0;
 uint8_t menucounter = 0;
 uint8_t stage = 0;
 
-uint8_t bombradius = 5;
+uint8_t bombradius = 2;
 uint8_t player1_x_speed = 0, player1_y_speed = 0; //Higher is slower
-uint8_t max_bombs = 5;
+uint8_t max_bombs = 1;
 uint8_t score = 0;
 uint8_t lives = 3;
 uint8_t level = 1;

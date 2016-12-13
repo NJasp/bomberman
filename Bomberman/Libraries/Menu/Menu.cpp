@@ -217,6 +217,12 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level)
 				(*level) = 3;
 				break;
 			}
+			if (touchx >= 180 && touchx <= 300 && touchy >= 60 && touchy <= 160) { // level random 180, 60, 120, 100
+				(*stage) = 2;
+				lcd.fillScreen(Background);
+				(*level) = 0; // moet straks random level zijn, niet het test level
+				break;
+			}
 			if (touchx >= 180 && touchx <= 250 && touchy >= 200 && touchy <= 230) { // back to menu
 				menucounter = 0;
 			}
