@@ -8,6 +8,7 @@
 #include "Libraries/Menu/Menu.h"
 #include "Libraries/Hit/checkHit.h"
 #include "Libraries/Sprites/Sprites.h"
+#include "Libraries/Leds/Leds.h"
 
 MI0283QT9 lcd;					//LCD variabele
 uint8_t joy_x_axis, joy_y_axis;	//Nunchuck Data
@@ -86,6 +87,7 @@ int main() {
 				draw_Explosion(lcd, bombradius, grid, &livebombs, &score, &hit, player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop);
 				clear_Explosion(lcd, bombradius, grid, player1_x,player1_y);
 				updateLives(&hit, &lives, lcd, &score, &stage, grid);
+				set_Leds(lives);
 
 				if (dataReady_IR() && IRdata != 0) {
 					player2_data = decode_IR(IRdata);
