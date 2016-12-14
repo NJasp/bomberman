@@ -22,7 +22,8 @@ C:\Users\gebruiker-pc\AppData\Local\Temp\VMicroBuilds\Bomberman\uno\Bomberman.cp
  C:\Program\ Files\ (x86)\Arduino\hardware\arduino\avr\cores\arduino/Stream.h \
  C:\Program\ Files\ (x86)\Arduino\hardware\arduino\avr\libraries\SPI\src/SPI.h \
  C:\Program\ Files\ (x86)\Arduino\libraries\GraphicsLib/BMPheader.h \
- C:\Program\ Files\ (x86)\Arduino\hardware\arduino\avr\libraries\EEPROM\src/eeprom.h \
+ C:\Users\gebruiker-pc\AppData\Local\Temp\VMicroBuilds\Bomberman\uno\Libraries/Levels/../Includes/../Potmeter/Potmeter.h \
+ C:\Users\gebruiker-pc\AppData\Local\Temp\VMicroBuilds\Bomberman\uno\Libraries/Levels/../Includes/../Potmeter/../Includes/Includes.h \
  C:\Users\gebruiker-pc\AppData\Local\Temp\VMicroBuilds\Bomberman\uno\Libraries/LCD/LCD.h \
  C:\Users\gebruiker-pc\AppData\Local\Temp\VMicroBuilds\Bomberman\uno\Libraries/LCD/../Includes/Includes.h \
  C:\Users\gebruiker-pc\AppData\Local\Temp\VMicroBuilds\Bomberman\uno\Libraries/Nunchuck/Nunchuck.h \

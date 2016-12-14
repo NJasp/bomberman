@@ -76,7 +76,8 @@ int main() {
 				draw_Sprites(lcd, grid);
 			}
 			for (;;) {
-				if (stage == 1) 
+				set_Brightness(lcd);
+				if (stage == 1)
 				{
 					break;
 				}

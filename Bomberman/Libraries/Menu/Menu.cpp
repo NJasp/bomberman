@@ -171,6 +171,7 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level)
 	uint16_t touchx, touchy;
 	for (;;)
 	{
+		set_Brightness(lcd);
 		touchx = 0;
 		touchy = 0;
 		if (menucounter == 0 /*&& lcd.touchRead()*/) {

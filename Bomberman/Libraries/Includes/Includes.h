@@ -16,5 +16,6 @@
 #include "SPI.h"
 #include <BMPheader.h>
 #include "avr/eeprom.h"
+#include "../Potmeter/Potmeter.h"
 
 #endif

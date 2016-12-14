@@ -92,6 +92,8 @@
     <ClInclude Include="Libraries\Menu\Menu.h" />
     <ClInclude Include="Libraries\Nunchuck\Nunchuck.h" />
     <ClInclude Include="Libraries\Player\Player.h" />
+    <ClInclude Include="Libraries\Potmeter\Potmeter.h" />
+    <ClInclude Include="Libraries\Sprites\Sprites.h" />
     <ClInclude Include="__vm\.Bomberman.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
@@ -102,16 +104,17 @@
     <ClCompile Include="Libraries\LCD\LCD.cpp" />
     <ClCompile Include="Libraries\Levels\Levels.cpp" />
     <ClCompile Include="Libraries\Menu\Menu.cpp" />
-    <ClCompile Include="Libraries\MSD_shield\mSD_shield.cpp" />
     <ClCompile Include="Libraries\Nunchuck\Nunchuck.cpp" />
     <ClCompile Include="Libraries\Player\Player.cpp" />
+    <ClCompile Include="Libraries\Potmeter\Potmeter.cpp" />
+    <ClCompile Include="Libraries\Sprites\Sprites.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties arduino.upload.port="COM3" />
+      <UserProperties arduino.upload.port="COM4" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

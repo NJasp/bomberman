@@ -51,6 +51,12 @@
     <ClInclude Include="Libraries\Menu\Menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Libraries\Sprites\Sprites.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\Potmeter\Potmeter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Libraries\Levels\Levels.cpp">
@@ -74,13 +80,16 @@
     <ClCompile Include="Libraries\IR\IR.cpp">
       <Filter>Header Files\Resource Files</Filter>
     </ClCompile>
-    <ClCompile Include="Libraries\MSD_shield\mSD_shield.cpp">
-      <Filter>Header Files\Resource Files</Filter>
-    </ClCompile>
     <ClCompile Include="Libraries\Hit\checkHit.cpp">
       <Filter>Header Files\Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="Libraries\Menu\Menu.cpp">
+      <Filter>Header Files\Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\Sprites\Sprites.cpp">
+      <Filter>Header Files\Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\Potmeter\Potmeter.cpp">
       <Filter>Header Files\Resource Files</Filter>
     </ClCompile>
   </ItemGroup>
