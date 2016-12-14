@@ -6,16 +6,16 @@ void set_Leds(uint8_t leds) {
 	// select given amount of leds to turn on
 	switch(leds){
 		case 0:
-			pins = 0;
+			pins = 0xff;
 			break;
 		case 1:
-			pins = (1 << 1);
+			pins = 0b11111101;
 			break;
 		case 2:
-			pins = (1 << 1) | (1 << 2);
+			pins = 0b11111001;
 			break;
 		case 3:
-			pins = (1 << 1) | (1 << 2) | (1 << 3);
+			pins = 0b11110001;
 			break;
 	}
 
