@@ -20,7 +20,7 @@ void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t* score, ui
 		//	lcd.drawText(50, 60, " You win ", RGB(255, 255, 255), RGB(0, 0, 0), 3);
 		//}
 		//else {
-			lcd.drawText(50, 60, " End game", RGB(255, 255, 255), RGB(0, 0, 0), 3);
+		lcd.drawText(50, 60, " End game", RGB(255, 255, 255), RGB(0, 0, 0), 3);
 		//}
 		lcd.drawText(120, 100, "Scores", RGB(255, 255, 255), RGB(0, 0, 0), 1);
 		a = lcd.drawText(120, 120, "Player ", RGB(255, 255, 255), RGB(0, 0, 0), 1);
@@ -32,13 +32,13 @@ void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t* score, ui
 		//b = lcd.drawInteger(a, 140, player_scoreArray[2], 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
 		//c = lcd.drawText(b, 140, ": ", RGB(255, 255, 255), RGB(0, 0, 0), 1);
 		//lcd.drawInteger(c, 140, (*score2), 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
-		(*score) = 0;
-		(*lives) = 1;
-		(*stage) = 1;
+		//(*score) = 0;
+		//(*lives) = 1;
+		//(*stage) = 1;
 		lcd.drawText(30, 200, "Touch to continue", RGB(255, 255, 255), RGB(0, 0, 0), 2);
 		for (;;)
 		{
-			set_Brightness(lcd, 7);
+			//set_Brightness(lcd, 7);
 			if (lcd.touchRead())
 			{
 				resetVariables(score, stage, lives, grid);

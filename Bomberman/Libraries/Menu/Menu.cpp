@@ -244,7 +244,7 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned int eeprom_Sto
 			if (touchx >= 20 && touchx <= 120 && touchy >= 60 && touchy <= 90) { // level 1
 				(*stage) = 2;
 				lcd.fillScreen(Background);
-				(*level) = 4;
+				(*level) = 1;
 				break;
 			}
 			if (touchx >= 20 && touchx <= 120 && touchy >= 120 && touchy <= 150) { // level 2

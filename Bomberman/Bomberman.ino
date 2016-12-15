@@ -66,6 +66,7 @@ int main() {
 	else
 		stage = 2;
 	for (;;) {	// MAIN LOOP	
+		//set_Brightness(lcd, 7);	// Hier werkt overal de set_brightness, maar bij het laden van het spel is het scherm zwart voor ongeveer 5-10 seconden en daarna komt het spel opeens tevoorschijn
 		if (stage == 0) {
 			startScherm(lcd, &stage);
 		}
@@ -156,10 +157,6 @@ int main() {
 					interruptCounter++;
 				}
 			}
-		}
-		if (stage == 3)
-		{
-			set_Brightness(lcd, 7);
 		}
 	}
 	return 0;
