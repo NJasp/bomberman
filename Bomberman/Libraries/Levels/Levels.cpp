@@ -23,10 +23,10 @@ void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t
 		grid[13][10] = 0;
 	}
 	if (level == 1) {
-		*player1_x = 1;
-		*player1_y = 1;
-		*player1_x_old = 1;
-		*player1_y_old = 1;
+		*player1_x = 14;
+		*player1_y = 10;
+		*player1_x_old = 14;
+		*player1_y_old = 10;
 		int j = 1;
 		init_OutsideWalls(grid);
 		grid[3][j] = 2;
@@ -814,24 +814,6 @@ void init_OutsideWalls(uint8_t grid[16][12])
 			else {
 				grid[0][row] = 1;
 				grid[15][row] = 1;
-			}
-		}
-	}
-}
-
-void draw_Walls_Crates(MI0283QT9 screen, uint8_t grid[16][12])
-{
-	uint8_t row, collumn;
-	//	draw stuff in grid
-	for (row = 0; row < 12; row++) {
-		for (collumn = 0; collumn < 16; collumn++) {
-			if (grid[collumn][row] == 1) {
-					screen.fillRect(collumn * 20, row * 20, 20, 20, RGB(0, 0, 0));
-			}
-			else {
-				if (grid[collumn][row] == 2) {
-						screen.fillRect(collumn * 20, row * 20, 20, 20, RGB(222, 184, 135));
-				}
 			}
 		}
 	}

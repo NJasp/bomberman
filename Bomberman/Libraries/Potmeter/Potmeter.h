@@ -3,6 +3,7 @@
 
 #include "../Includes/Includes.h"
 
-void set_Brightness(MI0283QT9 screen);
+void init_Potmeter();
+void set_Brightness(MI0283QT9 screen, uint8_t channel);
 
 #endif

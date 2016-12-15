@@ -1,8 +1,5 @@
 #include "Menu.h"
 
-
-
-
 void startScherm(MI0283QT9 lcd, uint8_t* stage)
 {
 	uint8_t toggle1 = 0, toggle2 = 0, drawfreq = 0, redraw = 1;
@@ -67,12 +64,19 @@ void startScherm(MI0283QT9 lcd, uint8_t* stage)
 }
 
 
-
-
 void menuLevelSelect(MI0283QT9 lcd)
 {
 	lcd.fillRect(80, 20, 160, 50, (RGB(0, 0, 0)));
 	lcd.drawText(105, 35, "Level", (RGB(255, 255, 255)), (RGB(0, 0, 0)), 3);
+	/*lcd.fillCircle(40, 35, 5, COLOR_FINE_RED); // Top left circle
+	lcd.fillCircle(40, 35 + 34, 5, COLOR_FINE_RED); // Bottom left circle
+	lcd.fillCircle(40 + 235, 35, 5, COLOR_FINE_RED); // Top right circle
+	lcd.fillCircle(40 + 235, 35 + 34, 5, COLOR_FINE_RED); // Bottom right circle
+	lcd.fillRect(40, 35 - 5, 40 + 235, 35 + 34 + 5, COLOR_FINE_RED); // Upper-Bottom Rectangle
+	lcd.fillRect(40 - 5, 35, 40 + 235 + 5, 35 + 34, COLOR_FINE_RED); // Left-Right Rectangle
+	lcd.drawText(40, 35, "Start game", COLOR_WHITE, COLOR_FINE_RED, 3); // Button tekst
+																		 // Options button
+																		 */
 }
 
 
@@ -80,6 +84,16 @@ void menuHighscores(MI0283QT9 lcd)
 {
 	lcd.fillRect(40, 100, 250, 50, (RGB(0, 0, 0)));
 	lcd.drawText(50, 115, "Highscores", (RGB(255, 255, 255)), (RGB(0, 0, 0)), 3);
+	/*
+	lcd.fillCircle(75, 100, 5, COLOR_FINE_GREEN); // Top left circle;
+	lcd.fillCircle(75, 100 + 34, 5, COLOR_FINE_GREEN); // Bottom left circle
+	lcd.fillCircle(75 + 165, 100, 5, COLOR_FINE_GREEN); // Top right circle
+	lcd.fillCircle(75 + 165, 100 + 34, 5, COLOR_FINE_GREEN); // Bottom right circle
+	lcd.fillRect(75, 100 - 5, 75 + 165, 100 + 34 + 5, COLOR_FINE_GREEN); // Upper-Bottom Rectangle
+	lcd.fillRect(75 - 5, 100, 75 + 165 + 5, 100 + 34, COLOR_FINE_GREEN); // Left-Right Rectangle
+	lcd.drawText(75, 100, "Options", COLOR_WHITE, COLOR_FINE_GREEN, 3); // Button tekst
+																		// Highscores button
+																		*/
 }
 
 
@@ -87,15 +101,41 @@ void menuOptions(MI0283QT9 lcd)
 {
 	lcd.fillRect(65, 180, 185, 50, (RGB(0, 0, 0)));
 	lcd.drawText(80, 195, "Options", (RGB(255, 255, 255)), (RGB(0, 0, 0)), 3);
+
+	//lcd.fillCircle(40, 165, 5, COLOR_FINE_ORANGE); // Top left circle
+	//lcd.fillCircle(40, 165 + 34, 5, COLOR_FINE_ORANGE); // Bottom left circle
+	//lcd.fillCircle(40 + 235, 165, 5, COLOR_FINE_ORANGE); // Top right circle
+	//lcd.fillCircle(40 + 235, 165 + 34, 5, COLOR_FINE_ORANGE); // Bottom right circle
+	/*
+	lcd.fillRect(5, 5, 155, 54, COLOR_FINE_ORANGE); // Upper-Bottom Rectangle
+	lcd.fillRect(155 + 5 + 10, 5, 165, 54, COLOR_FINE_ORANGE); // Upper-Bottom Rectangle
+	lcd.fillRect(5, 5, 155, 54, COLOR_FINE_ORANGE); // Upper-Bottom Rectangle
+	lcd.fillRect(155 + 5 + 10, 59, 165, 108, COLOR_FINE_ORANGE); // Upper-Bottom Rectangle
+	lcd.drawText(40, 165, "Highscores", COLOR_WHITE, COLOR_FINE_ORANGE, 3); // Button tekst
+																			// Version number
+	lcd.drawText(0, 227, "Bomberman version 0.1", COLOR_WHITE, COLOR_FINE_BLUE, 1); // Version tekst
+	*/
 }
 
 
-void Highscores(MI0283QT9 lcd)
+void Highscores(MI0283QT9 lcd, unsigned int eeprom_Storagearray[2])
 {
 	lcd.fillScreen(RGB(255, 255, 255));
 	lcd.drawText(40, 20, "Highscores", (RGB(0, 0, 0)), (RGB(255, 255, 255)), 3);
+	uint8_t a, b, c;
+	lcd.drawText(120, 100, "Scores", RGB(255, 255, 255), RGB(0, 0, 0), 1);
+	a = lcd.drawText(120, 120, "Player ", RGB(255, 255, 255), RGB(0, 0, 0), 1);
+	b = lcd.drawInteger(a, 120, 1, 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
+	c = lcd.drawText(b, 120, ": ", RGB(255, 255, 255), RGB(0, 0, 0), 1);
+	lcd.drawInteger(c, 120, read_eeprom_word(&eeprom_Storagearray[0]), 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
+
+	//a = lcd.drawText(120, 140, "Player ", RGB(255, 255, 255), RGB(0, 0, 0), 1);
+	//b = lcd.drawInteger(a, 140, player_scoreArray[2], 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
+	//c = lcd.drawText(b, 140, ": ", RGB(255, 255, 255), RGB(0, 0, 0), 1);
+	//lcd.drawInteger(c, 140, (*score2), 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
 	backToMenu(lcd);
 }
+
 
 
 void options(MI0283QT9 lcd)
@@ -110,8 +150,9 @@ void menuScherm(MI0283QT9 lcd)
 {
 	lcd.fillScreen(RGB(255, 255, 255));
 	menuLevelSelect(lcd);
-	menuHighscores(lcd);
+	//menuHighscores(lcd);
 	menuOptions(lcd);
+	menuHighscores(lcd);
 }
 
 
@@ -165,13 +206,13 @@ void backToMenu(MI0283QT9 lcd)
 }
 
 
-void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level)
+void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned int eeprom_Storagearray[2])
 {
 	uint8_t menucounter = 0;
 	uint16_t touchx, touchy;
 	for (;;)
 	{
-		set_Brightness(lcd);
+		set_Brightness(lcd, 7);
 		touchx = 0;
 		touchy = 0;
 		if (menucounter == 0 /*&& lcd.touchRead()*/) {
@@ -193,7 +234,7 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level)
 			}
 			else if (touchx >= 40 && touchx <= 290 && touchy >= 100 && touchy <= 150) // Highscores
 			{
-				Highscores(lcd);
+				Highscores(lcd, eeprom_Storagearray);
 				menucounter = 4;
 			}
 		}
@@ -203,7 +244,7 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level)
 			if (touchx >= 20 && touchx <= 120 && touchy >= 60 && touchy <= 90) { // level 1
 				(*stage) = 2;
 				lcd.fillScreen(Background);
-				(*level) = 1;
+				(*level) = 4;
 				break;
 			}
 			if (touchx >= 20 && touchx <= 120 && touchy >= 120 && touchy <= 150) { // level 2
@@ -244,5 +285,4 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level)
 		}
 	}
 }
-
 

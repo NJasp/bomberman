@@ -1,3 +1,5 @@
+#define read_eeprom_word(address) eeprom_read_word ((const uint16_t*)address)
+#define write_eeprom_word(address,value) eeprom_write_word ((uint16_t*)address,(uint16_t)value)
 #include "Libraries/Levels/Levels.h"
 #include "Libraries/LCD/LCD.h"
 #include "Libraries/Nunchuck/Nunchuck.h"
@@ -9,8 +11,11 @@
 #include "Libraries/Hit/checkHit.h"
 #include "Libraries/Sprites/Sprites.h"
 #include "Libraries/Leds/Leds.h"
+#include "Libraries/MenuTest/MenuTest.h"
 
 MI0283QT9 lcd;					//LCD variabele
+unsigned int EEMEM  eeprom_Storagearray[2]; // eeprom score array. [0] = player1, [1] = player 2
+unsigned int player_scoreArray[4] = { 1,0,2,0 }; //player score array in game. [0] = number of player1, [1] = score of player at place [0], [2] = number of player2, [3] = score of player at place[2]
 uint8_t joy_x_axis, joy_y_axis;	//Nunchuck Data
 static uint8_t nunchuck_buf[6];	//Nunchuck Buffer
 uint8_t grid[16][12];		//Griddata
@@ -42,9 +47,11 @@ uint8_t score = 0;
 uint8_t lives = 3;
 uint8_t level = 1;
 data_store player2_data;
-uint8_t menuOff = 0;
+uint8_t menuOff = 1;
+uint8_t reset_EEPROM = 0;
 
 void init_Timer();
+void update_EEPROM();
 
 int main() {
 	init();
@@ -53,7 +60,8 @@ int main() {
 	init_IR();
 	init_Nunchuck();
 	init_LCD(lcd);
-	if(!menuOff)
+	init_Potmeter();
+	if (!menuOff)
 		lcd.touchStartCal();
 	else
 		stage = 2;
@@ -63,21 +71,22 @@ int main() {
 		}
 		if (stage == 1)
 		{
-			menu(lcd, &stage, &level);
-			if(!menuOff) {
+			update_EEPROM();
+			//menu(lcd, &stage, &level, eeprom_Storagearray);
+			if (!menuOff) {
 				init_Player(player1_x, player1_y, lcd);
 				init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old);
 				draw_Sprites(lcd, grid);
 			}
 		}
 		if (stage == 2) {
-			if(menuOff) {
+			if (menuOff) {
 				init_Player(player1_x, player1_y, lcd);
 				init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old);
 				draw_Sprites(lcd, grid);
 			}
 			for (;;) {
-				set_Brightness(lcd);
+				set_Brightness(lcd, 7);
 				if (stage == 1)
 				{
 					break;
@@ -85,8 +94,9 @@ int main() {
 				read_Nunchuck(nunchuck_buf, &joy_x_axis, &joy_y_axis);
 				calculate_Movement(&player1_x, &player1_y, joy_x_axis, joy_y_axis, &player1_xCounter, &player1_yCounter, player1_x_speed, player1_y_speed, grid, &hit);
 				draw_Explosion(lcd, bombradius, grid, &livebombs, &score, &hit, player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop);
-				clear_Explosion(lcd, bombradius, grid, player1_x,player1_y);
+				clear_Explosion(lcd, bombradius, grid, player1_x, player1_y);
 				updateLives(&hit, &lives, lcd, &score, &stage, grid);
+				update_EEPROM();
 				set_Leds(lives);
 
 				if (dataReady_IR() && IRdata != 0) {
@@ -96,14 +106,14 @@ int main() {
 					if (player2_data.type == PLAYER) {
 						player2_x_old = player2_x;
 						player2_y_old = player2_y;
-						if(!grid[player2_data.xData][player2_data.yData]) {
+						if (!grid[player2_data.xData][player2_data.yData]) {
 							player2_x = player2_data.xData;
 							player2_y = player2_data.yData;
 						}
 					}
-					else if(player2_data.type == BOMB) {
-						player2_x_bombdrop	= player2_data.xData;
-						player2_y_bombdrop	= player2_data.yData;
+					else if (player2_data.type == BOMB) {
+						player2_x_bombdrop = player2_data.xData;
+						player2_y_bombdrop = player2_data.yData;
 						grid[player2_data.xData][player2_data.yData] = 6;
 						IRdata = 0;
 					}
@@ -111,17 +121,17 @@ int main() {
 
 				// draw other player position if new
 				if (player2_x != player2_x_old || player2_y != player2_y_old) {
-						lcd.fillRect(player2_x_old * 20, player2_y_old * 20, 20, 20, Background);
+					lcd.fillRect(player2_x_old * 20, player2_y_old * 20, 20, 20, Background);
 
-						// draw the bomb again when drawing over it
-						if(player2_x_old == player2_x_bombdrop && player2_y == player2_y_bombdrop){
-							draw_BombSprite(lcd, player2_x_bombdrop, player1_y_bombdrop);
-							player2_x_bombdrop = 0;
-							player2_y_bombdrop = 0;
-						}
+					// draw the bomb again when drawing over it
+					if (player2_x_old == player2_x_bombdrop && player2_y == player2_y_bombdrop) {
+						draw_BombSprite(lcd, player2_x_bombdrop, player1_y_bombdrop);
+						player2_x_bombdrop = 0;
+						player2_y_bombdrop = 0;
+					}
 
-						lcd.fillRect(player2_x_old * 20, player2_y_old * 20, 20, 20, Background);
-						lcd.fillRect(player2_x * 20, player2_y * 20, 20, 20, RGB(0, 0, 255));
+					lcd.fillRect(player2_x_old * 20, player2_y_old * 20, 20, 20, Background);
+					lcd.fillRect(player2_x * 20, player2_y * 20, 20, 20, RGB(0, 0, 255));
 				}
 
 				draw_Player(player1_x, player1_y, &player1_x_old, &player1_y_old, lcd);
@@ -162,6 +172,17 @@ void init_Timer() {
 	OCR2A = 26;								// nanosecond counter
 	TCNT2 = 0;										//SET TIMER 2 AAN (Prescaling 1/1024)
 	sei();
+}
+
+void update_EEPROM() {
+
+	if (read_eeprom_word(&eeprom_Storagearray[0]) < score) { //if score of player1 in eeprom < score in game
+		write_eeprom_word(&eeprom_Storagearray[0], score);  // write highest score to [0] = player 1 in eeprom
+	}
+	if (reset_EEPROM) {
+		write_eeprom_word(&eeprom_Storagearray[0], 0);
+		write_eeprom_word(&eeprom_Storagearray[1], 0);
+	}
 }
 
 ISR(TIMER2_COMPA_vect) {// timer for receiving/sending

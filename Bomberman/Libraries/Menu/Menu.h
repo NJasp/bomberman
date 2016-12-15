@@ -4,7 +4,7 @@
 #include "../Includes/Includes.h"
 
 void startScherm(MI0283QT9 lcd, uint8_t* stage);
-void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level);
+void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned int eeprom_Storagearray[2]);
 void menuLevelSelect(MI0283QT9 lcd);
 void menuOptions(MI0283QT9 lcd);
 void options(MI0283QT9 lcd);
