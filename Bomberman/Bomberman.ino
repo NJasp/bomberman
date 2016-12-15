@@ -11,7 +11,6 @@
 #include "Libraries/Hit/checkHit.h"
 #include "Libraries/Sprites/Sprites.h"
 #include "Libraries/Leds/Leds.h"
-#include "Libraries/MenuTest/MenuTest.h"
 
 MI0283QT9 lcd;					//LCD variabele
 unsigned int EEMEM  eeprom_Storagearray[2]; // eeprom score array. [0] = player1, [1] = player 2
@@ -47,7 +46,7 @@ uint8_t score = 0;
 uint8_t lives = 3;
 uint8_t level = 1;
 data_store player2_data;
-uint8_t menuOff = 1;
+uint8_t menuOff = 0;
 uint8_t reset_EEPROM = 0;
 
 void init_Timer();
@@ -73,7 +72,7 @@ int main() {
 		if (stage == 1)
 		{
 			update_EEPROM();
-			//menu(lcd, &stage, &level, eeprom_Storagearray);
+			menu(lcd, &stage, &level, eeprom_Storagearray);
 			if (!menuOff) {
 				init_Player(player1_x, player1_y, lcd);
 				init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old);
