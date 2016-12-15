@@ -157,6 +157,10 @@ int main() {
 				}
 			}
 		}
+		if (stage == 3)
+		{
+			set_Brightness(lcd, 7);
+		}
 	}
 	return 0;
 }

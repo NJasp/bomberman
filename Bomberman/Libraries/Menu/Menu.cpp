@@ -150,9 +150,9 @@ void menuScherm(MI0283QT9 lcd)
 {
 	lcd.fillScreen(RGB(255, 255, 255));
 	menuLevelSelect(lcd);
-	//menuHighscores(lcd);
-	menuOptions(lcd);
 	menuHighscores(lcd);
+	menuOptions(lcd);
+	//menuHighscores(lcd);
 }
 
 

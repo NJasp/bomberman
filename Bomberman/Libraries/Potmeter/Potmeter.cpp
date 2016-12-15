@@ -28,7 +28,7 @@ void set_Brightness(MI0283QT9 screen, uint8_t channel) {
 	//ADCSRA |= (1 << ADSC);//Start converting
 	//while (ADCSRA & (1 << ADSC)); //wait until the conversion is done
 	uint8_t result = (ADCW + 1) / 11;
-	Serial.println(result);
+	//Serial.println(result);
 	screen.led(result);
 
 }
