@@ -37,7 +37,7 @@ uint16_t touchx = 0, touchy = 0;
 uint8_t livebombs = 0;
 uint8_t hit = 0;
 uint8_t menucounter = 0;
-uint32_t LivesCounter = 0;
+uint8_t LivesCounter = 0;
 uint8_t stage = 0;
 
 uint8_t bombradius = 2;
@@ -94,8 +94,8 @@ int main() {
 					break;
 				}
 				read_Nunchuck(nunchuck_buf, &joy_x_axis, &joy_y_axis);
-				calculate_Movement(&player1_x, &player1_y, joy_x_axis, joy_y_axis, &player1_xCounter, &player1_yCounter, player1_x_speed, player1_y_speed, grid, &hit, &LivesCounter);
-				draw_Explosion(lcd, bombradius, grid, &livebombs, &score, &hit, player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, &LivesCounter);
+				calculate_Movement(&player1_x, &player1_y, joy_x_axis, joy_y_axis, &player1_xCounter, &player1_yCounter, player1_x_speed, player1_y_speed, grid);
+				draw_Explosion(lcd, bombradius, grid, &livebombs, &score, &player1_x_bombdrop, &player1_y_bombdrop);
 				checkPlayerHit(player1_x, player1_y, &hit, grid, &LivesCounter);
 				updateLives(&hit, &lives, lcd, &score, &stage, grid);
 				clear_Explosion(lcd, bombradius, grid, player1_x, player1_y);

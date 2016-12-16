@@ -21,7 +21,7 @@ void draw_Player(uint8_t player1_x, uint8_t player1_y, uint8_t* player1_x_old, u
 }
 
 
-void calculate_Movement(uint8_t* player1_x, uint8_t* player1_y, uint8_t joy_x_axis, uint8_t joy_y_axis, uint8_t* player1_xCounter, uint8_t* player1_yCounter, uint8_t player1_x_speed, uint8_t player1_y_speed, uint8_t grid[16][12], uint8_t* hit, uint32_t* LivesCounter)
+void calculate_Movement(uint8_t* player1_x, uint8_t* player1_y, uint8_t joy_x_axis, uint8_t joy_y_axis, uint8_t* player1_xCounter, uint8_t* player1_yCounter, uint8_t player1_x_speed, uint8_t player1_y_speed, uint8_t grid[16][12])
 {
 	if (joy_x_axis > 140) {
 		if ((*player1_xCounter) == player1_x_speed) {
