@@ -40,7 +40,8 @@ uint8_t menucounter = 0;
 uint8_t stage = 0;
 
 uint8_t bombradius = 2;
-uint8_t player1_x_speed = 0, player1_y_speed = 0; //Higher is slower
+uint8_t playerSpeed = 0;
+uint8_t player1_x_speed = playerSpeed, player1_y_speed = playerSpeed; //Higher is slower
 uint8_t max_bombs = 1;
 uint8_t score = 0;
 uint8_t lives = 3;
@@ -72,7 +73,7 @@ int main() {
 		if (stage == 1)
 		{
 			update_EEPROM();
-			menu(lcd, &stage, &level, eeprom_Storagearray);
+			menu(lcd, &stage, &level, eeprom_Storagearray, &playerSpeed);
 			if (!menuOff) {
 				init_Player(player1_x, player1_y, lcd);
 				init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old);
@@ -94,8 +95,8 @@ int main() {
 				read_Nunchuck(nunchuck_buf, &joy_x_axis, &joy_y_axis);
 				calculate_Movement(&player1_x, &player1_y, joy_x_axis, joy_y_axis, &player1_xCounter, &player1_yCounter, player1_x_speed, player1_y_speed, grid, &hit);
 				draw_Explosion(lcd, bombradius, grid, &livebombs, &score, &hit, player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop);
-				clear_Explosion(lcd, bombradius, grid, player1_x, player1_y);
 				updateLives(&hit, &lives, lcd, &score, &stage, grid);
+				clear_Explosion(lcd, bombradius, grid, player1_x, player1_y);
 				update_EEPROM();
 				set_Leds(lives);
 

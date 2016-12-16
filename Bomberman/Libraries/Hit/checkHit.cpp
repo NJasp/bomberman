@@ -2,9 +2,13 @@
 #define write_eeprom_word(address,value) eeprom_write_word ((uint16_t*)address,(uint16_t)value)
 #include "checkHit.h"
 
-void checkPlayerHit(uint8_t player1_x, uint8_t player1_y, uint8_t *hit, uint8_t grid[16][12]) {
+void checkPlayerHit(uint8_t player1_x, uint8_t player1_y, uint8_t *hit, uint8_t grid[16][12], uint8_t* LivesCounter) {
 	if ((grid[player1_x][player1_y] == 7 || grid[player1_x][player1_y] == 8 || grid[player1_x][player1_y] == 9)) {
-		(*hit) = 1;
+		if ((*LivesCounter) == 100) {
+			(*hit) = 1;
+			(*LivesCounter) = 0;
+		}
+		(*LivesCounter)++;
 	}
 }
 
