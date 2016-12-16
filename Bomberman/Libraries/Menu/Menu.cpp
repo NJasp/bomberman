@@ -47,7 +47,7 @@ void startScherm(MI0283QT9 lcd, uint8_t* stage)
 		}
 		if ((!toggle2) && redraw) {//Elke 10e loop toggle tekst aan en uit (en teken het maar 1 keer)
 			//lcd.drawText(25, 200, "Touch to continue", RGB(0, 0, 127), RGB(127, 127, 127), 2);
-			lcd.drawText(25, 200, "Touch to continue", RGB(0, 0, 127), COLOR_BLACK, 2);
+			lcd.drawText(25, 200, "Touch to continue", /*RGB(0, 0, 127)*/COLOR_WHITE, COLOR_BLACK, 2);
 			redraw = 0;
 		}
 		else if (toggle2 && redraw) {
