@@ -21,13 +21,13 @@ void draw_Player(uint8_t player1_x, uint8_t player1_y, uint8_t* player1_x_old, u
 }
 
 
-void calculate_Movement(uint8_t* player1_x, uint8_t* player1_y, uint8_t joy_x_axis, uint8_t joy_y_axis, uint8_t* player1_xCounter, uint8_t* player1_yCounter, uint8_t player1_x_speed, uint8_t player1_y_speed, uint8_t grid[16][12], uint8_t* hit)
+void calculate_Movement(uint8_t* player1_x, uint8_t* player1_y, uint8_t joy_x_axis, uint8_t joy_y_axis, uint8_t* player1_xCounter, uint8_t* player1_yCounter, uint8_t player1_x_speed, uint8_t player1_y_speed, uint8_t grid[16][12], uint8_t* hit, uint32_t* LivesCounter)
 {
 	if (joy_x_axis > 140) {
 		if ((*player1_xCounter) == player1_x_speed) {
 			if (grid[(*player1_x) + 1][(*player1_y)] == 0 || grid[(*player1_x) + 1][(*player1_y)] == 3 || ((grid[(*player1_x) + 1][(*player1_y)] > 6) && (grid[(*player1_x) + 1][(*player1_y)] < 10))) {
 				if ((grid[(*player1_x) + 1][(*player1_y)] > 6) && (grid[(*player1_x) + 1][(*player1_y)] < 10)) {
-					checkPlayerHit((*player1_x) + 1, (*player1_y), hit, grid);
+					//checkPlayerHit((*player1_x) + 1, (*player1_y), hit, grid, LivesCounter);
 				}
 				(*player1_x)++;	//hier word de teller voor de X coordinaat verhoogt als de joystick naar rechts word gedrukt
 				(*player1_xCounter) = 0;
@@ -41,7 +41,7 @@ void calculate_Movement(uint8_t* player1_x, uint8_t* player1_y, uint8_t joy_x_ax
 		if ((*player1_xCounter) == player1_x_speed) {
 			if (grid[(*player1_x) - 1][(*player1_y)] == 0 || grid[(*player1_x) - 1][(*player1_y)] == 3 || ((grid[(*player1_x) - 1][(*player1_y)] > 6) && (grid[(*player1_x) - 1][(*player1_y)] < 10))) {
 				if ((grid[(*player1_x) - 1][(*player1_y)] > 6) && (grid[(*player1_x) - 1][(*player1_y)] < 10)) {
-					checkPlayerHit((*player1_x) - 1, (*player1_y), hit, grid);
+					//checkPlayerHit((*player1_x) - 1, (*player1_y), hit, grid, LivesCounter);
 					view_Griddata(grid);
 				}
 				(*player1_x)--; //hier word de teller voor de X coordinaat verlaagt als de joystick naar links word gedrukt. komt niet lager als 0
@@ -56,7 +56,7 @@ void calculate_Movement(uint8_t* player1_x, uint8_t* player1_y, uint8_t joy_x_ax
 		if ((*player1_yCounter) == player1_y_speed) {
 			if (grid[(*player1_x)][(*player1_y) - 1] == 0 || grid[(*player1_x)][(*player1_y) - 1] == 3 || ((grid[(*player1_x)][(*player1_y) - 1] > 6) && (grid[(*player1_x)][(*player1_y) - 1] < 10))) {
 				if ((grid[(*player1_x)][(*player1_y) - 1] > 6) && (grid[(*player1_x)][(*player1_y) - 1] < 10)) {
-					checkPlayerHit((*player1_x), (*player1_y)-1, hit, grid);
+					//checkPlayerHit((*player1_x), (*player1_y)-1, hit, grid, LivesCounter);
 					view_Griddata(grid);
 				}
 				(*player1_y)--;	//hier word de teller voor de Y coordinaat verlaagt als de joystick naar beneden word gedrukt
@@ -71,7 +71,7 @@ void calculate_Movement(uint8_t* player1_x, uint8_t* player1_y, uint8_t joy_x_ax
 		if ((*player1_yCounter) == player1_y_speed) {
 			if (grid[(*player1_x)][(*player1_y) + 1] == 0 || grid[(*player1_x)][(*player1_y) + 1] == 3 || ((grid[(*player1_x)][(*player1_y) + 1] > 6) && (grid[(*player1_x)][(*player1_y) + 1] < 10))) {
 				if ((grid[(*player1_x)][(*player1_y) + 1] > 6) && (grid[(*player1_x)][(*player1_y) + 1] < 10)) {
-					checkPlayerHit((*player1_x), (*player1_y) + 1, hit, grid);
+					//checkPlayerHit((*player1_x), (*player1_y) + 1, hit, grid, LivesCounter);
 					view_Griddata(grid);
 				}
 				(*player1_y)++;	//hier word de teller voor de Y coordinaat verhoogt als de joystick naar boven word gedrukt
