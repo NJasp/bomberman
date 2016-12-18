@@ -7,7 +7,7 @@ void checkPlayerHit(uint8_t player1_x, uint8_t player1_y, uint8_t *hit, uint8_t 
 		if ((*LivesCounter) == 0) {
 			(*hit) = 1;
 		}
-		if ((*LivesCounter) == 140) {
+		if ((*LivesCounter) == 250) {
 			(*hit) = 1;
 			(*LivesCounter) = 0;
 		}
@@ -30,7 +30,7 @@ void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t* score, ui
 		//	lcd.drawText(50, 60, " You win ", RGB(255, 255, 255), RGB(0, 0, 0), 3);
 		//}
 		//else {
-		lcd.drawText(50, 60, " End game", RGB(255, 255, 255), RGB(0, 0, 0), 3);
+		lcd.drawText(50, 60, "GAME OVER", RGB(255, 255, 255), RGB(0, 0, 0), 3);
 		//}
 		lcd.drawText(120, 100, "Scores", RGB(255, 255, 255), RGB(0, 0, 0), 1);
 		a = lcd.drawText(120, 120, "Player ", RGB(255, 255, 255), RGB(0, 0, 0), 1);

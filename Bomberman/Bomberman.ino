@@ -38,8 +38,9 @@ uint8_t livebombs = 0;
 uint8_t hit = 0;
 uint8_t menucounter = 0;
 uint8_t LivesCounter = 0;
+uint8_t maxBombCounter = 0;
+uint8_t maxBombCounter2 = 0;
 uint8_t stage = 0;
-uint8_t speedOptionCounter = 0;
 
 uint8_t bombradius = 2;
 uint8_t playerSpeed = 30;
@@ -75,7 +76,7 @@ int main() {
 		if (stage == 1)
 		{
 			update_EEPROM();
-			menu(lcd, &stage, &level, eeprom_Storagearray, &playerSpeed, &max_bombs);
+			menu(lcd, &stage, &level, eeprom_Storagearray, &playerSpeed, &max_bombs, &maxBombCounter, &maxBombCounter2);
 			player1_x_speed = playerSpeed;
 			player1_y_speed = playerSpeed;
 			if (!menuOff) {
