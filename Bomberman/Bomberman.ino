@@ -48,7 +48,7 @@ uint8_t player1_x_speed, player1_y_speed; //Higher is slower
 uint8_t max_bombs = 1;
 uint8_t score = 0;
 uint8_t lives = 3;
-uint8_t level = 1;
+uint8_t level = 0;
 data_store player2_data;
 uint8_t menuOff = 0;
 uint8_t reset_EEPROM = 0;
