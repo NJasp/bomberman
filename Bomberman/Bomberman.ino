@@ -12,6 +12,7 @@
 #include "Libraries/Sprites/Sprites.h"
 #include "Libraries/Leds/Leds.h"
 
+uint8_t isPlayer2 = 1;
 MI0283QT9 lcd;					//LCD variabele
 unsigned char EEMEM  eeprom_Storagearray[12];// eeprom score array. [0] = player1, [1] = player 2
 uint8_t joy_x_axis, joy_y_axis;	//Nunchuck Data
@@ -19,11 +20,10 @@ static uint8_t nunchuck_buf[6];	//Nunchuck Buffer
 uint8_t grid[16][12];		//Griddata
 uint8_t collumnCounter;		//collumnCounter
 uint8_t rowCounter;			//rowCounter
-uint8_t player1_x = 0, player1_y = 0;		//player locations
+uint8_t player1_x, player1_x_old, player1_y, player1_y_old;
 uint8_t player2_x = 1, player2_y = 1, player2_x_old = 1, player2_y_old = 1;
 //uint8_t player2_x = 14, player2_y = 10, player2_x_old = 14, player2_y_old = 10;
 uint8_t player1_xCounter = 0, player1_yCounter = 0;		//Player movement speed
-uint8_t player1_x_old = 0, player1_y_old = 0;		//Old locations of the player;
 uint8_t player1_x_bombdrop = 0, player1_y_bombdrop = 0;		//Location of the dropped bomb p1
 uint8_t player2_x_bombdrop = 0, player2_y_bombdrop = 0;		//Location of the dropped bomb p2
 uint8_t antiholdCounter = 0;				// 1 when the player holds the 'Z' button, so the game doesn't place too many bombs
@@ -47,15 +47,27 @@ uint8_t player1_x_speed, player1_y_speed; //Higher is slower
 uint8_t max_bombs = 1;
 uint8_t score = 0;
 uint8_t lives = 3;
-uint8_t level = 0;
+uint8_t level = 1;
 data_store player2_data;
-uint8_t menuOff = 0;
+uint8_t menuOff = 1;
 uint8_t reset_EEPROM = 0;
 uint8_t sendBomb = 0;
 
 void init_Timer();
 
 int main() {
+	if(isPlayer2) {
+		player1_x = 10;
+		player1_y = 14;		//player locations
+		player1_x_old = 10;
+		player1_y_old = 14;	//Old locations of the player;
+	}
+	else {
+		player1_x = 0;
+		player1_y = 0;		//player locations
+		player1_x_old = 0;
+		player1_y_old = 0;	//Old locations of the player;
+	}
 	init();
 	Serial.begin(9600);
 	init_Timer();
@@ -85,14 +97,14 @@ int main() {
 			player1_y_speed = playerSpeed;
 			if (!menuOff) {
 				init_Player(player1_x, player1_y, lcd);
-				init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old);
+				init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old, isPlayer2);
 				draw_Sprites(lcd, grid);
 			}
 		}
 		if (stage == 2) {
 			if (menuOff) {
 				init_Player(player1_x, player1_y, lcd);
-				init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old);
+				init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old, isPlayer2);
 				draw_Sprites(lcd, grid);
 			}
 			for (;;) {

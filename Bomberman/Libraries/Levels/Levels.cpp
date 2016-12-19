@@ -1,15 +1,23 @@
 #include "Levels.h"
 
-void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t* player1_y, uint8_t* player1_x_old, uint8_t* player1_y_old)
+void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t* player1_y, uint8_t* player1_x_old, uint8_t* player1_y_old, uint8_t isPlayer2)
 {
 	if (level == 0) {
 		srand(33);
 		uint8_t row, collumn, number, counter0 = 0, counter1 = 0, counter2 = 0;
 		init_OutsideWalls(grid);
-		*player1_x = 1;
-		*player1_y = 1;
-		*player1_x_old = 1;
-		*player1_y_old = 1;
+		if(isPlayer2) {
+			*player1_x = 10;
+			*player1_y = 14;
+			*player1_x_old = 10;
+			*player1_y_old = 14;
+		}
+		else {
+			*player1_x = 1;
+			*player1_y = 1;
+			*player1_x_old = 1;
+			*player1_y_old = 1;
+		}
 		for (row = 1; row < 11; row++) {
 			for (collumn = 1; collumn < 15; collumn++) {
 				number = rand() % 5;
@@ -50,10 +58,18 @@ void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t
 		grid[13][10] = 0;
 	}
 	if (level == 1) {
-		*player1_x = 14;
-		*player1_y = 10;
-		*player1_x_old = 14;
-		*player1_y_old = 10;
+		if(isPlayer2) {
+			*player1_x = 14;
+			*player1_y = 10;
+			*player1_x_old = 14;
+			*player1_y_old = 10;
+		}
+		else {
+			*player1_x = 1;
+			*player1_y = 1;
+			*player1_x_old = 1;
+			*player1_y_old = 1;
+		}
 		int j = 1;
 		init_OutsideWalls(grid);
 		grid[3][j] = 2;
@@ -204,6 +220,7 @@ void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t
 		grid[14][j] = 0;
 	}
 	if (level == 2) {
+		// TODO: player2 position for other levels
 		*player1_x = 7;
 		*player1_y = 2;
 		*player1_x_old = 7;
