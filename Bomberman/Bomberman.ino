@@ -52,6 +52,7 @@ data_store player2_data;
 uint8_t menuOff = 1;
 uint8_t reset_EEPROM = 0;
 uint8_t sendBomb = 0;
+uint8_t bombDelayCounter = 0;
 
 void init_Timer();
 
@@ -160,13 +161,17 @@ int main() {
 					else {
 						send_IR(&isSendingIR, PLAYER, player1_x, player1_y);
 					}
-					for (rowCounter = 0; rowCounter < 12; rowCounter++) {
-						for (collumnCounter = 0; collumnCounter < 16; collumnCounter++) {
-							if ((grid[collumnCounter][rowCounter] > 3 && grid[collumnCounter][rowCounter] < 7) || (grid[collumnCounter][rowCounter] > 7 && grid[collumnCounter][rowCounter] < 10)) {
-								grid[collumnCounter][rowCounter]--;
+					if(bombDelayCounter < 3) {
+						bombDelayCounter = 0;
+						for (rowCounter = 0; rowCounter < 12; rowCounter++) {
+							for (collumnCounter = 0; collumnCounter < 16; collumnCounter++) {
+								if ((grid[collumnCounter][rowCounter] > 3 && grid[collumnCounter][rowCounter] < 7) || (grid[collumnCounter][rowCounter] > 7 && grid[collumnCounter][rowCounter] < 10)) {
+									grid[collumnCounter][rowCounter]--;
+								}
 							}
 						}
 					}
+					bombDelayCounter++;
 					interruptCounter = 0;
 				}
 				else {
