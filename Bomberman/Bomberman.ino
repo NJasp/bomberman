@@ -13,8 +13,7 @@
 #include "Libraries/Leds/Leds.h"
 
 MI0283QT9 lcd;					//LCD variabele
-unsigned int EEMEM  eeprom_Storagearray[2]; // eeprom score array. [0] = player1, [1] = player 2
-unsigned int player_scoreArray[4] = { 1,0,2,0 }; //player score array in game. [0] = number of player1, [1] = score of player at place [0], [2] = number of player2, [3] = score of player at place[2]
+unsigned char EEMEM  eeprom_Storagearray[12];// eeprom score array. [0] = player1, [1] = player 2
 uint8_t joy_x_axis, joy_y_axis;	//Nunchuck Data
 static uint8_t nunchuck_buf[6];	//Nunchuck Buffer
 uint8_t grid[16][12];		//Griddata
@@ -39,8 +38,8 @@ uint8_t hit = 0;
 uint8_t menucounter = 0;
 uint8_t LivesCounter = 0;
 uint8_t maxBombCounter = 0;
-uint8_t maxBombCounter2 = 0;
 uint8_t stage = 0;
+uint8_t newHighscore = 0;
 
 uint8_t bombradius = 2;
 uint8_t playerSpeed = 30;
@@ -54,7 +53,6 @@ uint8_t menuOff = 0;
 uint8_t reset_EEPROM = 0;
 
 void init_Timer();
-void update_EEPROM();
 
 int main() {
 	init();
@@ -64,6 +62,11 @@ int main() {
 	init_Nunchuck();
 	init_LCD(lcd);
 	init_Potmeter();
+		//write_eeprom_word(&eeprom_Storagearray[2], 'M');
+		//write_eeprom_word(&eeprom_Storagearray[3], 'A');
+		//write_eeprom_word(&eeprom_Storagearray[4], 'R');
+		//write_eeprom_word(&eeprom_Storagearray[5], 'T');
+		//write_eeprom_word(&eeprom_Storagearray[6], 'Y');
 	if (!menuOff)
 		lcd.touchStartCal();
 	else
@@ -76,7 +79,7 @@ int main() {
 		if (stage == 1)
 		{
 			update_EEPROM();
-			menu(lcd, &stage, &level, eeprom_Storagearray, &playerSpeed, &max_bombs, &maxBombCounter, &maxBombCounter2);
+			menu(lcd, &stage, &level, eeprom_Storagearray, &playerSpeed, &max_bombs, &maxBombCounter, &newHighscore);
 			player1_x_speed = playerSpeed;
 			player1_y_speed = playerSpeed;
 			if (!menuOff) {
@@ -101,9 +104,9 @@ int main() {
 				calculate_Movement(&player1_x, &player1_y, joy_x_axis, joy_y_axis, &player1_xCounter, &player1_yCounter, player1_x_speed, player1_y_speed, grid);
 				draw_Explosion(lcd, bombradius, grid, &livebombs, &score, &player1_x_bombdrop, &player1_y_bombdrop);
 				checkPlayerHit(player1_x, player1_y, &hit, grid, &LivesCounter);
-				updateLives(&hit, &lives, lcd, &score, &stage, grid);
-				clear_Explosion(lcd, bombradius, grid, player1_x, player1_y);
 				update_EEPROM();
+				updateLives(&hit, &lives, lcd, &score, &stage, grid, eeprom_Storagearray, &newHighscore);
+				clear_Explosion(lcd, bombradius, grid, player1_x, player1_y);
 				set_Leds(lives);
 
 				if (dataReady_IR() && IRdata != 0) {
@@ -183,8 +186,9 @@ void init_Timer() {
 
 void update_EEPROM() {
 
-	if (read_eeprom_word(&eeprom_Storagearray[0]) < score) { //if score of player1 in eeprom < score in game
-		write_eeprom_word(&eeprom_Storagearray[0], score);  // write highest score to [0] = player 1 in eeprom
+	if (read_eeprom_word(&eeprom_Storagearray[0]) < score && lives == 0) { //if score of player1 in eeprom < score in game
+		write_eeprom_word(&eeprom_Storagearray[0], score);  // write highest score to [0] (player 1 in eeprom)
+		newHighscore = 1;
 	}
 	if (reset_EEPROM) {
 		write_eeprom_word(&eeprom_Storagearray[0], 0);
