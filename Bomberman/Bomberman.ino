@@ -20,7 +20,7 @@ static uint8_t nunchuck_buf[6];	//Nunchuck Buffer
 uint8_t grid[16][12];		//Griddata
 uint8_t collumnCounter;		//collumnCounter
 uint8_t rowCounter;			//rowCounter
-uint8_t player1_x, player1_x_old, player1_y, player1_y_old;
+uint8_t player1_x = 1, player1_x_old = 0, player1_y = 1, player1_y_old = 0;
 uint8_t player2_x = 1, player2_y = 1, player2_x_old = 1, player2_y_old = 1;
 //uint8_t player2_x = 14, player2_y = 10, player2_x_old = 14, player2_y_old = 10;
 uint8_t player1_xCounter = 0, player1_yCounter = 0;		//Player movement speed
