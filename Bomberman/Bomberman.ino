@@ -136,11 +136,10 @@ int main() {
 					lcd.fillRect(player2_x_old * 20, player2_y_old * 20, 20, 20, Background);
 
 					// draw the bomb again when drawing over it
-					if (player2_x_old == player2_x_bombdrop && player2_y_old == player2_y_bombdrop) {
+					if (player2_x_old == player2_x_bombdrop && player2_y_old == player2_y_bombdrop && !grid[player2_x_bombdrop][player2_y_bombdrop]) {
 						draw_BombSprite(lcd, player2_x_bombdrop, player1_y_bombdrop);
 					}
 
-					lcd.fillRect(player2_x_old * 20, player2_y_old * 20, 20, 20, Background);
 					lcd.fillRect(player2_x * 20, player2_y * 20, 20, 20, RGB(0, 0, 255));
 				}
 
