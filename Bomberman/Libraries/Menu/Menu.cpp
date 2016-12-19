@@ -119,20 +119,20 @@ void highscores(MI0283QT9 lcd, unsigned char eeprom_Storagearray[12], uint8_t* n
 	lcd.drawText(margin + (boxSizeX / 2) + 45, margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace + 15, "BACK", COLOR_WHITE, COLOR_BLACK, 2);
 }
 
-void keyboard(MI0283QT9 lcd, uint8_t beginx, uint8_t beginy, char b[], char c[]) {
+/*void keyboard(MI0283QT9 lcd, uint8_t beginx, uint8_t beginy, char b[], char c[]) {
 	beginy = 150 - margin - boxSizeY - middleSpace;
 	beginx = 6;
 	lcd.fillScreen(COLOR_BLACK);
 	lcd.drawRect(margin + (boxSizeX / 2) + (middleSpace / 2), margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace, boxSizeX, boxSizeY, COLOR_FINE_BLUE); // Upper-Bottom Rectangle
 	lcd.drawText(margin + (boxSizeX / 2) + 45, margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace + 15, "BACK", COLOR_WHITE, COLOR_BLACK, 2);
 	//lcd.drawText(beginx + 115, 120 - margin - boxSizeY, "..........", COLOR_FINE_ORANGE, COLOR_BLACK, 1);
-	int a;
+	uint8_t a;
 	for (a = 0; a < 10; a++) {
 		lcd.drawChar(beginx + 115 + (a * 5), 120 - margin - boxSizeY, b[a], COLOR_WHITE, COLOR_BLACK, 1);
 	}
-	int i;
-	for (int y = 0; y < 3; y++) {
-		for (int x = 0; x < 10; x++) {
+	uint8_t i;
+	for (uint8_t y = 0; y < 3; y++) {
+		for (uint8_t x = 0; x < 10; x++) {
 
 			lcd.fillRect(x * 32 + beginx, y * 32 + beginy, 20, 20, COLOR_BLACK);
 			lcd.drawRect(x * 32 + beginx, y * 32 + beginy, 20, 20, COLOR_WHITE);
@@ -140,7 +140,7 @@ void keyboard(MI0283QT9 lcd, uint8_t beginx, uint8_t beginy, char b[], char c[])
 			i++;
 		}
 	}
-}
+}*/
 
 void options(MI0283QT9 lcd, uint8_t* playerSpeed, uint8_t* max_bombs)
 {
@@ -212,9 +212,9 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 	uint8_t menucounter = 0;
 	uint16_t touchx, touchy;
 	uint8_t beginx, beginy, alphabethCharCounter = 0, bArray = 0, x,y;
-	char alphabethChar;
+	/*char alphabethChar;
 	char b[] = { '.', '.', '.', '.', '.', '.', '.', '.', '.', '.' };
-	char c[] = { 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z' };
+	char c[] = { 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z' };*/
 	for (;;)
 	{
 		set_Brightness(lcd, 7);
@@ -337,12 +337,12 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 			if (touchx >= margin + (boxSizeX / 2) + (middleSpace / 2) && touchx <= margin + (boxSizeX / 2) + (middleSpace / 2) + boxSizeX && touchy >= margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace && touchy <= margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY) { // back to menu
 				menucounter = 0;
 			}
-			if (touchx >= margin + (boxSizeX / 2) + middleSpace / 2 && touchx <= margin + (boxSizeX / 2) + middleSpace / 2 + boxSizeX && touchy >= margin + boxSizeY + middleSpace && touchy <= margin + boxSizeY + middleSpace + boxSizeY) { // back to menu
+			/*if (touchx >= margin + (boxSizeX / 2) + middleSpace / 2 && touchx <= margin + (boxSizeX / 2) + middleSpace / 2 + boxSizeX && touchy >= margin + boxSizeY + middleSpace && touchy <= margin + boxSizeY + middleSpace + boxSizeY) { // back to menu
 				keyboard(lcd, beginx, beginy, b ,c);
 				menucounter = 5;
-			}
+			}*/
 		}
-		if (menucounter == 5 && lcd.touchRead()) {
+		/*if (menucounter == 5 && lcd.touchRead()) {
 			touchx = lcd.touchX();
 			touchy = lcd.touchY();
 			if (touchx >= margin + (boxSizeX / 2) + (middleSpace / 2) && touchx <= margin + (boxSizeX / 2) + (middleSpace / 2) + boxSizeX && touchy >= margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace && touchy <= margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY) { // back to menu
@@ -374,7 +374,7 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 			b[bArray] = c[(((y - 1) * 10) + x)];
 			Serial.println(c[(((y - 1) * 10) + x)]);
 			menucounter = 5;
-		}
+		}*/
 	}
 }
 
