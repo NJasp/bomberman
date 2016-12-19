@@ -206,7 +206,7 @@ void levelSelect(MI0283QT9 lcd)
 	lcd.drawText(0, 227, "Bomberman version 0.1", COLOR_WHITE, COLOR_BLACK, 1); // Version tekst
 }
 
-void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_Storagearray[12], uint8_t* playerSpeed, uint8_t* max_bombs, uint8_t* counter, uint8_t* newHighscore)
+void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_Storagearray[12], uint8_t* playerSpeed, uint8_t* max_bombs, uint8_t* counter, uint8_t* newHighscore, uint8_t dataReady_IR, volatile uint16_t* IRdata, volatile uint8_t* isSendingIR)
 {
 	uint8_t menucounter = 0;
 	uint16_t touchx, touchy;
@@ -216,6 +216,12 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 	char c[] = { 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z' };*/
 	for (;;)
 	{
+		if(dataReady_IR) {
+			if(processMenuData_IR(stage, level, IRdata)) {
+				break;
+			}
+		}
+
 		set_Brightness(lcd, 7);
 		touchx = 0;
 		touchy = 0;
@@ -249,18 +255,24 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 				(*stage) = 2;
 				lcd.fillScreen(Background);
 				(*level) = 1;
+				// send over level
+				send_IR(isSendingIR, LEVEL, 127, 1);
 				break;
 			}
 			if (touchx >= margin + (boxSizeX / 2) && touchx <= margin + (boxSizeX / 2) + (boxSizeX / 2) && touchy >= margin + boxSizeY + middleSpace && touchy <= margin + boxSizeY + middleSpace + boxSizeY) { // level 2
 				(*stage) = 2;
 				lcd.fillScreen(Background);
 				(*level) = 2;
+				// send over level
+				send_IR(isSendingIR, LEVEL, 127, 2);
 				break;
 			}
 			if (touchx >= margin + boxSizeX + middleSpace && touchx <= margin + boxSizeX + middleSpace + (boxSizeX / 2) && touchy >= margin + boxSizeY + middleSpace && touchy <= margin + boxSizeY + middleSpace + boxSizeY) { // level 3
 				(*stage) = 2;
 				lcd.fillScreen(Background);
 				(*level) = 3;
+				// send over level
+				send_IR(isSendingIR, LEVEL, 127, 3);
 				break;
 			}
 			if (touchx >= margin + boxSizeX + middleSpace + (boxSizeX / 2) && touchx <= margin + boxSizeX + middleSpace + (boxSizeX / 2) + (boxSizeX / 2) && touchy >= 60 && touchy <= 160) { // level random 180, 60, 120, 100
@@ -272,6 +284,8 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 				(*stage) = 2;
 				lcd.fillScreen(Background);
 				(*level) = 0; // moet straks random level zijn, niet het test level
+				// send over level
+				send_IR(isSendingIR, LEVEL, 127, 0);
 				break;
 			}
 			if (touchx >= margin + boxSizeX + middleSpace && touchx <= margin + boxSizeX + middleSpace + boxSizeX && touchy >= margin + boxSizeY + middleSpace + boxSizeY + middleSpace && touchy <= margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY) { // back to menu

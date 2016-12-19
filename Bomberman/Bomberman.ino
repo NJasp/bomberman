@@ -48,7 +48,6 @@ uint8_t max_bombs = 1;
 uint8_t score = 0;
 uint8_t lives = 3;
 uint8_t level = 1;
-data_store player2_data;
 uint8_t reset_EEPROM = 0;
 uint8_t sendBomb = 0;
 uint8_t bombDelayCounter = 0;
@@ -80,7 +79,7 @@ int main() {
 		if (stage == 1)
 		{
 			update_EEPROM();
-			menu(lcd, &stage, &level, eeprom_Storagearray, &playerSpeed, &max_bombs, &maxBombCounter, &newHighscore);
+			menu(lcd, &stage, &level, eeprom_Storagearray, &playerSpeed, &max_bombs, &maxBombCounter, &newHighscore, dataReady_IR(), &IRdata, &isSendingIR);
 			player1_x_speed = playerSpeed;
 			player1_y_speed = playerSpeed;
 			if (!isPlayer2) {
@@ -95,6 +94,7 @@ int main() {
 				init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old, isPlayer2);
 				draw_Sprites(lcd, grid);
 			}
+			// TODO: sync up arduinos, set to send
 			for (;;) {
 				set_Brightness(lcd, 7);
 				if (stage == 1)
@@ -110,38 +110,10 @@ int main() {
 				clear_Explosion(lcd, bombradius, grid, player1_x, player1_y);
 				set_Leds(lives);
 
-				if (dataReady_IR() && IRdata != 0) {
-					player2_data = decode_IR(IRdata);
+				if (dataReady_IR() && IRdata != 0)
+					processData_IR(&IRdata, &player2_y, &player2_x, &player2_x_old, &player2_y_old, &player2_x_bombdrop, &player2_y_bombdrop, grid);
 
-					// process IR data
-					if (player2_data.type == PLAYER) {
-						player2_x_old = player2_x;
-						player2_y_old = player2_y;
-						if (!grid[player2_data.xData][player2_data.yData]) {
-							player2_x = player2_data.xData;
-							player2_y = player2_data.yData;
-						}
-					}
-					else if (player2_data.type == BOMB) {
-						player2_x_bombdrop = player2_data.xData;
-						player2_y_bombdrop = player2_data.yData;
-						grid[player2_data.xData][player2_data.yData] = 6;
-						IRdata = 0;
-					}
-				}
-
-				// draw other player position if new
-				if (player2_x != player2_x_old || player2_y != player2_y_old) {
-					lcd.fillRect(player2_x_old * 20, player2_y_old * 20, 20, 20, Background);
-
-					// draw the bomb again when drawing over it
-//					if (player2_x_old == player2_x_bombdrop && player2_y_old == player2_y_bombdrop && !grid[player2_x_bombdrop][player2_y_bombdrop]) {
-//						draw_BombSprite(lcd, player2_x_bombdrop, player1_y_bombdrop);
-//					}
-
-					lcd.fillRect(player2_x * 20, player2_y * 20, 20, 20, RGB(0, 0, 255));
-				}
-
+				draw_Player2(player2_x, player2_y, player2_x_old, player2_y_old, lcd);
 				draw_Player(player1_x, player1_y, &player1_x_old, &player1_y_old, lcd);
 				check_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, max_bombs, &livebombs, &antiholdCounter, nunchuck_buf, grid, &sendBomb);
 				draw_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, lcd, grid);
@@ -221,5 +193,7 @@ ISR(TIMER2_COMPA_vect) {// timer for receiving/sending
 }
 
 ISR(INT0_vect) { // receive interrupt
-	processRecieve_IR(nTimer, &IRdata);
+	// only receive while not sending
+//	if(!isSendingIR)
+		processRecieve_IR(nTimer, &IRdata);
 }

@@ -20,6 +20,20 @@ void draw_Player(uint8_t player1_x, uint8_t player1_y, uint8_t* player1_x_old, u
 	}
 }
 
+void draw_Player2(uint8_t player2_x, uint8_t player2_y, uint8_t player2_x_old, uint8_t player2_y_old, MI0283QT9 screen){
+	// draw other player position if new
+	if (player2_x != player2_x_old || player2_y != player2_y_old) {
+		screen.fillRect(player2_x_old * 20, player2_y_old * 20, 20, 20, Background);
+
+		// draw the bomb again when drawing over it
+//					if (player2_x_old == player2_x_bombdrop && player2_y_old == player2_y_bombdrop && !grid[player2_x_bombdrop][player2_y_bombdrop]) {
+//						draw_BombSprite(lcd, player2_x_bombdrop, player1_y_bombdrop);
+//					}
+
+		screen.fillRect(player2_x * 20, player2_y * 20, 20, 20, RGB(0, 0, 255));
+	}
+}
+
 
 void calculate_Movement(uint8_t* player1_x, uint8_t* player1_y, uint8_t joy_x_axis, uint8_t joy_y_axis, uint8_t* player1_xCounter, uint8_t* player1_yCounter, uint8_t player1_x_speed, uint8_t player1_y_speed, uint8_t grid[16][12])
 {
