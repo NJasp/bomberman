@@ -49,7 +49,6 @@ uint8_t score = 0;
 uint8_t lives = 3;
 uint8_t level = 1;
 data_store player2_data;
-uint8_t menuOff = 0;
 uint8_t reset_EEPROM = 0;
 uint8_t sendBomb = 0;
 uint8_t bombDelayCounter = 0;
@@ -69,7 +68,7 @@ int main() {
 		//write_eeprom_word(&eeprom_Storagearray[4], 'R');
 		//write_eeprom_word(&eeprom_Storagearray[5], 'T');
 		//write_eeprom_word(&eeprom_Storagearray[6], 'Y');
-	if (!menuOff)
+	if (!isPlayer2)
 		lcd.touchStartCal();
 	else
 		stage = 2;
@@ -84,14 +83,14 @@ int main() {
 			menu(lcd, &stage, &level, eeprom_Storagearray, &playerSpeed, &max_bombs, &maxBombCounter, &newHighscore);
 			player1_x_speed = playerSpeed;
 			player1_y_speed = playerSpeed;
-			if (!menuOff) {
+			if (!isPlayer2) {
 				init_Player(player1_x, player1_y, lcd);
 				init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old, isPlayer2);
 				draw_Sprites(lcd, grid);
 			}
 		}
 		if (stage == 2) {
-			if (menuOff) {
+			if (isPlayer2) {
 				init_Player(player1_x, player1_y, lcd);
 				init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old, isPlayer2);
 				draw_Sprites(lcd, grid);
