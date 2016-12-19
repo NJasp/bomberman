@@ -12,7 +12,7 @@
 #include "Libraries/Sprites/Sprites.h"
 #include "Libraries/Leds/Leds.h"
 
-uint8_t isPlayer2 = 1;
+uint8_t isPlayer2 = 0;
 MI0283QT9 lcd;					//LCD variabele
 unsigned char EEMEM  eeprom_Storagearray[12];// eeprom score array. [0] = player1, [1] = player 2
 uint8_t joy_x_axis, joy_y_axis;	//Nunchuck Data
@@ -42,8 +42,8 @@ uint8_t stage = 0;
 uint8_t newHighscore = 0;
 
 uint8_t bombradius = 2;
-uint8_t playerSpeed = 30;
-uint8_t player1_x_speed, player1_y_speed; //Higher is slower
+uint8_t playerSpeed = 60;
+uint8_t player1_x_speed = 80, player1_y_speed = 80; //Higher is slower
 uint8_t max_bombs = 1;
 uint8_t score = 0;
 uint8_t lives = 3;
@@ -56,18 +56,6 @@ uint8_t sendBomb = 0;
 void init_Timer();
 
 int main() {
-	if(isPlayer2) {
-		player1_x = 10;
-		player1_y = 14;		//player locations
-		player1_x_old = 10;
-		player1_y_old = 14;	//Old locations of the player;
-	}
-	else {
-		player1_x = 0;
-		player1_y = 0;		//player locations
-		player1_x_old = 0;
-		player1_y_old = 0;	//Old locations of the player;
-	}
 	init();
 	Serial.begin(9600);
 	init_Timer();
