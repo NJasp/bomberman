@@ -47,7 +47,7 @@ void startScherm(MI0283QT9 lcd, uint8_t* stage)
 		}
 		if ((!toggle2) && redraw) {//Elke 10e loop toggle tekst aan en uit (en teken het maar 1 keer)
 			//lcd.drawText(25, 200, "Touch to continue", RGB(0, 0, 127), RGB(127, 127, 127), 2);
-			lcd.drawText(25, 200, "Touch to continue", RGB(0, 0, 127), COLOR_BLACK, 2);
+			lcd.drawText(25, 200, "Touch to continue", /*RGB(0, 0, 127)*/COLOR_WHITE, COLOR_BLACK, 2);
 			redraw = 0;
 		}
 		else if (toggle2 && redraw) {
@@ -94,22 +94,26 @@ void mainMenu(MI0283QT9 lcd) {
 
 void highscores(MI0283QT9 lcd, unsigned int eeprom_Storagearray[2])
 {
-	lcd.fillScreen(RGB(255, 255, 255));
-	lcd.drawText(40, 20, "Highscores", (RGB(0, 0, 0)), (RGB(255, 255, 255)), 3);
+	lcd.fillScreen(COLOR_BLACK);
+	lcd.drawText(margin + 15, margin + 5, "HIGH SCORES", COLOR_WHITE, COLOR_BLACK, 3);
+	lcd.drawRect(margin + (boxSizeX / 2) + middleSpace / 2, margin + boxSizeY + middleSpace, boxSizeX, boxSizeY, COLOR_FINE_BLUE); // Upper-Bottom Rectangle
+	lcd.drawRect(margin + (boxSizeX / 2) + middleSpace / 2, margin + boxSizeY + middleSpace + boxSizeY + middleSpace, boxSizeX, boxSizeY, COLOR_FINE_BLUE);
 	uint8_t a, b, c;
-	lcd.drawText(120, 100, "Scores", RGB(255, 255, 255), RGB(0, 0, 0), 1);
-	a = lcd.drawText(120, 120, "Player ", RGB(255, 255, 255), RGB(0, 0, 0), 1);
-	b = lcd.drawInteger(a, 120, 1, 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
-	c = lcd.drawText(b, 120, ": ", RGB(255, 255, 255), RGB(0, 0, 0), 1);
-	lcd.drawInteger(c, 120, read_eeprom_word(&eeprom_Storagearray[0]), 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
+	a = lcd.drawText(margin + (boxSizeX / 2) + middleSpace / 2 + 27, margin + boxSizeY + middleSpace + 15, "Player ", RGB(255, 255, 255), RGB(0, 0, 0), 1);
+	b = lcd.drawInteger(a, margin + boxSizeY + middleSpace + 15, 1, 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
+	c = lcd.drawText(b, margin + boxSizeY + middleSpace + 15, ": ", RGB(255, 255, 255), RGB(0, 0, 0), 1);
+	lcd.drawInteger(c, margin + boxSizeY + middleSpace + 15, read_eeprom_word(&eeprom_Storagearray[0]), 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
 
-	//a = lcd.drawText(120, 140, "Player ", RGB(255, 255, 255), RGB(0, 0, 0), 1);
-	//b = lcd.drawInteger(a, 140, player_scoreArray[2], 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
-	//c = lcd.drawText(b, 140, ": ", RGB(255, 255, 255), RGB(0, 0, 0), 1);
-	//lcd.drawInteger(c, 140, (*score2), 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
+	a = lcd.drawText(margin + (boxSizeX / 2) + middleSpace / 2 + 27, margin + boxSizeY + middleSpace + middleSpace + boxSizeY + 15, "Player ", RGB(255, 255, 255), RGB(0, 0, 0), 1);
+	b = lcd.drawInteger(a, margin + boxSizeY + middleSpace + middleSpace + boxSizeY + 15, 2, 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
+	c = lcd.drawText(b, margin + boxSizeY + middleSpace + middleSpace + boxSizeY + 15, ": ", RGB(255, 255, 255), RGB(0, 0, 0), 1);
+	lcd.drawInteger(c, margin + boxSizeY + middleSpace + middleSpace +boxSizeY + 15, read_eeprom_word(&eeprom_Storagearray[1]), 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
+
+	lcd.drawRect(margin + (boxSizeX / 2) + (middleSpace / 2), margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace, boxSizeX, boxSizeY, COLOR_FINE_BLUE); // Upper-Bottom Rectangle
+	lcd.drawText(margin + (boxSizeX / 2) + 45, margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace + 15, "BACK", COLOR_WHITE, COLOR_BLACK, 2);
 }
 
-void options(MI0283QT9 lcd, uint8_t* playerSpeed)
+void options(MI0283QT9 lcd, uint8_t* playerSpeed, uint8_t* max_bombs)
 {
 	lcd.fillScreen(COLOR_BLACK);
 	lcd.drawText(margin + 45, margin + 5, "SETTINGS", COLOR_WHITE, COLOR_BLACK, 3);
@@ -122,7 +126,7 @@ void options(MI0283QT9 lcd, uint8_t* playerSpeed)
 	lcd.drawText(margin + (boxSizeX / 2) + 25, margin + boxSizeY + middleSpace + 10, "player speed", COLOR_WHITE, COLOR_BLACK, 1);
 	lcd.drawRect(margin + (boxSizeX / 2) + 30, margin + boxSizeY + middleSpace + 30, (boxSizeX - 60), (boxSizeY / 10), COLOR_FINE_BLUE);
 	lcd.fillRect(margin + (boxSizeX / 2) + 30, margin + boxSizeY + middleSpace + 30, (boxSizeX - 60) - (*playerSpeed), (boxSizeY / 10), COLOR_FINE_ORANGE);
-	lcd.drawText(margin + boxSizeX + middleSpace + (boxSizeX / 2) + 30, margin + boxSizeY + middleSpace + 20, "+", COLOR_WHITE, COLOR_FINE_GREEN, 2);
+	lcd.drawText(margin + (boxSizeX / 2) + middleSpace + boxSizeX + 30, margin + boxSizeY + middleSpace + 20, "+", COLOR_WHITE, COLOR_FINE_GREEN, 2);
 	//Y row = 3
 	lcd.drawRect(margin, margin + boxSizeY + middleSpace + boxSizeY + middleSpace, boxSizeX / 2, boxSizeY, COLOR_FINE_BLUE); // Upper-Bottom Rectangle
 	lcd.fillRect(margin, margin + boxSizeY + middleSpace + boxSizeY + middleSpace, boxSizeX / 2, boxSizeY, COLOR_FINE_RED); // Upper-Bottom Rectangle
@@ -131,6 +135,7 @@ void options(MI0283QT9 lcd, uint8_t* playerSpeed)
 	lcd.fillRect(margin + boxSizeX + middleSpace + (boxSizeX / 2), margin + boxSizeY + middleSpace + boxSizeY + middleSpace, boxSizeX / 2, boxSizeY, COLOR_FINE_GREEN); // Upper-Bottom Rectangle
 	lcd.drawText(margin + 30, margin + boxSizeY + middleSpace + boxSizeY + middleSpace + 20, "-", COLOR_WHITE, COLOR_FINE_RED, 2);
 	lcd.drawText(margin + (boxSizeX / 2) + 25, margin + boxSizeY + middleSpace + boxSizeY + middleSpace + 10, "maxium bombs", COLOR_WHITE, COLOR_BLACK, 1);
+	lcd.drawInteger(margin + (boxSizeX / 2) + 70, margin + boxSizeY + middleSpace + boxSizeY + middleSpace + 30, (*max_bombs), 10, COLOR_WHITE, COLOR_BLACK, 1);
 	lcd.drawText(margin + boxSizeX + middleSpace + (boxSizeX / 2) + 30, margin + boxSizeY + middleSpace + boxSizeY + middleSpace + 20, "+", COLOR_WHITE, COLOR_FINE_GREEN, 2);
 	lcd.drawRect(margin + (boxSizeX / 2) + (middleSpace / 2), margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace, boxSizeX, boxSizeY, COLOR_FINE_BLUE); // Upper-Bottom Rectangle
 	lcd.drawText(margin + (boxSizeX / 2) + 45, margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace + 15, "BACK", COLOR_WHITE, COLOR_BLACK, 2);
@@ -173,10 +178,11 @@ void levelSelect(MI0283QT9 lcd)
 	lcd.drawText(0, 227, "Bomberman version 0.1", COLOR_WHITE, COLOR_BLACK, 1); // Version tekst
 }
 
-void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned int eeprom_Storagearray[2], uint8_t* playerSpeed)
+void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned int eeprom_Storagearray[2], uint8_t* playerSpeed, uint8_t* max_bombs, uint8_t* counter, uint8_t* counter2)
 {
 	uint8_t menucounter = 0;
 	uint16_t touchx, touchy;
+	uint8_t i;
 	for (;;)
 	{
 		set_Brightness(lcd, 7);
@@ -196,7 +202,7 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned int eeprom_Sto
 			}
 			else if (touchx >= margin + boxSizeX + middleSpace && touchx <= margin + boxSizeX + middleSpace + boxSizeX && touchy >= margin && touchy <= margin + boxSizeY) // Options
 			{
-				options(lcd, playerSpeed);
+				options(lcd, playerSpeed, max_bombs);
 				menucounter = 3;
 			}
 			else if (touchx >= margin && touchx <= margin + boxSizeX && touchy >= margin + boxSizeY + middleSpace && touchy <= margin + boxSizeY + middleSpace + boxSizeY) // Highscores
@@ -229,7 +235,7 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned int eeprom_Sto
 			if (touchx >= margin + boxSizeX + middleSpace + (boxSizeX / 2) && touchx <= margin + boxSizeX + middleSpace + (boxSizeX / 2) + (boxSizeX / 2) && touchy >= 60 && touchy <= 160) { // level random 180, 60, 120, 100
 				(*stage) = 2;
 				lcd.fillScreen(Background);
-				(*level) = 4; // moet straks random level zijn, niet het test level
+				(*level) = 5; // moet straks random level zijn, niet het test level
 			}
 			if (touchx >= margin && touchx <= margin + boxSizeX && touchy >= margin + boxSizeY + middleSpace + boxSizeY + middleSpace && touchy <= margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY) { // level random 180, 60, 120, 100
 				(*stage) = 2;
@@ -245,17 +251,58 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned int eeprom_Sto
 			touchx = lcd.touchX();
 			touchy = lcd.touchY();
 			if (touchx >= margin && touchx <= margin + (boxSizeX / 2) && touchy >= margin + boxSizeY + middleSpace && touchy <= margin + boxSizeY + middleSpace + boxSizeY) { // pressed on - button
-				(*playerSpeed)--;
-				lcd.fillRect(margin + (boxSizeX / 2) + 30, margin + boxSizeY + middleSpace + 30, (5), (boxSizeY / 10), COLOR_FINE_ORANGE);
+				if ((*playerSpeed) < 85 && (*playerSpeed) >= 0) {
+					(*playerSpeed)++;
+					//Serial.println((*playerSpeed));
+					lcd.fillRect(margin + (boxSizeX / 2) + 30, margin + boxSizeY + middleSpace + 30, (boxSizeX - 60), (boxSizeY / 10), COLOR_BLACK);
+					lcd.drawRect(margin + (boxSizeX / 2) + 30, margin + boxSizeY + middleSpace + 30, (boxSizeX - 60), (boxSizeY / 10), COLOR_FINE_BLUE);
+					lcd.fillRect(margin + (boxSizeX / 2) + 30, margin + boxSizeY + middleSpace + 30, (boxSizeX - 60) - (*playerSpeed), (boxSizeY / 10), COLOR_FINE_ORANGE);
+				}
 			}
-			if (touchx >= margin + (boxSizeX / 2) + (middleSpace / 2) && touchx <= margin + (boxSizeX / 2) + (middleSpace / 2) + boxSizeX + boxSizeX && touchy >= margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace && touchy <= margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY) { // back to menu
+
+			if (touchx >= margin + (boxSizeX / 2) + middleSpace + boxSizeX && touchx <= margin + (boxSizeX / 2) + middleSpace + boxSizeX + (boxSizeX / 2) && touchy >= margin + boxSizeY + middleSpace && touchy <= margin + boxSizeY + middleSpace + boxSizeY) { // pressed on - button
+				if ((*playerSpeed) <= 85 && (*playerSpeed) > 0) {
+					lcd.fillRect(margin + (boxSizeX / 2) + 30, margin + boxSizeY + middleSpace + 30, (boxSizeX - 60), (boxSizeY / 10), COLOR_BLACK);
+					lcd.drawRect(margin + (boxSizeX / 2) + 30, margin + boxSizeY + middleSpace + 30, (boxSizeX - 60), (boxSizeY / 10), COLOR_FINE_BLUE);
+					lcd.fillRect(margin + (boxSizeX / 2) + 30, margin + boxSizeY + middleSpace + 30, ((boxSizeX - 60) - (*playerSpeed)) + 1, (boxSizeY / 10), COLOR_FINE_ORANGE);
+					(*playerSpeed)--;
+					//Serial.println((*playerSpeed));
+				}
+			}
+
+			if (touchx >= margin && touchx <= margin + (boxSizeX / 2) && touchy >= margin + boxSizeY + middleSpace + boxSizeY + middleSpace && touchy <= margin + boxSizeY + middleSpace + boxSizeY + middleSpace + (boxSizeY)) { // pressed on - button
+				if ((*counter) == 0) {
+					if ((*max_bombs) > 1) {
+						(*max_bombs)--;
+						lcd.drawInteger(margin + (boxSizeX / 2) + 70, margin + boxSizeY + middleSpace + boxSizeY + middleSpace + 30, (*max_bombs), 10, COLOR_WHITE, COLOR_BLACK, 1);
+					}
+				}
+				(*counter)++;
+				if ((*counter) == 252) {
+					(*counter) = 0;
+				}
+			}
+			if (touchx >= margin + (boxSizeX / 2) + middleSpace + boxSizeX && touchx <= margin + (boxSizeX / 2) + middleSpace + boxSizeX + (boxSizeX / 2) && touchy >= margin + boxSizeY + middleSpace + boxSizeY + middleSpace && touchy <= margin + boxSizeY + middleSpace + boxSizeY + middleSpace + (boxSizeY)) { // pressed on - button
+				if ((*counter) == 0) {
+					if ((*max_bombs) < 5) {
+						(*max_bombs)++;
+						lcd.drawInteger(margin + (boxSizeX / 2) + 70, margin + boxSizeY + middleSpace + boxSizeY + middleSpace + 30, (*max_bombs), 10, COLOR_WHITE, COLOR_BLACK, 1);
+					}
+				}
+				(*counter)++;
+				if ((*counter) == 252) {
+					(*counter) = 0;
+				}
+			}
+			//lcd.fillRect(margin + (boxSizeX / 2) + 30, margin + boxSizeY + middleSpace + 30, (boxSizeX - 60) - (*playerSpeed), (boxSizeY / 10), COLOR_FINE_ORANGE);
+			if (touchx >= margin + (boxSizeX / 2) + (middleSpace / 2) && touchx <= margin + (boxSizeX / 2) + (middleSpace / 2) + boxSizeX && touchy >= margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace && touchy <= margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY) { // back to menu
 				menucounter = 0;
 			}
 		}
 		if (menucounter == 4 && lcd.touchRead()) {
 			touchx = lcd.touchX();
 			touchy = lcd.touchY();
-			if (touchx >= margin + boxSizeX + middleSpace && touchx <= margin + boxSizeX + middleSpace + boxSizeX && touchy >= margin + boxSizeY + middleSpace + boxSizeY + middleSpace && touchy <= margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY) { // back to menu
+			if (touchx >= margin + (boxSizeX / 2) + (middleSpace / 2) && touchx <= margin + (boxSizeX / 2) + (middleSpace / 2) + boxSizeX && touchy >= margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace && touchy <= margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY) { // back to menu
 				menucounter = 0;
 			}
 		}

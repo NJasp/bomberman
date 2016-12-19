@@ -3,8 +3,8 @@
 void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t* player1_y, uint8_t* player1_x_old, uint8_t* player1_y_old)
 {
 	if (level == 0) {
-		srand(46);
-		uint8_t row, collumn;
+		srand(33);
+		uint8_t row, collumn, number, counter0 = 0, counter1 = 0, counter2 = 0;
 		init_OutsideWalls(grid);
 		*player1_x = 1;
 		*player1_y = 1;
@@ -12,10 +12,37 @@ void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t
 		*player1_y_old = 1;
 		for (row = 1; row < 11; row++) {
 			for (collumn = 1; collumn < 15; collumn++) {
-				grid[collumn][row] = rand() % 3;
+				number = rand() % 5;
+				switch (number) {
+				case 0:
+					counter0++;
+					grid[collumn][row] = 0;
+					break;
+				case 1:
+					counter0++;
+					grid[collumn][row] = 0;
+					break;
+				case 2:
+					counter1++;
+					grid[collumn][row] = 1;
+					break;
+				case 3:
+					counter2++;
+					grid[collumn][row] = 2;
+					break;
+				case 4:
+					counter2++;
+					grid[collumn][row] = 2;
+					break;
+				}
 			}
 		}
-		grid[1][1] = 0;
+		Serial.print(counter0);
+		Serial.print(", ");
+		Serial.print(counter1);
+		Serial.print(", ");
+		Serial.println(counter2);
+		grid[1][1] = 0;  //grid[collumn][row]
 		grid[1][2] = 0;
 		grid[2][1] = 0;
 		grid[14][9] = 0;

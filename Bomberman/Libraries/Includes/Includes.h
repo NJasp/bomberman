@@ -1,7 +1,7 @@
 #ifndef Includes_H_
 #define Includes_H_
 #define Background RGB(102, 102, 102)
-#define COLOR_FINE_RED RGB(255, 0, 75)
+#define COLOR_FINE_RED RGB(255, 0, /*75*/ 20)
 #define COLOR_FINE_GREEN RGB(100, 200, 0)
 #define COLOR_FINE_ORANGE RGB(255,165,0)
 #define COLOR_FINE_BLUE RGB(100,100,140)
