@@ -47,10 +47,11 @@ uint8_t player1_x_speed, player1_y_speed; //Higher is slower
 uint8_t max_bombs = 1;
 uint8_t score = 0;
 uint8_t lives = 3;
-uint8_t level = 1;
+uint8_t level = 0;
 data_store player2_data;
 uint8_t menuOff = 0;
 uint8_t reset_EEPROM = 0;
+uint8_t sendBomb = 0;
 
 void init_Timer();
 
@@ -134,10 +135,8 @@ int main() {
 					lcd.fillRect(player2_x_old * 20, player2_y_old * 20, 20, 20, Background);
 
 					// draw the bomb again when drawing over it
-					if (player2_x_old == player2_x_bombdrop && player2_y == player2_y_bombdrop) {
+					if (player2_x_old == player2_x_bombdrop && player2_y_old == player2_y_bombdrop) {
 						draw_BombSprite(lcd, player2_x_bombdrop, player1_y_bombdrop);
-						player2_x_bombdrop = 0;
-						player2_y_bombdrop = 0;
 					}
 
 					lcd.fillRect(player2_x_old * 20, player2_y_old * 20, 20, 20, Background);
@@ -145,14 +144,22 @@ int main() {
 				}
 
 				draw_Player(player1_x, player1_y, &player1_x_old, &player1_y_old, lcd);
-				check_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, max_bombs, &livebombs, &antiholdCounter, nunchuck_buf, grid, &isSendingIR);
+				check_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, max_bombs, &livebombs, &antiholdCounter, nunchuck_buf, grid, &sendBomb);
 				draw_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, lcd, grid);
 				//lcd.fillRect(player2_x_bombdrop * 20, player2_y_bombdrop * 20, 20, 20, RGB(255, 0, 0));
 				//checkPlayerHit(player1_x, player1_y, &hit, grid);
 
 				// Bomb update | IR send interval
 				if (interruptCounter >= 100 /*3906*/) {
-					send_IR(&isSendingIR, PLAYER, player1_x, player1_y);
+					if(sendBomb) {
+						send_IR(&isSendingIR, BOMB, player2_x_bombdrop, player2_y_bombdrop);
+						sendBomb = 0;
+						player2_x_bombdrop = 0;
+						player2_y_bombdrop = 0;
+					}
+					else {
+						send_IR(&isSendingIR, PLAYER, player1_x, player1_y);
+					}
 					for (rowCounter = 0; rowCounter < 12; rowCounter++) {
 						for (collumnCounter = 0; collumnCounter < 16; collumnCounter++) {
 							if ((grid[collumnCounter][rowCounter] > 3 && grid[collumnCounter][rowCounter] < 7) || (grid[collumnCounter][rowCounter] > 7 && grid[collumnCounter][rowCounter] < 10)) {

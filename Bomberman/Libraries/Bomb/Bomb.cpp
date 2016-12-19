@@ -109,7 +109,7 @@ void clear_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12],
 	}
 }
 
-void check_Bomb(uint8_t collumn, uint8_t row, uint8_t* collumn_bombdrop, uint8_t* row_bombdrop, uint8_t max_bombs, uint8_t* livebombs, uint8_t* antiholdCounter, uint8_t nunchuck_buf[], uint8_t grid[16][12], volatile uint8_t* isSendingIR)
+void check_Bomb(uint8_t collumn, uint8_t row, uint8_t* collumn_bombdrop, uint8_t* row_bombdrop, uint8_t max_bombs, uint8_t* livebombs, uint8_t* antiholdCounter, uint8_t nunchuck_buf[], uint8_t grid[16][12], uint8_t* sendBomb)
 {
 	if ((!((nunchuck_buf[5] >> 0) & 1)) && (max_bombs != (*livebombs))) {
 		if ((*antiholdCounter) != 1) {
@@ -119,7 +119,7 @@ void check_Bomb(uint8_t collumn, uint8_t row, uint8_t* collumn_bombdrop, uint8_t
 			(*row_bombdrop) = row;
 			(*livebombs)++;
 			// send over position of new bomb
-			send_IR(isSendingIR, BOMB, *collumn_bombdrop, *row_bombdrop);
+			*sendBomb = 1;
 		}
 	}
 	else {
