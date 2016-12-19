@@ -36,7 +36,7 @@ uint16_t touchx = 0, touchy = 0;
 uint8_t livebombs = 0;
 uint8_t hit = 0;
 uint8_t menucounter = 0;
-uint8_t LivesCounter = 0;
+uint16_t LivesCounter = 0;
 uint8_t maxBombCounter = 0;
 uint8_t stage = 0;
 uint8_t newHighscore = 0;
@@ -49,7 +49,7 @@ uint8_t score = 0;
 uint8_t lives = 3;
 uint8_t level = 1;
 data_store player2_data;
-uint8_t menuOff = 1;
+uint8_t menuOff = 0;
 uint8_t reset_EEPROM = 0;
 uint8_t sendBomb = 0;
 uint8_t bombDelayCounter = 0;
@@ -161,7 +161,7 @@ int main() {
 					else {
 						send_IR(&isSendingIR, PLAYER, player1_x, player1_y);
 					}
-					if(bombDelayCounter < 3) {
+					if(bombDelayCounter > 2) {
 						bombDelayCounter = 0;
 						for (rowCounter = 0; rowCounter < 12; rowCounter++) {
 							for (collumnCounter = 0; collumnCounter < 16; collumnCounter++) {

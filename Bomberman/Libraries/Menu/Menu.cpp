@@ -1,5 +1,4 @@
 #include "Menu.h"
-#include "../Alphabeth/Alphabeth.h"
 uint8_t margin = 10, boxSizeX = 145, boxSizeY = 52, middleSpace = 10; //Has to be 320 together for x and 240 together for y;
 
 void startScherm(MI0283QT9 lcd, uint8_t* stage)
