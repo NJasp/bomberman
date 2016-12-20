@@ -17,6 +17,7 @@
 #include <avr/pgmspace.h>
 #include <Arduino.h>
 #include "MI0283QT9.h"
+#include "ADS7846.h"
 #include "../IR/IR.h"
 #include "Wire.h"
 #include "SPI.h"

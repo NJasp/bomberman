@@ -11,6 +11,7 @@
 #include "Libraries/Hit/checkHit.h"
 #include "Libraries/Sprites/Sprites.h"
 #include "Libraries/Leds/Leds.h"
+#include "Libraries/touchTest.h"
 
 uint8_t isPlayer2 = 0;
 MI0283QT9 lcd;					//LCD variabele
@@ -63,15 +64,12 @@ int main() {
 	init_Nunchuck();
 	init_LCD(lcd);
 	init_Potmeter();
+	init_ADS();
 		//write_eeprom_word(&eeprom_Storagearray[2], 'M');
 		//write_eeprom_word(&eeprom_Storagearray[3], 'A');
 		//write_eeprom_word(&eeprom_Storagearray[4], 'R');
 		//write_eeprom_word(&eeprom_Storagearray[5], 'T');
 		//write_eeprom_word(&eeprom_Storagearray[6], 'Y');
-	if (!isPlayer2)
-		lcd.touchStartCal();
-	else
-		stage = 2;
 	for (;;) {	// MAIN LOOP	
 		//set_Brightness(lcd, 7);	// Hier werkt overal de set_brightness, maar bij het laden van het spel is het scherm zwart voor ongeveer 5-10 seconden en daarna komt het spel opeens tevoorschijn
 		if (stage == 0) {

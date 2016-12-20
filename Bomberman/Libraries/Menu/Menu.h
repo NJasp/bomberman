@@ -3,6 +3,7 @@
 
 #include "../Includes/Includes.h"
 
+void init_ADS();
 void startScherm(MI0283QT9 lcd, uint8_t* stage);
 void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_Storagearray[12], uint8_t* playerSpeed, uint8_t* max_bombs, uint8_t* counter, uint8_t* newHighscore);
 void mainMenu(MI0283QT9 lcd);
