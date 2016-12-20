@@ -63,15 +63,17 @@ int main() {
 	init_Nunchuck();
 	init_LCD(lcd);
 	init_Potmeter();
-		//write_eeprom_word(&eeprom_Storagearray[2], 'M');
-		//write_eeprom_word(&eeprom_Storagearray[3], 'A');
-		//write_eeprom_word(&eeprom_Storagearray[4], 'R');
-		//write_eeprom_word(&eeprom_Storagearray[5], 'T');
-		//write_eeprom_word(&eeprom_Storagearray[6], 'Y');
-	if (!isPlayer2)
+	//write_eeprom_word(&eeprom_Storagearray[2], 'M');
+	//write_eeprom_word(&eeprom_Storagearray[3], 'A');
+	//write_eeprom_word(&eeprom_Storagearray[4], 'R');
+	//write_eeprom_word(&eeprom_Storagearray[5], 'T');
+	//write_eeprom_word(&eeprom_Storagearray[6], 'Y');
+	if (!isPlayer2) {
 		lcd.touchStartCal();
-	else
+	}
+	else {
 		stage = 2;
+	}
 	for (;;) {	// MAIN LOOP	
 		//set_Brightness(lcd, 7);	// Hier werkt overal de set_brightness, maar bij het laden van het spel is het scherm zwart voor ongeveer 5-10 seconden en daarna komt het spel opeens tevoorschijn
 		if (stage == 0) {
@@ -150,7 +152,7 @@ int main() {
 
 				// Bomb update | IR send interval
 				if (interruptCounter >= 100 /*3906*/) {
-					if(sendBomb) {
+					if (sendBomb) {
 						send_IR(&isSendingIR, BOMB, player2_x_bombdrop, player2_y_bombdrop);
 						sendBomb = 0;
 						player2_x_bombdrop = 0;
@@ -159,7 +161,7 @@ int main() {
 					else {
 						send_IR(&isSendingIR, PLAYER, player1_x, player1_y);
 					}
-					if(bombDelayCounter > 2) {
+					if (bombDelayCounter > 2) {
 						bombDelayCounter = 0;
 						for (rowCounter = 0; rowCounter < 12; rowCounter++) {
 							for (collumnCounter = 0; collumnCounter < 16; collumnCounter++) {
