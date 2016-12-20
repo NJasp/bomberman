@@ -101,7 +101,7 @@ uint16_t encode_IR(uint8_t type, uint8_t xData, uint8_t yData) {
 	return encoded;
 }
 
-void processRecieve_IR(uint32_t currentTime, volatile uint16_t *data) {
+void processRecieve_IR(uint32_t currentTime, volatile uint16_t *data, volatile uint8_t* interruptCounter) {
 	if (currentTime >= lastTime)
 		timeDelta = currentTime - lastTime;
 	else // failsafe for timer overflow, if it ever happens
@@ -123,8 +123,10 @@ void processRecieve_IR(uint32_t currentTime, volatile uint16_t *data) {
 		else if (timeDelta > ZERO_DELAY - DELAY_OFFSET && timeDelta < ZERO_DELAY + DELAY_OFFSET)   // recieved 0
 			*data &= ~(1 << dataCount);
 
-		if (dataCount <= 15)
+		if (dataCount <= 15){
 			dataReady = 1;
+			*interruptCounter = 50;
+		}
 
 		dataCount++;
 	}

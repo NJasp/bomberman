@@ -31,7 +31,7 @@ uint32_t nTimer = 0;
 uint8_t tTimer = 0;
 volatile uint8_t isSendingIR = 0;
 volatile uint16_t IRdata;
-uint16_t interruptCounter = 0;				//used to count seconds in the interrupt
+volatile uint8_t interruptCounter = 0;				//used to count seconds in the interrupt
 uint16_t touchx = 0, touchy = 0;
 uint8_t livebombs = 0;
 uint8_t hit = 0;
@@ -196,6 +196,6 @@ ISR(TIMER2_COMPA_vect) {// timer for receiving/sending
 
 ISR(INT0_vect) { // receive interrupt
 	// only receive while not sending
-//	if(!isSendingIR)
-		processRecieve_IR(nTimer, &IRdata);
+	if(!isSendingIR)
+		processRecieve_IR(nTimer, &IRdata, &interruptCounter);
 }
