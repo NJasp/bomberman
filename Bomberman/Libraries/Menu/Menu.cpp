@@ -219,7 +219,7 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 		set_Brightness(lcd, 7);
 		touchx = 0;
 		touchy = 0;
-		if (menucounter == 0 /*&& lcd.touchRead()*/) {
+		if (menucounter == 0 && lcd.touchRead()) {
 			mainMenu(lcd);
 			menucounter = 1;
 		}
@@ -341,7 +341,7 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 				menucounter = 5;
 			}*/
 		}
-		/*if (menucounter == 5 && lcd.touchRead()) {
+		/*if (menucounter == 5 /*&& lcd.touchRead()) {
 			touchx = lcd.touchX();
 			touchy = lcd.touchY();
 			if (touchx >= margin + (boxSizeX / 2) + (middleSpace / 2) && touchx <= margin + (boxSizeX / 2) + (middleSpace / 2) + boxSizeX && touchy >= margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace && touchy <= margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY) { // back to menu
@@ -369,7 +369,7 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 				}
 			}
 		}
-		if (menucounter == 6 && lcd.touchRead()) {
+		if (menucounter == 6 /*&& lcd.touchRead()) {
 			b[bArray] = c[(((y - 1) * 10) + x)];
 			Serial.println(c[(((y - 1) * 10) + x)]);
 			menucounter = 5;
