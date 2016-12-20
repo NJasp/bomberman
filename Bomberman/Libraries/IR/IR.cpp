@@ -101,7 +101,7 @@ uint16_t encode_IR(uint8_t type, uint8_t xData, uint8_t yData) {
 	return encoded;
 }
 
-void processRecieve_IR(uint32_t currentTime, volatile uint16_t *data) {
+void processRecieve_IR(uint32_t currentTime, volatile uint16_t *data, volatile uint8_t* interruptCounter) {
 	if (currentTime >= lastTime)
 		timeDelta = currentTime - lastTime;
 	else // failsafe for timer overflow, if it ever happens
@@ -123,8 +123,10 @@ void processRecieve_IR(uint32_t currentTime, volatile uint16_t *data) {
 		else if (timeDelta > ZERO_DELAY - DELAY_OFFSET && timeDelta < ZERO_DELAY + DELAY_OFFSET)   // recieved 0
 			*data &= ~(1 << dataCount);
 
-		if (dataCount <= 15)
+		if (dataCount <= 15){
 			dataReady = 1;
+			*interruptCounter = 50;
+		}
 
 		dataCount++;
 	}
@@ -173,8 +175,46 @@ void processSend_IR(uint32_t currentTime, volatile uint8_t *isSending) {
 	}
 
 }
-// TODO: add receive/send buffer somehow
+
 void send_IR(volatile uint8_t *isSending, uint8_t type, uint8_t xData, uint8_t yData) {
 	msgData = encode_IR(type, xData, yData);
 	*isSending = 1;
+}
+
+void processData_IR(volatile uint16_t *IRdata, uint8_t* player2_x, uint8_t* player2_y, uint8_t* player2_x_old, uint8_t* player2_y_old, uint8_t* player2_x_bombdrop, uint8_t* player2_y_bombdrop, uint8_t grid[16][12]) {
+	data_store player2_data = decode_IR(*IRdata);
+
+	// process IR data
+	if (player2_data.type == PLAYER) {
+		*player2_x_old = *player2_x;
+		*player2_y_old = *player2_y;
+		if (!grid[player2_data.xData][player2_data.yData]) {
+			*player2_x = player2_data.xData;
+			*player2_y = player2_data.yData;
+		}
+	}
+	else if (player2_data.type == BOMB) {
+		*player2_x_bombdrop = player2_data.xData;
+		*player2_y_bombdrop = player2_data.yData;
+		grid[player2_data.xData][player2_data.yData] = 6;
+		*IRdata = 0;
+	}
+}
+
+uint8_t processMenuData_IR(uint8_t* stage, uint8_t* level, volatile uint16_t* IRdata) {
+	data_store menuData = decode_IR(*IRdata);
+
+	if(menuData.type == LEVEL) {
+		if(menuData.xData == 127) { // normal level
+			*level = menuData.yData;
+			*stage = 2;
+			return 1;
+		}
+		else { // TODO: random level
+			*level = 5;
+			*stage = 2;
+			return 1;
+		}
+	}
+	return 0;
 }
