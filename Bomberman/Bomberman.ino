@@ -11,6 +11,7 @@
 #include "Libraries/Hit/checkHit.h"
 #include "Libraries/Sprites/Sprites.h"
 #include "Libraries/Leds/Leds.h"
+#include "Libraries/touchTest.h"
 
 uint8_t isPlayer2 = 0;
 MI0283QT9 lcd;					//LCD variabele
