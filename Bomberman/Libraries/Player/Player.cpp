@@ -1,7 +1,5 @@
 #include "Player.h"
 #include "../Sprites/Sprites.h"
-#include "../Hit/checkHit.h"
-#include "../DebugTools/DebugTools.h"
 
 void init_Player(uint8_t player1_x, uint8_t player1_y, MI0283QT9 screen)
 {

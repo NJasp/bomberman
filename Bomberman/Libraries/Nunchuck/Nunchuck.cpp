@@ -11,7 +11,7 @@ void init_Nunchuck()
 	Wire.endTransmission();
 }
 
-void read_Nunchuck(uint8_t buffer[], uint8_t* x, uint8_t* y)
+void read_Nunchuck(uint8_t buffer[], uint8_t* x, uint8_t* y, uint8_t* isPressed)
 {
 	int i = 0;
 	Wire.requestFrom(0x52, 6);						//READ NUNCHUCKK
@@ -24,4 +24,7 @@ void read_Nunchuck(uint8_t buffer[], uint8_t* x, uint8_t* y)
 	Wire.endTransmission();
 	*x = buffer[0];
 	*y = buffer[1];
+	if (!((buffer[5] >> 0) & 1)) {
+		(*isPressed) = 1;
+	}
 }

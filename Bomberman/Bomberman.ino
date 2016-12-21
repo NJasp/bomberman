@@ -31,7 +31,7 @@ uint32_t nTimer = 0;
 uint8_t tTimer = 0;
 volatile uint8_t isSendingIR = 0;
 volatile uint16_t IRdata;
-uint16_t interruptCounter = 0;				//used to count seconds in the interrupt
+volatile uint8_t interruptCounter = 0;				//used to count seconds in the interrupt
 uint16_t touchx = 0, touchy = 0;
 uint8_t livebombs = 0;
 uint8_t hit = 0;
@@ -52,6 +52,9 @@ uint8_t reset_EEPROM = 0;
 uint8_t sendBomb = 0;
 uint8_t bombDelayCounter = 0;
 
+uint8_t isPressed = 0;
+uint8_t menuSelect = 1;
+
 void init_Timer();
 
 int main() {
@@ -62,26 +65,15 @@ int main() {
 	init_Nunchuck();
 	init_LCD(lcd);
 	init_Potmeter();
-	//write_eeprom_word(&eeprom_Storagearray[2], 'M');
-	//write_eeprom_word(&eeprom_Storagearray[3], 'A');
-	//write_eeprom_word(&eeprom_Storagearray[4], 'R');
-	//write_eeprom_word(&eeprom_Storagearray[5], 'T');
-	//write_eeprom_word(&eeprom_Storagearray[6], 'Y');
-	if (!isPlayer2) {
-		lcd.touchStartCal();
-	}
-	else {
-		stage = 2;
-	}
 	for (;;) {	// MAIN LOOP	
 		//set_Brightness(lcd, 7);	// Hier werkt overal de set_brightness, maar bij het laden van het spel is het scherm zwart voor ongeveer 5-10 seconden en daarna komt het spel opeens tevoorschijn
 		if (stage == 0) {
-			startScherm(lcd, &stage);
+			startScherm(lcd, &stage, nunchuck_buf, &joy_x_axis, &joy_y_axis, &isPressed);
 		}
 		if (stage == 1)
 		{
 			update_EEPROM();
-			menu(lcd, &stage, &level, eeprom_Storagearray, &playerSpeed, &max_bombs, &maxBombCounter, &newHighscore, dataReady_IR(), &IRdata, &isSendingIR);
+			menu(lcd, &stage, &level, eeprom_Storagearray, &playerSpeed, &max_bombs, &maxBombCounter, &newHighscore, dataReady_IR(), &IRdata, &isSendingIR, &menucounter, nunchuck_buf, &joy_x_axis, &joy_y_axis, &isPressed, &menuSelect);
 			player1_x_speed = playerSpeed;
 			player1_y_speed = playerSpeed;
 			if (!isPlayer2) {
@@ -103,12 +95,12 @@ int main() {
 				{
 					break;
 				}
-				read_Nunchuck(nunchuck_buf, &joy_x_axis, &joy_y_axis);
+				read_Nunchuck(nunchuck_buf, &joy_x_axis, &joy_y_axis, &isPressed);
 				calculate_Movement(&player1_x, &player1_y, joy_x_axis, joy_y_axis, &player1_xCounter, &player1_yCounter, player1_x_speed, player1_y_speed, grid);
 				draw_Explosion(lcd, bombradius, grid, &livebombs, &score, &player1_x_bombdrop, &player1_y_bombdrop);
 				checkPlayerHit(player1_x, player1_y, &hit, grid, &LivesCounter);
 				update_EEPROM();
-				updateLives(&hit, &lives, lcd, &score, &stage, grid, eeprom_Storagearray, &newHighscore);
+				updateLives(&hit, &lives, lcd, &score, &stage, grid, eeprom_Storagearray, &newHighscore, &isPressed);
 				clear_Explosion(lcd, bombradius, grid, player1_x, player1_y);
 				set_Leds(lives);
 
@@ -196,6 +188,6 @@ ISR(TIMER2_COMPA_vect) {// timer for receiving/sending
 
 ISR(INT0_vect) { // receive interrupt
 	// only receive while not sending
-//	if(!isSendingIR)
-		processRecieve_IR(nTimer, &IRdata);
+	if(!isSendingIR)
+		processRecieve_IR(nTimer, &IRdata, &interruptCounter);
 }

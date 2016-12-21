@@ -19,7 +19,7 @@ void checkPlayerHit(uint8_t player1_x, uint8_t player1_y, uint8_t *hit, uint8_t 
 }
 
 
-void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t* score, uint8_t* stage, uint8_t grid[16][12], unsigned char eeprom_Storagearray[12], uint8_t* newHighscore) {
+void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t* score, uint8_t* stage, uint8_t grid[16][12], unsigned char eeprom_Storagearray[12], uint8_t* newHighscore, uint8_t* isPressed) {
 
 	if (!(*lives)) {
 		(*stage) = 3;
@@ -37,11 +37,12 @@ void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t* score, ui
 		b = lcd.drawInteger(a, 120, 1, 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
 		c = lcd.drawText(b, 120, ": ", RGB(255, 255, 255), RGB(0, 0, 0), 1);
 		lcd.drawInteger(c, 120, (*score), 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
+		/*
 		if ((*newHighscore)) {
 			lcd.drawText(110, 140, "NEW HIGHSCORE!!", RGB(255, 255, 255), RGB(0, 0, 0), 1);
 			lcd.drawText(70, 160, "Please add your name in the scores menu", RGB(255, 255, 255), RGB(0, 0, 0), 1);
 			//(*newHighscore) = 0;
-		}
+		}*/
 
 		//a = lcd.drawText(120, 140, "Player ", RGB(255, 255, 255), RGB(0, 0, 0), 1);
 		//b = lcd.drawInteger(a, 140, player_scoreArray[2], 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
@@ -54,7 +55,7 @@ void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t* score, ui
 		for (;;)
 		{
 			//set_Brightness(lcd, 7);
-			if (lcd.touchRead())
+			if ((*isPressed))
 			{
 				resetVariables(score, stage, lives, grid);
 				break;
