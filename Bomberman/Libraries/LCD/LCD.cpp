@@ -2,7 +2,7 @@
 
 void init_LCD(MI0283QT9 screen)
 {										//INITIALIZE (SETUP)
-	screen.begin(8);
+	screen.begin(4);
 	screen.fillScreen(Background);
 }
 

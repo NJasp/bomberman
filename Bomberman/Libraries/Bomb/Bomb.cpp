@@ -95,7 +95,6 @@ void clear_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12],
 		for (collumn = 0; collumn < 16; collumn++) {
 			if (grid[collumn][row] == 7) {
 				if (grid[collumn][row] == 7 && grid[player1_x][player1_y] == 7) {
-					Serial.println("Ik print de player opnieuw");
 					screen.fillRect(collumn * 20, row * 20, 20, 20, Background);
 					draw_PlayerSprite(screen, player1_x, player1_y);
 					grid[collumn][row] = 0;

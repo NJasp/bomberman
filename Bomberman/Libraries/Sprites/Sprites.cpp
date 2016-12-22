@@ -14,9 +14,9 @@ void draw_Sprites(MI0283QT9 lcd, uint8_t grid[16][12]) {
 				for (pixelCounterY = 0; pixelCounterY < 20; pixelCounterY++) {
 					for (pixelCounterX = 0; pixelCounterX < 20; pixelCounterX++) {
 						//lcd.drawPixel((collumn * 20) + pixelCounterX, (row * 20) + pixelCounterY, RGB(pgm_read_byte_near(wallArray + redPixelCounter), pgm_read_byte_near(wallArray + greenPixelCounter), pgm_read_byte_near(wallArray + bluePixelCounter)));
-						red = (uint8_t)pgm_read_byte_near(wallArray + redPixelCounter);
-						green = (uint8_t)pgm_read_byte_near(wallArray + greenPixelCounter);
-						blue = (uint8_t)pgm_read_byte_near(wallArray + bluePixelCounter);
+						red = ((uint8_t)pgm_read_byte_near(wallArray + redPixelCounter));
+						green = ((uint8_t)pgm_read_byte_near(wallArray + greenPixelCounter));
+						blue = ((uint8_t)pgm_read_byte_near(wallArray + bluePixelCounter));
 						lcd.drawPixel((collumn * 20) + pixelCounterX, (row * 20) + pixelCounterY, RGB(red, green, blue));
 						redPixelCounter += 3;
 						greenPixelCounter += 3;

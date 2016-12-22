@@ -45,11 +45,6 @@ void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t
 				}
 			}
 		}
-		Serial.print(counter0);
-		Serial.print(", ");
-		Serial.print(counter1);
-		Serial.print(", ");
-		Serial.println(counter2);
 		grid[1][1] = 0;  //grid[collumn][row]
 		grid[1][2] = 0;
 		grid[2][1] = 0;
