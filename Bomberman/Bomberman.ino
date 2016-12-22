@@ -12,7 +12,7 @@
 #include "Libraries/Sprites/Sprites.h"
 #include "Libraries/Leds/Leds.h"
 
-uint8_t isPlayer2 = 0;
+uint8_t isPlayer2 = 1;
 MI0283QT9 lcd;					//LCD variabele
 unsigned char EEMEM  eeprom_Storagearray[12];// eeprom score array. [0] = player1, [1] = player 2
 uint8_t joy_x_axis, joy_y_axis;	//Nunchuck Data
