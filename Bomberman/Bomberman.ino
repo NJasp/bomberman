@@ -11,10 +11,10 @@
 #include "Libraries/Hit/checkHit.h"
 #include "Libraries/Sprites/Sprites.h"
 #include "Libraries/Leds/Leds.h"
-#include "Libraries/touchTest.h"
+#include "Libraries/Potmeter/Potmeter.h"
 
-uint8_t isPlayer2 = 0;
-MI0283QT9 lcd;					//LCD variabele
+uint8_t isPlayer2 = 0;				//LCD variabele
+MI0283QT9 lcd;
 unsigned char EEMEM  eeprom_Storagearray[12];// eeprom score array. [0] = player1, [1] = player 2
 uint8_t joy_x_axis, joy_y_axis;	//Nunchuck Data
 static uint8_t nunchuck_buf[6];	//Nunchuck Buffer
@@ -52,6 +52,7 @@ uint8_t level = 1;
 uint8_t reset_EEPROM = 0;
 uint8_t sendBomb = 0;
 uint8_t bombDelayCounter = 0;
+uint8_t NunchuckReadCounter = 0;
 
 uint8_t isPressed = 0;
 uint8_t menuSelect = 1;
@@ -69,12 +70,12 @@ int main() {
 	for (;;) {	// MAIN LOOP	
 		//set_Brightness(lcd, 7);	// Hier werkt overal de set_brightness, maar bij het laden van het spel is het scherm zwart voor ongeveer 5-10 seconden en daarna komt het spel opeens tevoorschijn
 		if (stage == 0) {
-			startScherm(lcd, &stage, nunchuck_buf, &joy_x_axis, &joy_y_axis, &isPressed);
+			startScherm(lcd, &stage, nunchuck_buf, &joy_x_axis, &joy_y_axis, &isPressed, &NunchuckReadCounter);
 		}
 		if (stage == 1)
 		{
 			update_EEPROM();
-			menu(lcd, &stage, &level, eeprom_Storagearray, &playerSpeed, &max_bombs, &maxBombCounter, &newHighscore, dataReady_IR(), &IRdata, &isSendingIR, &menucounter, nunchuck_buf, &joy_x_axis, &joy_y_axis, &isPressed, &menuSelect);
+			menu(lcd, &stage, &level, eeprom_Storagearray, &playerSpeed, &max_bombs, &newHighscore, dataReady_IR(), &IRdata, &isSendingIR, &menucounter, nunchuck_buf, &joy_x_axis, &joy_y_axis, &isPressed, &menuSelect, &NunchuckReadCounter);
 			player1_x_speed = playerSpeed;
 			player1_y_speed = playerSpeed;
 			if (!isPlayer2) {

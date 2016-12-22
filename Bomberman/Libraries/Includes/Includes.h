@@ -16,11 +16,10 @@
 #include <avr/interrupt.h>
 #include <avr/pgmspace.h>
 #include <Arduino.h>
-#include "MI0283QT9.h"
 #include "../IR/IR.h"
 #include "Wire.h"
 #include "SPI.h"
 #include "avr/eeprom.h"
-#include "../Potmeter/Potmeter.h"
+#include "MI0283QT9.h"
 
 #endif
