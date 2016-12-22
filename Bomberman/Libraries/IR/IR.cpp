@@ -181,26 +181,6 @@ void send_IR(volatile uint8_t *isSending, uint8_t type, uint8_t xData, uint8_t y
 	*isSending = 1;
 }
 
-void processData_IR(volatile uint16_t *IRdata, uint8_t* player2_x, uint8_t* player2_y, uint8_t* player2_x_old, uint8_t* player2_y_old, uint8_t* player2_x_bombdrop, uint8_t* player2_y_bombdrop, uint8_t grid[16][12]) {
-	data_store player2_data = decode_IR(*IRdata);
-
-	// process IR data
-	if (player2_data.type == PLAYER) {
-		*player2_x_old = *player2_x;
-		*player2_y_old = *player2_y;
-		if (!grid[player2_data.xData][player2_data.yData]) {
-			*player2_x = player2_data.xData;
-			*player2_y = player2_data.yData;
-		}
-	}
-	else if (player2_data.type == BOMB) {
-		*player2_x_bombdrop = player2_data.xData;
-		*player2_y_bombdrop = player2_data.yData;
-		grid[player2_data.xData][player2_data.yData] = 6;
-		*IRdata = 0;
-	}
-}
-
 uint8_t processMenuData_IR(uint8_t* stage, uint8_t* level, volatile uint16_t* IRdata) {
 	data_store menuData = decode_IR(*IRdata);
 

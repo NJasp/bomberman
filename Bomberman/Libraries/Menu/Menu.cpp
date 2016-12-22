@@ -33,22 +33,22 @@ void startScherm(MI0283QT9 lcd, uint8_t* stage, uint8_t buffer[], uint8_t* x, ui
 	//lcd.drawLine(0, 30, 20, 0, RGB(0, 0, 0));
 	for (;;) {
 		read_Nunchuck(buffer, x, y, isPressed);
-		if (toggle1) {//Elke loop toggle de animatie van het vuur naar een andere
+		//if (toggle1) {//Elke loop toggle de animatie van het vuur naar een andere
 			//lcd.fillRect(44, 18, 14, 11, RGB(127, 127, 127));
 			lcd.fillRect(44, 18, 14, 11, COLOR_BLACK);
 			lcd.fillRect(52, 24, 6, 5, RGB(127, 80, 0));
 			lcd.fillTriangle(48, 28, 48, 18, 57, 22, RGB(255, 127, 0));
 			lcd.fillTriangle(53, 28, 53, 18, 44, 22, RGB(255, 0, 0));
-			toggle1 = 0;
-		}
-		else {
-			//lcd.fillRect(44, 18, 14, 11, RGB(127, 127, 127));
-			lcd.fillRect(44, 18, 14, 11, COLOR_BLACK);
-			lcd.fillRect(52, 24, 6, 5, RGB(127, 80, 0));
-			lcd.fillTriangle(50, 18, 46, 25, 55, 25, RGB(255, 127, 0));
-			lcd.fillTriangle(50, 28, 46, 20, 55, 20, RGB(255, 0, 0));
-			toggle1 = 1;
-		}
+		//	toggle1 = 0;
+		//}
+		//else {
+		//	//lcd.fillRect(44, 18, 14, 11, RGB(127, 127, 127));
+		//	lcd.fillRect(44, 18, 14, 11, COLOR_BLACK);
+		//	lcd.fillRect(52, 24, 6, 5, RGB(127, 80, 0));
+		//	lcd.fillTriangle(50, 18, 46, 25, 55, 25, RGB(255, 127, 0));
+		//	lcd.fillTriangle(50, 28, 46, 20, 55, 20, RGB(255, 0, 0));
+		//	toggle1 = 1;
+		//}
 		if ((!toggle2) && redraw) {//Elke 10e loop toggle tekst aan en uit (en teken het maar 1 keer)
 			//lcd.drawText(25, 200, "Touch to continue", RGB(0, 0, 127), RGB(127, 127, 127), 2);
 			lcd.drawText(25, 200, "Touch to continue", /*RGB(0, 0, 127)*/COLOR_WHITE, COLOR_BLACK, 2);

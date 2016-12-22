@@ -56,10 +56,14 @@ uint8_t NunchuckReadCounter = 0;
 
 uint8_t isPressed = 0;
 uint8_t menuSelect = 1;
+uint16_t speakerCounter;
+uint16_t speakerTone = 1000;
 
 void init_Timer();
 
 int main() {
+	DDRD = (1 << PORTD4); // speaker port
+	data_store player2_data;
 	init();
 	Serial.begin(9600);
 	init_Timer();
@@ -106,10 +110,38 @@ int main() {
 				clear_Explosion(lcd, bombradius, grid, player1_x, player1_y);
 				set_Leds(lives);
 
-				if (dataReady_IR() && IRdata != 0)
-					processData_IR(&IRdata, &player2_y, &player2_x, &player2_x_old, &player2_y_old, &player2_x_bombdrop, &player2_y_bombdrop, grid);
+				if (dataReady_IR() && IRdata != 0) {
+					player2_data = decode_IR(IRdata);
 
-				draw_Player2(player2_x, player2_y, player2_x_old, player2_y_old, lcd);
+					// process IR data
+					if (player2_data.type == PLAYER) {
+						player2_x_old = player2_x;
+						player2_y_old = player2_y;
+						if (!grid[player2_data.xData][player2_data.yData]) {
+							player2_x = player2_data.xData;
+							player2_y = player2_data.yData;
+						}
+					}
+					else if (player2_data.type == BOMB) {
+						player2_x_bombdrop = player2_data.xData;
+						player2_y_bombdrop = player2_data.yData;
+						grid[player2_data.xData][player2_data.yData] = 6;
+						IRdata = 0;
+					}
+				}
+
+				// draw other player position if new
+				if (player2_x != player2_x_old || player2_y != player2_y_old) {
+					lcd.fillRect(player2_x_old * 20, player2_y_old * 20, 20, 20, Background);
+
+					// draw the bomb again when drawing over it
+//					if (player2_x_old == player2_x_bombdrop && player2_y_old == player2_y_bombdrop && !grid[player2_x_bombdrop][player2_y_bombdrop]) {
+//						draw_BombSprite(lcd, player2_x_bombdrop, player1_y_bombdrop);
+//					}
+
+					lcd.fillRect(player2_x * 20, player2_y * 20, 20, 20, RGB(0, 0, 255));
+				}
+
 				draw_Player(player1_x, player1_y, &player1_x_old, &player1_y_old, lcd);
 				check_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, max_bombs, &livebombs, &antiholdCounter, nunchuck_buf, grid, &sendBomb);
 				draw_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, lcd, grid);
@@ -143,6 +175,13 @@ int main() {
 				else {
 					interruptCounter++;
 				}
+
+				// speaker sound, set PORTB4 to input to toggle speaker off
+				if(speakerCounter > speakerTone) {
+					PORTD ^= (1 << PORTD4);
+					speakerCounter = 0;
+				}
+				speakerCounter++;
 			}
 		}
 	}
