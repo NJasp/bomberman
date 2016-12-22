@@ -125,7 +125,7 @@ void processRecieve_IR(uint32_t currentTime, volatile uint16_t *data, volatile u
 
 		if (dataCount <= 15){
 			dataReady = 1;
-//			*interruptCounter = 50;
+			*interruptCounter = 50;
 		}
 
 		dataCount++;
