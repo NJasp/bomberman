@@ -55,7 +55,7 @@ uint8_t bombDelayCounter = 0;
 uint8_t isPressed = 0;
 uint8_t menuSelect = 1;
 uint16_t speakerCounter;
-uint16_t speakerTone;
+uint16_t speakerTone = 1000;
 
 void init_Timer();
 
