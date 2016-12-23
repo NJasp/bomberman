@@ -12,8 +12,9 @@
 #include "Libraries/Sprites/Sprites.h"
 #include "Libraries/Leds/Leds.h"
 #include "Libraries/Potmeter/Potmeter.h"
+#include "Libraries/Sound/Sound.h"
 
-uint8_t isPlayer2 = 1;
+uint8_t isPlayer2 = 0;
 MI0283QT9 lcd;					//LCD variabele
 unsigned char EEMEM  eeprom_Storagearray[12];// eeprom score array. [0] = player1, [1] = player 2
 uint8_t joy_x_axis, joy_y_axis;	//Nunchuck Data
@@ -56,8 +57,8 @@ uint8_t NunchuckReadCounter = 0;
 
 uint8_t isPressed = 0;
 uint8_t menuSelect = 1;
-//uint16_t speakerCounter;
-//uint16_t speakerTone = 1000;
+uint16_t speakerCounter;
+uint16_t speakerTone = 500;
 
 void init_Timer();
 
@@ -71,6 +72,9 @@ int main() {
 	init_Nunchuck();
 	init_LCD(lcd);
 	init_Potmeter();
+	if (isPlayer2 == 1) {
+		lcd.setOrientation(180);
+	}
 	for (;;) {	// MAIN LOOP	
 		//set_Brightness(lcd, 7);	// Hier werkt overal de set_brightness, maar bij het laden van het spel is het scherm zwart voor ongeveer 5-10 seconden en daarna komt het spel opeens tevoorschijn
 		if (stage == 0) {
@@ -96,6 +100,7 @@ int main() {
 			}
 			// TODO: sync up arduinos, set to send
 			for (;;) {
+				//sound(&speakerCounter, &speakerTone);
 				set_Brightness(lcd, 7);
 				if (stage == 1)
 				{
@@ -122,9 +127,9 @@ int main() {
 							player2_y = player2_data.yData;
 						}
 					}
-					else if (player2_data.type == BOMB) {
-						if(player2_data.xData < 12 && player2_data.xData > 0 &&
-						   player2_data.yData < 16 && player2_data.yData > 0 &&
+					if (player2_data.type == BOMB) {
+						if(player2_data.xData < 16 && player2_data.xData > 0 &&
+						   player2_data.yData < 12 && player2_data.yData > 0 &&
 						   !grid[player2_data.xData][player2_data.yData]) {
 							grid[player2_data.xData][player2_data.yData] = 6;
 							IRdata = 0;
