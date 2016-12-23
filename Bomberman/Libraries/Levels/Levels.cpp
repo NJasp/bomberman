@@ -696,6 +696,18 @@ void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t
 	}
 	if (level == 5) {
 		uint8_t collumn, row;
+		if (isPlayer2) {
+			*player1_x = 14;
+			*player1_y = 10;
+			*player1_x_old = 14;
+			*player1_y_old = 10;
+		}
+		else {
+			*player1_x = 1;
+			*player1_y = 1;
+			*player1_x_old = 1;
+			*player1_y_old = 1;
+		}
 		init_OutsideWalls(grid);
 		for (row = 1; row < 11; row++) {
 			for (collumn = 1; collumn < 15; collumn++) {
