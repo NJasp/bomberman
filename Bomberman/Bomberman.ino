@@ -26,7 +26,7 @@ uint8_t player2_x = 1, player2_y = 1, player2_x_old = 1, player2_y_old = 1;
 //uint8_t player2_x = 14, player2_y = 10, player2_x_old = 14, player2_y_old = 10;
 uint8_t player1_xCounter = 0, player1_yCounter = 0;		//Player movement speed
 uint8_t player1_x_bombdrop = 0, player1_y_bombdrop = 0;		//Location of the dropped bomb p1
-uint8_t player2_x_bombdrop = 0, player2_y_bombdrop = 0;		//Location of the dropped bomb p2
+uint8_t send_bombdrop_x = 0, send_bombdrop_y = 0;		//Location of the dropped bomb p2
 uint8_t antiholdCounter = 0;				// 1 when the player holds the 'Z' button, so the game doesn't place too many bombs
 uint32_t nTimer = 0;
 uint8_t tTimer = 0;
@@ -123,27 +123,27 @@ int main() {
 						}
 					}
 					else if (player2_data.type == BOMB) {
-						player2_x_bombdrop = player2_data.xData;
-						player2_y_bombdrop = player2_data.yData;
-						grid[player2_data.xData][player2_data.yData] = 6;
-						IRdata = 0;
+						if(player2_data.xData < 12 && player2_data.xData > 0 &&
+						   player2_data.yData < 16 && player2_data.yData > 0) {
+							grid[player2_data.xData][player2_data.yData] = 6;
+							IRdata = 0;
+						}
 					}
 				}
 
 				// draw other player position if new
 				if (player2_x != player2_x_old || player2_y != player2_y_old) {
 					lcd.fillRect(player2_x_old * 20, player2_y_old * 20, 20, 20, Background);
-
-					// draw the bomb again when drawing over it
-//					if (player2_x_old == player2_x_bombdrop && player2_y_old == player2_y_bombdrop && !grid[player2_x_bombdrop][player2_y_bombdrop]) {
-//						draw_BombSprite(lcd, player2_x_bombdrop, player1_y_bombdrop);
-//					}
-
 					lcd.fillRect(player2_x * 20, player2_y * 20, 20, 20, RGB(0, 0, 255));
 				}
 
 				draw_Player(player1_x, player1_y, &player1_x_old, &player1_y_old, lcd);
 				check_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, max_bombs, &livebombs, &antiholdCounter, nunchuck_buf, grid, &sendBomb);
+
+				// copy values to send them later before they get set to 0
+				send_bombdrop_x = player1_x_bombdrop;
+				send_bombdrop_y = player1_y_bombdrop;
+
 				draw_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, lcd, grid);
 				//lcd.fillRect(player2_x_bombdrop * 20, player2_y_bombdrop * 20, 20, 20, RGB(255, 0, 0));
 				//checkPlayerHit(player1_x, player1_y, &hit, grid);
@@ -151,10 +151,10 @@ int main() {
 				// Bomb update | IR send interval
 				if (interruptCounter >= 100 /*3906*/) {
 					if (sendBomb) {
-						send_IR(&isSendingIR, BOMB, player2_x_bombdrop, player2_y_bombdrop);
+						send_IR(&isSendingIR, BOMB, send_bombdrop_x, send_bombdrop_y);
 						sendBomb = 0;
-						player2_x_bombdrop = 0;
-						player2_y_bombdrop = 0;
+						send_bombdrop_x = 0;
+						send_bombdrop_y = 0;
 					}
 					else {
 						send_IR(&isSendingIR, PLAYER, player1_x, player1_y);
