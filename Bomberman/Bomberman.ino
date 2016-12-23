@@ -124,7 +124,8 @@ int main() {
 					}
 					else if (player2_data.type == BOMB) {
 						if(player2_data.xData < 12 && player2_data.xData > 0 &&
-						   player2_data.yData < 16 && player2_data.yData > 0) {
+						   player2_data.yData < 16 && player2_data.yData > 0 &&
+						   !grid[player2_data.xData][player2_data.yData]) {
 							grid[player2_data.xData][player2_data.yData] = 6;
 							IRdata = 0;
 						}

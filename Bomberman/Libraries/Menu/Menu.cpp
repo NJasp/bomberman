@@ -175,7 +175,8 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 		calculateSelectedMenu(lcd, menucounter, menuSelect, (*x), (*y));
 		_delay_ms(1);
 		if(dataReady_IR) {
-			if(processMenuData_IR(stage, level, IRdata)) {
+			if(processMenuData_IR(stage, level, IRdata, isPressed)) {
+				lcd.fillScreen(Background);
 				break;
 			}
 		}
