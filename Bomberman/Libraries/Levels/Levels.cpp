@@ -694,6 +694,15 @@ void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t
 		grid[13][j] = 2;
 		grid[14][j] = 2;
 	}
+	if (level == 5) {
+		uint8_t collumn, row;
+		init_OutsideWalls(grid);
+		for (row = 1; row < 11; row++) {
+			for (collumn = 1; collumn < 15; collumn++) {
+					grid[collumn][row] = 0;
+			}
+		}
+	}
 	if (level == 255) {
 		*player1_x = 1;
 		*player1_y = 1;
