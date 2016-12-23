@@ -181,11 +181,12 @@ void send_IR(volatile uint8_t *isSending, uint8_t type, uint8_t xData, uint8_t y
 	*isSending = 1;
 }
 
-uint8_t processMenuData_IR(uint8_t* stage, uint8_t* level, volatile uint16_t* IRdata) {
+uint8_t processMenuData_IR(uint8_t* stage, uint8_t* level, volatile uint16_t* IRdata, uint8_t* isPressed) {
 	data_store menuData = decode_IR(*IRdata);
 
 	if(menuData.type == LEVEL) {
 		if(menuData.xData == 127) { // normal level
+			*isPressed = 0;
 			*level = menuData.yData;
 			*stage = 2;
 			return 1;
