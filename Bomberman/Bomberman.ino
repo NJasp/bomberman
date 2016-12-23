@@ -13,7 +13,7 @@
 #include "Libraries/Leds/Leds.h"
 #include "Libraries/Potmeter/Potmeter.h"
 
-uint8_t isPlayer2 = 1;
+uint8_t isPlayer2 = 0;
 MI0283QT9 lcd;					//LCD variabele
 unsigned char EEMEM  eeprom_Storagearray[12];// eeprom score array. [0] = player1, [1] = player 2
 uint8_t joy_x_axis, joy_y_axis;	//Nunchuck Data
@@ -103,7 +103,7 @@ int main() {
 				}
 				read_Nunchuck(nunchuck_buf, &joy_x_axis, &joy_y_axis, &isPressed);
 				calculate_Movement(&player1_x, &player1_y, joy_x_axis, joy_y_axis, &player1_xCounter, &player1_yCounter, player1_x_speed, player1_y_speed, grid);
-				draw_Explosion(lcd, bombradius, grid, &livebombs, &score, &player1_x_bombdrop, &player1_y_bombdrop);
+				draw_Explosion(lcd, bombradius, grid, &livebombs, &score);
 				checkPlayerHit(player1_x, player1_y, &hit, grid, &LivesCounter);
 				update_EEPROM();
 				updateLives(&hit, &lives, lcd, &score, &stage, grid, eeprom_Storagearray, &newHighscore, &isPressed);
@@ -142,8 +142,10 @@ int main() {
 				check_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, max_bombs, &livebombs, &antiholdCounter, nunchuck_buf, grid, &sendBomb);
 
 				// copy values to send them later before they get set to 0
-				send_bombdrop_x = player1_x_bombdrop;
-				send_bombdrop_y = player1_y_bombdrop;
+				if (sendBomb) {
+					send_bombdrop_x = player1_x_bombdrop;
+					send_bombdrop_y = player1_y_bombdrop;
+				}
 
 				draw_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, lcd, grid);
 				//lcd.fillRect(player2_x_bombdrop * 20, player2_y_bombdrop * 20, 20, 20, RGB(255, 0, 0));

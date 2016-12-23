@@ -3,7 +3,7 @@
 #include "../Hit/checkHit.h"
 #include "../Sprites/Sprites.h"
 
-void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], uint8_t* livebombs, uint8_t* score, uint8_t* collumn_bombdrop, uint8_t* row_bombdrop)
+void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], uint8_t* livebombs, uint8_t* score)
 {
 	uint8_t row, collumn, icollumn, irow;
 	for (row = 0; row < 12; row++) {
@@ -135,7 +135,6 @@ void draw_Bomb(uint8_t collumn, uint8_t row, uint8_t* collumn_bombdrop, uint8_t*
 			(*collumn_bombdrop) = 0;
 			(*row_bombdrop) = 0;
 		}
-		//}
 	}
 }
 
