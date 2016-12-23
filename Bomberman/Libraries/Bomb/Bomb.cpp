@@ -80,7 +80,7 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 						break;
 					}
 				}
-				(*livebombs)--;
+				//(*livebombs)--;
 			}
 			//checkPlayerHit(player1_x, player1_y, hit, grid, LivesCounter);
 		}
@@ -88,13 +88,13 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 	}
 }
 
-void clear_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], uint8_t player1_x, uint8_t player1_y)
+void clear_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], uint8_t player1_x, uint8_t player1_y, uint8_t* livebombs)
 {
 	uint8_t row, collumn, icollumn, irow;
 	for (row = 0; row < 12; row++) {
 		for (collumn = 0; collumn < 16; collumn++) {
 			if (grid[collumn][row] == 7) {
-				if (grid[collumn][row] == 7 && grid[player1_x][player1_y] == 7) {
+				if (grid[player1_x][player1_y] == 7) {
 					screen.fillRect(collumn * 20, row * 20, 20, 20, Background);
 					draw_PlayerSprite(screen, player1_x, player1_y);
 					grid[collumn][row] = 0;
@@ -103,6 +103,7 @@ void clear_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12],
 					grid[collumn][row] = 0;
 					screen.fillRect(collumn * 20, row * 20, 20, 20, Background);
 				}
+				(*livebombs)--;
 			}
 		}
 	}

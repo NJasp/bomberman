@@ -14,7 +14,7 @@
 #include "Libraries/Potmeter/Potmeter.h"
 #include "Libraries/Sound/Sound.h"
 
-uint8_t isPlayer2 = 0;
+uint8_t isPlayer2 = 1;
 MI0283QT9 lcd;					//LCD variabele
 unsigned char EEMEM  eeprom_Storagearray[12];// eeprom score array. [0] = player1, [1] = player 2
 uint8_t joy_x_axis, joy_y_axis;	//Nunchuck Data
@@ -112,7 +112,7 @@ int main() {
 				checkPlayerHit(player1_x, player1_y, &hit, grid, &LivesCounter);
 				update_EEPROM();
 				updateLives(&hit, &lives, lcd, &score, &stage, grid, eeprom_Storagearray, &newHighscore, &isPressed);
-				clear_Explosion(lcd, bombradius, grid, player1_x, player1_y);
+				clear_Explosion(lcd, bombradius, grid, player1_x, player1_y, &livebombs);
 				set_Leds(lives);
 
 				if (dataReady_IR() && IRdata != 0) {
