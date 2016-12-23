@@ -43,7 +43,7 @@ uint8_t maxBombCounter = 0;
 uint8_t stage = 0;
 uint8_t newHighscore = 0;
 
-uint8_t bombradius = 2;
+uint8_t bombradius = 1;
 uint8_t playerSpeed = 60;
 uint8_t player1_x_speed = 80, player1_y_speed = 80; //Higher is slower
 uint8_t max_bombs = 1;
