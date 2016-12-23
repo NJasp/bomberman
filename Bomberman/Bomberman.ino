@@ -56,13 +56,13 @@ uint8_t NunchuckReadCounter = 0;
 
 uint8_t isPressed = 0;
 uint8_t menuSelect = 1;
-uint16_t speakerCounter;
-uint16_t speakerTone = 1000;
+//uint16_t speakerCounter;
+//uint16_t speakerTone = 1000;
 
 void init_Timer();
 
 int main() {
-	DDRD = (1 << PORTD4); // speaker port
+	//DDRD = (1 << PORTD4); // speaker port
 	data_store player2_data;
 	init();
 	Serial.begin(9600);
@@ -178,11 +178,11 @@ int main() {
 				}
 
 				// speaker sound, set PORTB4 to input to toggle speaker off
-				if(speakerCounter > speakerTone) {
+				/*if(speakerCounter > speakerTone) {
 					PORTD ^= (1 << PORTD4);
 					speakerCounter = 0;
 				}
-				speakerCounter++;
+				speakerCounter++;*/
 			}
 		}
 	}

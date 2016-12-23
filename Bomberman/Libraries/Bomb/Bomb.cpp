@@ -138,3 +138,18 @@ void draw_Bomb(uint8_t collumn, uint8_t row, uint8_t* collumn_bombdrop, uint8_t*
 		//}
 	}
 }
+
+uint16_t speakerCounter;
+uint16_t speakerTone = 1000;
+
+static void sound()
+{
+	DDRD = (1 << PORTD4); // speaker port
+	
+	if (speakerCounter > speakerTone) {
+		PORTD ^= (1 << PORTD4);
+		speakerCounter = 0;
+		}
+	speakerCounter++;
+	
+}
