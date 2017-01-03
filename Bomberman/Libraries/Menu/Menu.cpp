@@ -181,6 +181,7 @@ void levelSelect(MI0283QT9 lcd)
 
 void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_Storagearray[12], uint8_t* playerSpeed, uint8_t* max_bombs, uint8_t* newHighscore, volatile uint16_t* IRdata, volatile uint8_t* isSendingIR, uint8_t* menucounter, uint8_t buffer[], uint8_t* x, uint8_t* y, uint8_t* isPressed, uint8_t* menuSelect, uint8_t* counter)
 {
+	uint8_t i;
 	for (;;)
 	{
 		// random junk
