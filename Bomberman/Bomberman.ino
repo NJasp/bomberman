@@ -82,6 +82,7 @@ int main() {
 		}
 		if (stage == 1)
 		{
+			menucounter = 0;
 			update_EEPROM();
 			menu(lcd, &stage, &level, eeprom_Storagearray, &playerSpeed, &max_bombs, &newHighscore, &IRdata, &isSendingIR, &menucounter, nunchuck_buf, &joy_x_axis, &joy_y_axis, &isPressed, &menuSelect, &NunchuckReadCounter);
 			player1_x_speed = playerSpeed;
@@ -110,7 +111,7 @@ int main() {
 				updateLives(&hit, &lives, lcd, &score, &stage, grid, eeprom_Storagearray, &newHighscore, &isPressed, nunchuck_buf, &livebombs);
 				if (stage == 1) //If stage is set to 0 in gameover screen. break out main game loop
 				{
-					menucounter = 1;
+					//menucounter = 1;
 					break;
 				}
 				if (livebombs == 1) {

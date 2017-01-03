@@ -363,7 +363,7 @@ void calculateSelectedMenu(MI0283QT9 lcd, uint8_t* menucounter, uint8_t* menuSel
 		if (antiZhold == 1) {
 			if ((*menuSelect) == 1) {
 				lcd.drawRect(margin - highlightMargin, margin - highlightMargin, boxSizeX + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_FINE_ORANGE); // Upper-Bottom Rectangle
-				antiZhold = 0;
+				antiZhold = 1;
 			}
 			//NUNCHUCK TO RIGHT
 			if (joy_x_axis > sensitivityRight && (*menuSelect) == 1) { //Nunchuck moved to the right
@@ -432,7 +432,7 @@ void calculateSelectedMenu(MI0283QT9 lcd, uint8_t* menucounter, uint8_t* menuSel
 		if (antiZhold == 1) {
 			if ((*menuSelect) == 5) {
 				lcd.drawRect(margin - highlightMargin, margin + boxSizeY + middleSpace - highlightMargin, boxSizeX / 2 + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_FINE_ORANGE); // Upper-Bottom Rectangle
-				antiZhold = 0;
+				antiZhold = 1;
 			}
 			//NUNCHUCK TO RIGHT
 			if (joy_x_axis > sensitivityRight && (*menuSelect) == 5) { //Nunchuck moved to the right
