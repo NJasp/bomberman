@@ -352,6 +352,9 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 			if ((*menuSelect) == 18 && (*isPressed)) {
 				(*isPressed) = 0;
 			}
+			if ((*menuSelect) == 19 && (*isPressed)) {
+				(*isPressed) = 0;
+			}
 			else if ((*menuSelect) == 20 && (*isPressed)) {
 				(*isPressed) = 0;
 				(*menucounter) = 0;
@@ -361,6 +364,7 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 }
 
 void calculateSelectedMenu(MI0283QT9 lcd, uint8_t* menucounter, uint8_t* menuSelect, uint8_t joy_x_axis, uint8_t joy_y_axis) {
+	_delay_ms(1);
 	//MENUCOUNTER == MAIN MENU
 	if ((*menucounter) == 1) {
 		if (antiZhold == 1) {
