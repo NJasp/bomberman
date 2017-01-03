@@ -346,7 +346,7 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 
 void calculateSelectedMenu(MI0283QT9 lcd, uint8_t* menucounter, uint8_t* menuSelect, uint8_t joy_x_axis, uint8_t joy_y_axis, uint8_t isPlayer2) {
 	if (!isPlayer2) {
-		delay(1);
+		_delay_ms(1);
 	}
 	//MENUCOUNTER == MAIN MENU
 	if ((*menucounter) == 1) {
