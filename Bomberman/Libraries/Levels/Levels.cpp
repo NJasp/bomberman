@@ -1,10 +1,21 @@
 #include "Levels.h"
 
-void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t* player1_y, uint8_t* player1_x_old, uint8_t* player1_y_old, uint8_t isPlayer2, uint32_t* nTimer)
+void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t* player1_y, uint8_t* player1_x_old, uint8_t* player1_y_old, uint8_t isPlayer2, uint32_t* nTimer, volatile uint8_t* isSendingIR, uint16_t* seed)
 {
 	if (level == 0) {
-		uint16_t seed = (uint16_t)((*nTimer) >> 18);
-		srand(seed);
+		// only if seed isn't set by IR generate new seed and send it
+		if(!(*seed)) {
+			*seed = (uint16_t)((*nTimer) >> 18);
+
+			// make sure first 7 bits aren't all 1
+			*seed &= (1 << 8);
+
+			// send over seed
+            // split seed into two 7 bit values stored in uint8_t vars
+			send_IR(isSendingIR, LEVEL, (uint8_t)((*seed) >> 7), (uint8_t)(*seed)&~(1 << 7));
+		}
+
+		srand(*seed);
 		uint8_t row, collumn, number, counter0 = 0, counter1 = 0, counter2 = 0;
 		init_OutsideWalls(grid);
 		if(isPlayer2) {

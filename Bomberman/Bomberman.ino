@@ -59,6 +59,7 @@ uint8_t isPressed = 0;
 uint8_t menuSelect = 1;
 uint16_t speakerCounter;
 uint16_t speakerTone = 500;
+uint16_t seed = 0;
 
 void init_Timer();
 
@@ -84,19 +85,19 @@ int main() {
 		{
 			menucounter = 0;
 			update_EEPROM();
-			menu(lcd, &stage, &level, eeprom_Storagearray, &playerSpeed, &max_bombs, &newHighscore, &IRdata, &isSendingIR, &menucounter, nunchuck_buf, &joy_x_axis, &joy_y_axis, &isPressed, &menuSelect, &NunchuckReadCounter);
+			menu(lcd, &stage, &level, eeprom_Storagearray, &playerSpeed, &max_bombs, &newHighscore, &IRdata, &isSendingIR, &interruptCounter, &seed, &menucounter, nunchuck_buf, &joy_x_axis, &joy_y_axis, &isPressed, &menuSelect, &NunchuckReadCounter);
 			player1_x_speed = playerSpeed;
 			player1_y_speed = playerSpeed;
 			if (!isPlayer2) {
 				init_Player(player1_x, player1_y, lcd);
-				init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old, isPlayer2, &nTimer);
+				init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old, isPlayer2, &nTimer, &isSendingIR, &seed);
 				draw_Sprites(lcd, grid);
 			}
 		}
 		if (stage == 2) {
 			if (isPlayer2) {
 				init_Player(player1_x, player1_y, lcd);
-				init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old, isPlayer2, &nTimer);
+				init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old, isPlayer2, &nTimer, &isSendingIR, &seed);
 				draw_Sprites(lcd, grid);
 			}
 			// TODO: sync up arduinos, set to send
