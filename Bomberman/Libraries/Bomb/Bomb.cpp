@@ -18,7 +18,6 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 					if ((grid[collumn + 1][row] == 0) || (grid[collumn + 1][row] == 7) || (grid[collumn + 1][row] == 8) || (grid[collumn + 1][row] == 9)) {
 						grid[collumn + 1][row] = 9;
 						screen.fillRect((((collumn + 1) * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
-						//test
 					}
 					else if (grid[collumn + 1][row] == 2) {
 						grid[collumn + 1][row] = 9;
@@ -111,7 +110,7 @@ void clear_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12],
 
 void check_Bomb(uint8_t collumn, uint8_t row, uint8_t* collumn_bombdrop, uint8_t* row_bombdrop, uint8_t max_bombs, uint8_t* livebombs, uint8_t* antiholdCounter, uint8_t nunchuck_buf[], uint8_t grid[16][12], uint8_t* sendBomb)
 {
-	if ((!((nunchuck_buf[5] >> 0) & 1)) && (max_bombs != (*livebombs))) {
+	if ((!((nunchuck_buf[5] >> 0) & 1)) && (max_bombs > (*livebombs))) {
 		if ((*antiholdCounter) != 1) {
 			grid[collumn][row] = 6;
 			(*antiholdCounter) = 1;
