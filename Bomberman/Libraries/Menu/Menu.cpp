@@ -179,15 +179,20 @@ void levelSelect(MI0283QT9 lcd)
 	lcd.drawText(0, 227, "Bomberman version 0.1", COLOR_WHITE, COLOR_BLACK, 1); // Version tekst
 }
 
-void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_Storagearray[12], uint8_t* playerSpeed, uint8_t* max_bombs, uint8_t* newHighscore, uint8_t dataReady_IR, volatile uint16_t* IRdata, volatile uint8_t* isSendingIR, uint8_t* menucounter, uint8_t buffer[], uint8_t* x, uint8_t* y, uint8_t* isPressed, uint8_t* menuSelect, uint8_t* counter)
+void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_Storagearray[12], uint8_t* playerSpeed, uint8_t* max_bombs, uint8_t* newHighscore, volatile uint16_t* IRdata, volatile uint8_t* isSendingIR, uint8_t* menucounter, uint8_t buffer[], uint8_t* x, uint8_t* y, uint8_t* isPressed, uint8_t* menuSelect, uint8_t* counter)
 {
 	for (;;)
 	{
 	//	set_Brightness(lcd, 7);
 		read_Nunchuck(buffer, x, y, isPressed);
 		calculateSelectedMenu(lcd, menucounter, menuSelect, (*x), (*y));
-		_delay_ms(1);
-		if(dataReady_IR) {
+		if(dataReady_IR()) {
+			Serial.print("type: ");
+			Serial.println(decode_IR(*IRdata).type);
+			Serial.print("x: ");
+			Serial.println(decode_IR(*IRdata).xData);
+			Serial.print("y: ");
+			Serial.println(decode_IR(*IRdata).yData);
 			if(processMenuData_IR(stage, level, IRdata, isPressed)) {
 				lcd.fillScreen(Background);
 				break;
