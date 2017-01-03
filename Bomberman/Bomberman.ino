@@ -112,7 +112,9 @@ int main() {
 				checkPlayerHit(player1_x, player1_y, &hit, grid, &LivesCounter);
 				update_EEPROM();
 				updateLives(&hit, &lives, lcd, &score, &stage, grid, eeprom_Storagearray, &newHighscore, &isPressed);
-				clear_Explosion(lcd, bombradius, grid, player1_x, player1_y, &livebombs);
+				if (livebombs == 1) {
+					clear_Explosion(lcd, bombradius, grid, player1_x, player1_y, &livebombs);
+				}	
 				set_Leds(lives);
 
 				if (dataReady_IR() && IRdata != 0) {
