@@ -187,12 +187,6 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 		read_Nunchuck(buffer, x, y, isPressed);
 		calculateSelectedMenu(lcd, menucounter, menuSelect, (*x), (*y));
 		if(dataReady_IR()) {
-			Serial.print("type: ");
-			Serial.println(decode_IR(*IRdata).type);
-			Serial.print("x: ");
-			Serial.println(decode_IR(*IRdata).xData);
-			Serial.print("y: ");
-			Serial.println(decode_IR(*IRdata).yData);
 			if(processMenuData_IR(stage, level, IRdata, isPressed)) {
 				lcd.fillScreen(Background);
 				break;
@@ -236,7 +230,6 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 		}
 		if ((*menucounter) == 2) { //LEVEL SELECT
 			if ((*menuSelect) == 5 && (*isPressed)) {
-				Serial.println("HOI");
 				(*isPressed) = 0;
 				(*stage) = 2;
 				lcd.fillScreen(Background);
@@ -423,7 +416,7 @@ void calculateSelectedMenu(MI0283QT9 lcd, uint8_t* menucounter, uint8_t* menuSel
 		if (antiZhold == 1) {
 			if ((*menuSelect) == 5) {
 				lcd.drawRect(margin - highlightMargin, margin + boxSizeY + middleSpace - highlightMargin, boxSizeX / 2 + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_FINE_ORANGE); // Upper-Bottom Rectangle
-				antiZhold = 0;
+				antiZhold = 1;
 			}
 			//NUNCHUCK TO RIGHT
 			if (joy_x_axis > sensitivityRight && (*menuSelect) == 5) { //Nunchuck moved to the right
