@@ -27,5 +27,8 @@ void read_Nunchuck(uint8_t buffer[], uint8_t* x, uint8_t* y, uint8_t* isPressed)
 	if (!((buffer[5] >> 0) & 1)) {
 		(*isPressed) = 1;
 	}
+	else {
+		(*isPressed) = 0;
+	}
 }
 

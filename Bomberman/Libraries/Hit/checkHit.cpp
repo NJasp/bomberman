@@ -1,6 +1,7 @@
 #define read_eeprom_word(address) eeprom_read_word ((const uint16_t*)address)
 #define write_eeprom_word(address,value) eeprom_write_word ((uint16_t*)address,(uint16_t)value)
 #include "checkHit.h"
+#include "../Nunchuck/Nunchuck.h"
 
 void checkPlayerHit(uint8_t player1_x, uint8_t player1_y, uint8_t *hit, uint8_t grid[16][12], uint16_t* LivesCounter) {
 	if ((grid[player1_x][player1_y] == 7 || grid[player1_x][player1_y] == 8 || grid[player1_x][player1_y] == 9)) {
@@ -19,7 +20,7 @@ void checkPlayerHit(uint8_t player1_x, uint8_t player1_y, uint8_t *hit, uint8_t 
 }
 
 
-void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t* score, uint8_t* stage, uint8_t grid[16][12], unsigned char eeprom_Storagearray[12], uint8_t* newHighscore, uint8_t* isPressed) {
+void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t* score, uint8_t* stage, uint8_t grid[16][12], unsigned char eeprom_Storagearray[12], uint8_t* newHighscore, uint8_t* isPressed, uint8_t nunchuck_buf[6], uint8_t* livebombs) {
 
 	if (!(*lives)) {
 		(*stage) = 3;
@@ -54,10 +55,13 @@ void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t* score, ui
 		lcd.drawText(30, 200, "Touch to continue", RGB(255, 255, 255), RGB(0, 0, 0), 2);
 		for (;;)
 		{
+			read_Nunchuck(nunchuck_buf, 0, 0, isPressed);
+			Serial.println("hoi");
 			//set_Brightness(lcd, 7);
 			if ((*isPressed))
 			{
-				resetVariables(score, stage, lives, grid);
+				(*isPressed) = 0;
+				resetVariables(score, stage, lives, grid, livebombs);
 				break;
 			}
 		}
@@ -68,13 +72,14 @@ void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t* score, ui
 	}
 }
 
-void resetVariables(uint8_t* score, uint8_t* stage, uint8_t* lives, uint8_t grid[16][12])
+void resetVariables(uint8_t* score, uint8_t* stage, uint8_t* lives, uint8_t grid[16][12], uint8_t* livebombs)
 {
 	uint8_t row, collumn;
 
 	(*score) = 0;
 	(*lives) = 3;
 	(*stage) = 1;
+	(*livebombs) = 0;
 
 	for (row = 0; row < 12; row++) {
 		for (collumn = 0; collumn < 16; collumn++) {
