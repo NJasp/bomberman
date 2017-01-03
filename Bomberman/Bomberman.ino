@@ -82,6 +82,7 @@ int main() {
 		}
 		if (stage == 1)
 		{
+			menucounter = 0;
 			update_EEPROM();
 			menu(lcd, &stage, &level, eeprom_Storagearray, &playerSpeed, &max_bombs, &newHighscore, dataReady_IR(), &IRdata, &isSendingIR, &menucounter, nunchuck_buf, &joy_x_axis, &joy_y_axis, &isPressed, &menuSelect, &NunchuckReadCounter);
 			player1_x_speed = playerSpeed;
@@ -102,16 +103,16 @@ int main() {
 			for (;;) {
 				//sound(&speakerCounter, &speakerTone);
 				set_Brightness(lcd, 7);
-				if (stage == 1) //If stage is set to 0 in gameover screen. break out main game loop
-				{
-					break;
-				}
 				read_Nunchuck(nunchuck_buf, &joy_x_axis, &joy_y_axis, &isPressed);
 				calculate_Movement(&player1_x, &player1_y, joy_x_axis, joy_y_axis, &player1_xCounter, &player1_yCounter, player1_x_speed, player1_y_speed, grid);
 				draw_Explosion(lcd, bombradius, grid, &livebombs, &score);
 				checkPlayerHit(player1_x, player1_y, &hit, grid, &LivesCounter);
 				update_EEPROM();
-				updateLives(&hit, &lives, lcd, &score, &stage, grid, eeprom_Storagearray, &newHighscore, &isPressed);
+				updateLives(&hit, &lives, lcd, &score, &stage, grid, eeprom_Storagearray, &newHighscore, &isPressed, nunchuck_buf, &livebombs);
+				if (stage == 1) //If stage is set to 0 in gameover screen. break out main game loop
+				{
+					break;
+				}
 				if (livebombs == 1) {
 					clear_Explosion(lcd, bombradius, grid, player1_x, player1_y, &livebombs);
 				}	
@@ -192,9 +193,6 @@ int main() {
 				}
 				speakerCounter++;*/
 			}
-		}
-		if (stage = 3) {
-
 		}
 	}
 	return 0;
