@@ -82,7 +82,6 @@ int main() {
 		}
 		if (stage == 1)
 		{
-			_delay_ms(1);
 			update_EEPROM();
 			menu(lcd, &stage, &level, eeprom_Storagearray, &playerSpeed, &max_bombs, &newHighscore, &IRdata, &isSendingIR, &menucounter, nunchuck_buf, &joy_x_axis, &joy_y_axis, &isPressed, &menuSelect, &NunchuckReadCounter);
 			player1_x_speed = playerSpeed;
