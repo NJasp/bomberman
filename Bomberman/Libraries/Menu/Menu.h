@@ -10,6 +10,6 @@ void mainMenu(MI0283QT9 lcd);
 void levelSelect(MI0283QT9 lcd);
 void options(MI0283QT9 lcd, uint8_t* playerSpeed, uint8_t* max_bombs);
 void highscores(MI0283QT9 lcd, unsigned char eeprom_Storagearray[12], uint8_t* newHighscore);
-
+void keyboard(MI0283QT9 lcd);
 
 #endif

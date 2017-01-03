@@ -2,7 +2,6 @@
 #include "../Nunchuck/Nunchuck.h"
 uint8_t margin = 10, boxSizeX = 145, boxSizeY = 52, middleSpace = 10, highlightMargin = 2; //Has to be 320 together for x and 240 together for y;
 uint8_t antiZhold = 0;
-uint8_t y = 0;
 uint8_t sensitivityRight = 145; //140
 uint8_t sensitivityLeft = 110; //114
 
@@ -11,11 +10,8 @@ void startScherm(MI0283QT9 lcd, uint8_t* stage, uint8_t buffer[], uint8_t* x, ui
 	uint8_t toggle1 = 0, toggle2 = 0, drawfreq = 0, redraw = 1;
 	//Background
 	lcd.fillScreen(COLOR_BLACK);
-	//lcd.fillScreen(RGB(127, 127, 127));
-	//Titel
-	//lcd.drawText(15, 40, "B MBERMAN", RGB(0, 0, 127), RGB(127, 127, 127), 4);
-	lcd.drawText(15, 40, "B MBERMAN", /*RGB(0, 0, 127)*/COLOR_WHITE, COLOR_BLACK, 4);
-	//Bomb
+	lcd.drawText(15, 40, "B MBERMAN", COLOR_WHITE, COLOR_BLACK, 4);
+	//BOMB
 	lcd.drawCircle(60, 54, 16, RGB(102, 102, 102));
 	lcd.fillCircle(54, 46, 2, RGB(127, 127, 127));
 	lcd.fillCircle(52, 48, 2, RGB(127, 127, 127));
@@ -37,10 +33,10 @@ void startScherm(MI0283QT9 lcd, uint8_t* stage, uint8_t buffer[], uint8_t* x, ui
 		read_Nunchuck(buffer, x, y, isPressed);
 		//if (toggle1) {//Elke loop toggle de animatie van het vuur naar een andere
 			//lcd.fillRect(44, 18, 14, 11, RGB(127, 127, 127));
-			lcd.fillRect(44, 18, 14, 11, COLOR_BLACK);
-			lcd.fillRect(52, 24, 6, 5, RGB(127, 80, 0));
-			lcd.fillTriangle(48, 28, 48, 18, 57, 22, RGB(255, 127, 0));
-			lcd.fillTriangle(53, 28, 53, 18, 44, 22, RGB(255, 0, 0));
+			//lcd.fillRect(44, 18, 14, 11, COLOR_BLACK);
+			//lcd.fillRect(52, 24, 6, 5, RGB(127, 80, 0));
+			//lcd.fillTriangle(48, 28, 48, 18, 57, 22, RGB(255, 127, 0));
+			//lcd.fillTriangle(53, 28, 53, 18, 44, 22, RGB(255, 0, 0));
 		//	toggle1 = 0;
 		//}
 		//else {
@@ -51,18 +47,18 @@ void startScherm(MI0283QT9 lcd, uint8_t* stage, uint8_t buffer[], uint8_t* x, ui
 		//	lcd.fillTriangle(50, 28, 46, 20, 55, 20, RGB(255, 0, 0));
 		//	toggle1 = 1;
 		//}
-		if ((!toggle2) && redraw) {//Elke 10e loop toggle tekst aan en uit (en teken het maar 1 keer)
+		//if ((!toggle2) && redraw) {//Elke 10e loop toggle tekst aan en uit (en teken het maar 1 keer)
 			//lcd.drawText(25, 200, "Touch to continue", RGB(0, 0, 127), RGB(127, 127, 127), 2);
-			lcd.drawText(25, 200, " 'Z' to continue", /*RGB(0, 0, 127)*/COLOR_WHITE, COLOR_BLACK, 2);
-			redraw = 0;
-		}
-		else if (toggle2 && redraw) {
+			lcd.drawText(25, 200, " 'Z' to continue", COLOR_WHITE, COLOR_BLACK, 2);
+		//	redraw = 0;
+		//}
+		//else if (toggle2 && redraw) {
 			//lcd.fillRect(25, 200, 268, 15, RGB(127, 127, 127));
-			lcd.fillRect(25, 200, 268, 15, COLOR_BLACK);
-			redraw = 0;
-		}
+		//	lcd.fillRect(25, 200, 268, 15, COLOR_BLACK);
+		//	redraw = 0;
+		//}
 		//TOGGLE SETTINGS
-		if (drawfreq >    100) {//Als er 10 loops voorbij zijn, toggle tekst en reset counter
+		/*if (drawfreq >    100) {//Als er 10 loops voorbij zijn, toggle tekst en reset counter
 			redraw = 1;
 			drawfreq = 0;
 			toggle2 = ~(toggle2);
@@ -73,7 +69,7 @@ void startScherm(MI0283QT9 lcd, uint8_t* stage, uint8_t buffer[], uint8_t* x, ui
 		if ((*isPressed)) {
 			(*stage) = 1;
 			break;
-		}
+		}*/
 	}
 }
 
@@ -114,6 +110,21 @@ void highscores(MI0283QT9 lcd, unsigned char eeprom_Storagearray[12], uint8_t* n
 			(*newHighscore) = 0;
 		}
 	}
+	lcd.drawRect(margin + (boxSizeX / 2) + (middleSpace / 2), margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace, boxSizeX, boxSizeY, COLOR_FINE_BLUE); // Upper-Bottom Rectangle
+	lcd.drawText(margin + (boxSizeX / 2) + 45, margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace + 15, "BACK", COLOR_WHITE, COLOR_BLACK, 2);
+}
+
+void keyboard(MI0283QT9 lcd) {
+	lcd.fillScreen(COLOR_BLACK);
+	lcd.drawRect(margin, margin + boxSizeY + middleSpace, boxSizeX / 2, boxSizeY, COLOR_FINE_BLUE); // Upper-Bottom Rectangle
+	lcd.fillRect(margin, margin + boxSizeY + middleSpace, boxSizeX / 2, boxSizeY, COLOR_FINE_RED); // Upper-Bottom Rectangle
+	lcd.drawRect(margin + (boxSizeX / 2) + middleSpace / 2, margin + boxSizeY + middleSpace, boxSizeX, boxSizeY, COLOR_FINE_BLUE); // Upper-Bottom Rectangle
+	lcd.drawRect(margin + boxSizeX + middleSpace + (boxSizeX / 2), margin + boxSizeY + middleSpace, boxSizeX / 2, boxSizeY, COLOR_FINE_BLUE); // Upper-Bottom Rectangle
+	lcd.fillRect(margin + boxSizeX + middleSpace + (boxSizeX / 2), margin + boxSizeY + middleSpace, boxSizeX / 2, boxSizeY, COLOR_FINE_GREEN); // Upper-Bottom Rectangle
+	lcd.drawText(margin + 30, margin + boxSizeY + middleSpace + 20, "-", COLOR_WHITE, COLOR_FINE_RED, 2);
+	lcd.drawText(margin + (boxSizeX / 2) + 25, margin + boxSizeY + middleSpace + 10, "char select", COLOR_WHITE, COLOR_BLACK, 1);
+	lcd.drawText(margin + (boxSizeX / 2) + middleSpace + boxSizeX + 30, margin + boxSizeY + middleSpace + 20, "+", COLOR_WHITE, COLOR_FINE_GREEN, 2);
+	//Y row = 3
 	lcd.drawRect(margin + (boxSizeX / 2) + (middleSpace / 2), margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace, boxSizeX, boxSizeY, COLOR_FINE_BLUE); // Upper-Bottom Rectangle
 	lcd.drawText(margin + (boxSizeX / 2) + 45, margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace + 15, "BACK", COLOR_WHITE, COLOR_BLACK, 2);
 }
@@ -221,14 +232,13 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 		if ((*menucounter) == 2) { //LEVEL SELECT
 			if ((*menuSelect) == 5 && (*isPressed)) {
 				(*isPressed) = 0;
-			(*stage) = 2;
+				(*stage) = 2;
 				lcd.fillScreen(Background);
-				(*level) = 5;
+				(*level) = 1;
 				// send over level
 				send_IR(isSendingIR, LEVEL, 127, 1);
 				break;
-			}
-			if ((*menuSelect) == 6 && (*isPressed)) {
+			} else if ((*menuSelect) == 6 && (*isPressed)) {
 				(*isPressed) = 0;
 				(*stage) = 2;
 				lcd.fillScreen(Background);
@@ -236,23 +246,20 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 				// send over level
 				send_IR(isSendingIR, LEVEL, 127, 2);
 				break;
-			}
-			if ((*menuSelect) == 7 && (*isPressed)) {
+			} else if ((*menuSelect) == 7 && (*isPressed)) {
 				(*isPressed) = 0;
 				(*stage) = 2;
 				lcd.fillScreen(Background);
 				(*level) = 3;
 				// send over level
 				send_IR(isSendingIR, LEVEL, 127, 3);
-				break;
-			}
-			if ((*menuSelect) == 8 && (*isPressed)) {
+			} else if ((*menuSelect) == 8 && (*isPressed)) {
 				(*isPressed) = 0;
 				(*stage) = 2;
 				lcd.fillScreen(Background);
 				(*level) = 5; // moet straks random level zijn, niet het test level
-			}
-			if ((*menuSelect) == 9 && (*isPressed)) {
+				send_IR(isSendingIR, LEVEL, 127, 5);
+			} else if ((*menuSelect) == 9 && (*isPressed)) {
 				(*isPressed) = 0;
 				(*stage) = 2;
 				lcd.fillScreen(Background);
@@ -260,8 +267,7 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 				// send over level
 				send_IR(isSendingIR, LEVEL, 127, 0);
 				break;
-			}
-			if ((*menuSelect) == 10 && (*isPressed)) {
+			} else if ((*menuSelect) == 10 && (*isPressed)) {
 				(*isPressed) = 0;
 				(*menucounter) = 0;
 			}
@@ -275,8 +281,7 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 					lcd.drawRect(margin + (boxSizeX / 2) + 30, margin + boxSizeY + middleSpace + 30, (boxSizeX - 60), (boxSizeY / 10), COLOR_FINE_BLUE);
 					lcd.fillRect(margin + (boxSizeX / 2) + 30, margin + boxSizeY + middleSpace + 30, (boxSizeX - 60) - (*playerSpeed), (boxSizeY / 10), COLOR_FINE_ORANGE);
 				}
-			}
-			if ((*menuSelect) == 12 && (*isPressed)) {
+			} else if ((*menuSelect) == 12 && (*isPressed)) {
 				(*isPressed) = 0;
 				if ((*playerSpeed) <= 85 && (*playerSpeed) > 0) {
 					lcd.fillRect(margin + (boxSizeX / 2) + 30, margin + boxSizeY + middleSpace + 30, (boxSizeX - 60), (boxSizeY / 10), COLOR_BLACK);
@@ -284,8 +289,7 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 					lcd.fillRect(margin + (boxSizeX / 2) + 30, margin + boxSizeY + middleSpace + 30, ((boxSizeX - 60) - (*playerSpeed)) + 1, (boxSizeY / 10), COLOR_FINE_ORANGE);
 					(*playerSpeed)--;
 				}
-			}
-			if ((*menuSelect) == 13 && (*isPressed)) {
+			} else if ((*menuSelect) == 13 && (*isPressed)) {
 				(*isPressed) = 0;
 				if ((*counter) == 0) {
 					if ((*max_bombs) > 1) {
@@ -297,8 +301,7 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 				if ((*counter) == 252) {
 					(*counter) = 0;
 				}
-			}
-			if ((*menuSelect) == 14 && (*isPressed)) {
+			} else if ((*menuSelect) == 14 && (*isPressed)) {
 				(*isPressed) = 0;
 				if ((*counter) == 0) {
 					if ((*max_bombs) < 5) {
@@ -310,17 +313,27 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 				if ((*counter) == 252) {
 					(*counter) = 0;
 				}
-			}
-			if ((*menuSelect) == 15 && (*isPressed)) {
+			} else if ((*menuSelect) == 15 && (*isPressed)) {
 				(*isPressed) = 0;
 				(*menucounter) = 0;
 			}
 		}
 		if ((*menucounter) == 4) { //HIGHSCORES
 			if ((*menuSelect) == 16 && (*isPressed)) {
+				keyboard(lcd);
+				(*menucounter) = 5;
+				(*menuSelect) = 18;
+				(*isPressed) = 0;
+			} else if ((*menuSelect) == 17 && (*isPressed)) {
+				(*isPressed) = 0;
+				(*menucounter) = 0;
+			}
+		}
+		if ((*menucounter) == 5) { //KEYBOARD
+			if ((*menuSelect) == 18 && (*isPressed)) {
 				(*isPressed) = 0;
 			}
-			if ((*menuSelect) == 17 && (*isPressed)) {
+			else if ((*menuSelect) == 20 && (*isPressed)) {
 				(*isPressed) = 0;
 				(*menucounter) = 0;
 			}
@@ -514,7 +527,8 @@ void calculateSelectedMenu(MI0283QT9 lcd, uint8_t* menucounter, uint8_t* menuSel
 				lcd.drawRect(margin - highlightMargin, margin + boxSizeY + middleSpace - highlightMargin, boxSizeX / 2 + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_BLACK); //MenuSelect 11
 				lcd.drawRect(margin + boxSizeX + middleSpace + (boxSizeX / 2) - highlightMargin, margin + boxSizeY + middleSpace - highlightMargin, boxSizeX / 2 + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_FINE_ORANGE); //MenuSelect 12
 				antiZhold = 0;
-			} else if (joy_x_axis > sensitivityRight && (*menuSelect) == 13) {
+			}
+			else if (joy_x_axis > sensitivityRight && (*menuSelect) == 13) {
 				(*menuSelect) = 14;
 				lcd.drawRect(margin - highlightMargin, margin + boxSizeY + middleSpace + boxSizeY + middleSpace - highlightMargin, boxSizeX / 2 + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_BLACK); //MenuSelect 13
 				lcd.drawRect(margin + boxSizeX + middleSpace + (boxSizeX / 2) - highlightMargin, margin + boxSizeY + middleSpace + boxSizeY + middleSpace - highlightMargin, boxSizeX / 2 + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_FINE_ORANGE); //MenuSelect 14
@@ -526,7 +540,8 @@ void calculateSelectedMenu(MI0283QT9 lcd, uint8_t* menucounter, uint8_t* menuSel
 				lcd.drawRect(margin + boxSizeX + middleSpace + (boxSizeX / 2) - highlightMargin, margin + boxSizeY + middleSpace - highlightMargin, boxSizeX / 2 + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_BLACK); //MenuSelect 12
 				lcd.drawRect(margin - highlightMargin, margin + boxSizeY + middleSpace - highlightMargin, boxSizeX / 2 + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_FINE_ORANGE); //MenuSelect 11
 				antiZhold = 0;
-			} else if (joy_x_axis < sensitivityLeft && (*menuSelect) == 14) {
+			}
+			else if (joy_x_axis < sensitivityLeft && (*menuSelect) == 14) {
 				(*menuSelect) = 13;
 				lcd.drawRect(margin + boxSizeX + middleSpace + (boxSizeX / 2) - highlightMargin, margin + boxSizeY + middleSpace + boxSizeY + middleSpace - highlightMargin, boxSizeX / 2 + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_BLACK); //MenuSelect 14
 				lcd.drawRect(margin - highlightMargin, margin + boxSizeY + middleSpace + boxSizeY + middleSpace - highlightMargin, boxSizeX / 2 + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_FINE_ORANGE); //MenuSelect 13
@@ -538,17 +553,20 @@ void calculateSelectedMenu(MI0283QT9 lcd, uint8_t* menucounter, uint8_t* menuSel
 				lcd.drawRect(margin - highlightMargin, margin + boxSizeY + middleSpace - highlightMargin, boxSizeX / 2 + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_BLACK); //MenuSelect 11
 				lcd.drawRect(margin - highlightMargin, margin + boxSizeY + middleSpace + boxSizeY + middleSpace - highlightMargin, boxSizeX / 2 + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_FINE_ORANGE); //MenuSelect 13
 				antiZhold = 0;
-			} else if (joy_y_axis < sensitivityLeft && (*menuSelect) == 12) {
+			}
+			else if (joy_y_axis < sensitivityLeft && (*menuSelect) == 12) {
 				(*menuSelect) = 14;
 				lcd.drawRect(margin + boxSizeX + middleSpace + (boxSizeX / 2) - highlightMargin, margin + boxSizeY + middleSpace - highlightMargin, boxSizeX / 2 + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_BLACK); //MenuSelect 12
 				lcd.drawRect(margin + boxSizeX + middleSpace + (boxSizeX / 2) - highlightMargin, margin + boxSizeY + middleSpace + boxSizeY + middleSpace - highlightMargin, boxSizeX / 2 + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_FINE_ORANGE); //MenuSelect 14
 				antiZhold = 0;
-			} else if (joy_y_axis < sensitivityLeft && (*menuSelect) == 14) {
+			}
+			else if (joy_y_axis < sensitivityLeft && (*menuSelect) == 14) {
 				(*menuSelect) = 15;
 				lcd.drawRect(margin + boxSizeX + middleSpace + (boxSizeX / 2) - highlightMargin, margin + boxSizeY + middleSpace + boxSizeY + middleSpace - highlightMargin, boxSizeX / 2 + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_BLACK); //MenuSelect 14
 				lcd.drawRect(margin + (boxSizeX / 2) + (middleSpace / 2) - highlightMargin, margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace - highlightMargin, boxSizeX + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_FINE_ORANGE); //MenuSelect 15
 				antiZhold = 0;
-			} else if (joy_y_axis < sensitivityLeft && (*menuSelect) == 13) {
+			}
+			else if (joy_y_axis < sensitivityLeft && (*menuSelect) == 13) {
 				(*menuSelect) = 15;
 				lcd.drawRect(margin - highlightMargin, margin + boxSizeY + middleSpace + boxSizeY + middleSpace - highlightMargin, boxSizeX / 2 + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_BLACK); //MenuSelect 13
 				lcd.drawRect(margin + (boxSizeX / 2) + (middleSpace / 2) - highlightMargin, margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace - highlightMargin, boxSizeX + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_FINE_ORANGE); //MenuSelect 15
@@ -561,12 +579,14 @@ void calculateSelectedMenu(MI0283QT9 lcd, uint8_t* menucounter, uint8_t* menuSel
 				lcd.drawRect(margin - highlightMargin, margin + boxSizeY + middleSpace + boxSizeY + middleSpace - highlightMargin, boxSizeX / 2 + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_BLACK); //MenuSelect 13
 				lcd.drawRect(margin - highlightMargin, margin + boxSizeY + middleSpace - highlightMargin, boxSizeX / 2 + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_FINE_ORANGE); //MenuSelect 11
 				antiZhold = 0;
-			} else if (joy_y_axis > sensitivityRight && (*menuSelect) == 14) {
+			}
+			else if (joy_y_axis > sensitivityRight && (*menuSelect) == 14) {
 				(*menuSelect) = 12;
 				lcd.drawRect(margin + boxSizeX + middleSpace + (boxSizeX / 2) - highlightMargin, margin + boxSizeY + middleSpace + boxSizeY + middleSpace - highlightMargin, boxSizeX / 2 + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_BLACK); //MenuSelect 14
 				lcd.drawRect(margin + boxSizeX + middleSpace + (boxSizeX / 2) - highlightMargin, margin + boxSizeY + middleSpace - highlightMargin, boxSizeX / 2 + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_FINE_ORANGE); //MenuSelect 12
 				antiZhold = 0;
-			} else if (joy_y_axis > sensitivityRight && (*menuSelect) == 15) {
+			}
+			else if (joy_y_axis > sensitivityRight && (*menuSelect) == 15) {
 				(*menuSelect) = 13;
 				lcd.drawRect(margin + (boxSizeX / 2) + (middleSpace / 2) - highlightMargin, margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace - highlightMargin, boxSizeX + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_BLACK); //MenuSelect 15
 				lcd.drawRect(margin - highlightMargin, margin + boxSizeY + middleSpace + boxSizeY + middleSpace - highlightMargin, boxSizeX / 2 + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_FINE_ORANGE); //MenuSelect 13
@@ -591,7 +611,7 @@ void calculateSelectedMenu(MI0283QT9 lcd, uint8_t* menucounter, uint8_t* menuSel
 				lcd.drawRect(margin + (boxSizeX / 2) + middleSpace / 2 - highlightMargin, margin + boxSizeY + middleSpace - highlightMargin, boxSizeX + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_BLACK); //MenuSelect 16
 				lcd.drawRect(margin + (boxSizeX / 2) + (middleSpace / 2) - highlightMargin, margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace - highlightMargin, boxSizeX + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_FINE_ORANGE); //MenuSelect 17
 				antiZhold = 0;
-			} 
+			}
 			if (joy_y_axis > sensitivityRight && (*menuSelect) == 17) {
 				(*menuSelect) = 16;
 				lcd.drawRect(margin + (boxSizeX / 2) + (middleSpace / 2) - highlightMargin, margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace - highlightMargin, boxSizeX + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_BLACK); //MenuSelect 17
@@ -605,7 +625,55 @@ void calculateSelectedMenu(MI0283QT9 lcd, uint8_t* menucounter, uint8_t* menuSel
 			}
 		}
 	}
+	//MENUCOUNTER == KEYBOARD
+	if ((*menucounter == 5)) {
+		if (antiZhold == 1) {
+			if ((*menuSelect) == 18) {
+				lcd.drawRect(margin - highlightMargin, margin + boxSizeY + middleSpace - highlightMargin, boxSizeX / 2 + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_FINE_ORANGE); //Menuselect 18
+				antiZhold = 0;
+			}
+			//NUNCHUCK TO RIGHT
+			if (joy_x_axis > sensitivityRight && (*menuSelect) == 18) { //Nunchuck moved to the right
+				(*menuSelect) = 19;
+				lcd.drawRect(margin - highlightMargin, margin + boxSizeY + middleSpace - highlightMargin, boxSizeX / 2 + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_BLACK); //Menuselect 18
+				lcd.drawRect(margin + boxSizeX + middleSpace + (boxSizeX / 2) - highlightMargin, margin + boxSizeY + middleSpace - highlightMargin, boxSizeX / 2 + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_FINE_ORANGE); //Menuselect 19
+				antiZhold = 0;
+			}
+			//NUNCHUCK TO LEFT
+			if (joy_x_axis < sensitivityLeft && (*menuSelect) == 19) { //Nunchuck moved to the right
+				(*menuSelect) = 18;
+				lcd.drawRect(margin + boxSizeX + middleSpace + (boxSizeX / 2) - highlightMargin, margin + boxSizeY + middleSpace - highlightMargin, boxSizeX / 2 + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_BLACK); //Menuselect 19
+				lcd.drawRect(margin - highlightMargin, margin + boxSizeY + middleSpace - highlightMargin, boxSizeX / 2 + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_FINE_ORANGE); //Menuselect 18
+				antiZhold = 0;
+			}
+			//NUNCHUCK DOWN
+			else if (joy_y_axis < sensitivityLeft && (*menuSelect) == 18) {
+				(*menuSelect) = 20;
+				lcd.drawRect(margin - highlightMargin, margin + boxSizeY + middleSpace - highlightMargin, boxSizeX / 2 + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_BLACK); //Menuselect 18
+				lcd.drawRect(margin + (boxSizeX / 2) + (middleSpace / 2) - highlightMargin, margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace - highlightMargin, boxSizeX + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_FINE_ORANGE); //Menuselect 20
+				antiZhold = 0;
+			}
+			else if (joy_y_axis < sensitivityLeft && (*menuSelect) == 19) {
+				(*menuSelect) = 20;
+				lcd.drawRect(margin + boxSizeX + middleSpace + (boxSizeX / 2) - highlightMargin, margin + boxSizeY + middleSpace - highlightMargin, boxSizeX / 2 + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_BLACK); //Menuselect 19
+				lcd.drawRect(margin + (boxSizeX / 2) + (middleSpace / 2) - highlightMargin, margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace - highlightMargin, boxSizeX + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_FINE_ORANGE); //Menuselect 20
+				antiZhold = 0;
+			}
 
+			//NUNCHUCK UP
+			if (joy_y_axis > sensitivityRight && (*menuSelect) == 20) { //Nunchuck moved to the left
+				(*menuSelect) = 18;
+				lcd.drawRect(margin + (boxSizeX / 2) + (middleSpace / 2) - highlightMargin, margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace - highlightMargin, boxSizeX + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_BLACK); //Menuselect 20
+				lcd.drawRect(margin - highlightMargin, margin + boxSizeY + middleSpace - highlightMargin, boxSizeX / 2 + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_FINE_ORANGE); //Menuselect 18
+				antiZhold = 0;
+			}
+		}
+		else {
+			if (joy_y_axis > 114 && joy_y_axis < 140 && joy_x_axis > 114 && joy_x_axis < 140) {
+				antiZhold = 1;
+			}
+		}
+	}
 	/*
 	MENU SELECT BUTTONS
 	-1 START

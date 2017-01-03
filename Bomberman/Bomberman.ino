@@ -102,7 +102,7 @@ int main() {
 			for (;;) {
 				//sound(&speakerCounter, &speakerTone);
 				set_Brightness(lcd, 7);
-				if (stage == 1)
+				if (stage == 1) //If stage is set to 0 in gameover screen. break out main game loop
 				{
 					break;
 				}
@@ -129,8 +129,7 @@ int main() {
 					}
 					if (player2_data.type == BOMB) {
 						if(player2_data.xData < 16 && player2_data.xData > 0 &&
-						   player2_data.yData < 12 && player2_data.yData > 0 &&
-						   !grid[player2_data.xData][player2_data.yData]) {
+						   player2_data.yData < 12 && player2_data.yData > 0 && !grid[player2_data.xData][player2_data.yData]) {
 							grid[player2_data.xData][player2_data.yData] = 6;
 							IRdata = 0;
 						}
@@ -167,7 +166,7 @@ int main() {
 					else {
 						send_IR(&isSendingIR, PLAYER, player1_x, player1_y);
 					}
-					if (bombDelayCounter > 2) {
+					if (bombDelayCounter > 1) {
 						bombDelayCounter = 0;
 						for (rowCounter = 0; rowCounter < 12; rowCounter++) {
 							for (collumnCounter = 0; collumnCounter < 16; collumnCounter++) {
@@ -191,6 +190,9 @@ int main() {
 				}
 				speakerCounter++;*/
 			}
+		}
+		if (stage = 3) {
+
 		}
 	}
 	return 0;
