@@ -238,7 +238,6 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 				send_IR(isSendingIR, LEVEL, 127, 1);
 				break;
 			} else if ((*menuSelect) == 6 && (*isPressed)) {
-				Serial.println("HOI2");
 				(*isPressed) = 0;
 				(*stage) = 2;
 				lcd.fillScreen(Background);

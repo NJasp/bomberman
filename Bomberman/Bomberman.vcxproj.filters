@@ -57,6 +57,12 @@
     <ClInclude Include="Libraries\Potmeter\Potmeter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Libraries\Leds\Leds.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\Sound\Sound.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Libraries\Levels\Levels.cpp">
@@ -90,6 +96,12 @@
       <Filter>Header Files\Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="Libraries\Potmeter\Potmeter.cpp">
+      <Filter>Header Files\Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\Leds\Leds.cpp">
+      <Filter>Header Files\Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\Sound\Sound.cpp">
       <Filter>Header Files\Resource Files</Filter>
     </ClCompile>
   </ItemGroup>
