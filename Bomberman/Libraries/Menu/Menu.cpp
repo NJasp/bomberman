@@ -179,12 +179,12 @@ void levelSelect(MI0283QT9 lcd)
 	lcd.drawText(0, 227, "Bomberman version 0.1", COLOR_WHITE, COLOR_BLACK, 1); // Version tekst
 }
 
-void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_Storagearray[12], uint8_t* playerSpeed, uint8_t* max_bombs, uint8_t* newHighscore, volatile uint16_t* IRdata, volatile uint8_t* isSendingIR, uint8_t* menucounter, uint8_t buffer[], uint8_t* x, uint8_t* y, uint8_t* isPressed, uint8_t* menuSelect, uint8_t* counter)
+void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_Storagearray[12], uint8_t* playerSpeed, uint8_t* max_bombs, uint8_t* newHighscore, volatile uint16_t* IRdata, volatile uint8_t* isSendingIR, uint8_t* menucounter, uint8_t buffer[], uint8_t* x, uint8_t* y, uint8_t* isPressed, uint8_t* menuSelect, uint8_t* counter, uint8_t isPlayer2)
 {
 	for (;;)
 	{
 		read_Nunchuck(buffer, x, y, isPressed);
-		calculateSelectedMenu(lcd, menucounter, menuSelect, (*x), (*y));
+		calculateSelectedMenu(lcd, menucounter, menuSelect, (*x), (*y), isPlayer2);
 		if(dataReady_IR()) {
 			if(processMenuData_IR(stage, level, IRdata, isPressed)) {
 				lcd.fillScreen(Background);
@@ -333,6 +333,9 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 			if ((*menuSelect) == 18 && (*isPressed)) {
 				(*isPressed) = 0;
 			}
+			if ((*menuSelect) == 19 && (*isPressed)) {
+				(*isPressed) = 0;
+			}
 			else if ((*menuSelect) == 20 && (*isPressed)) {
 				(*isPressed) = 0;
 				(*menucounter) = 0;
@@ -341,7 +344,10 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 	}
 }
 
-void calculateSelectedMenu(MI0283QT9 lcd, uint8_t* menucounter, uint8_t* menuSelect, uint8_t joy_x_axis, uint8_t joy_y_axis) {
+void calculateSelectedMenu(MI0283QT9 lcd, uint8_t* menucounter, uint8_t* menuSelect, uint8_t joy_x_axis, uint8_t joy_y_axis, uint8_t isPlayer2) {
+	if (!isPlayer2) {
+		delay(1);
+	}
 	//MENUCOUNTER == MAIN MENU
 	if ((*menucounter) == 1) {
 		if (antiZhold == 1) {
