@@ -3,12 +3,16 @@
 #include "../Hit/checkHit.h"
 #include "../Sprites/Sprites.h"
 
-void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], uint8_t* livebombs, uint8_t* score)
+void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], uint8_t* livebombs, uint8_t* score, uint8_t player1_x, uint8_t player1_y, uint8_t* player1_x_bombdrop, uint8_t* player1_y_bombdrop)
 {
 	uint8_t row, collumn, icollumn, irow;
 	for (row = 0; row < 12; row++) {
 		for (collumn = 0; collumn < 16; collumn++) {
 			if (grid[collumn][row] == 3) {
+				if ((player1_x == (*player1_x_bombdrop)) && (player1_y == (*player1_y_bombdrop))) {
+					(*player1_x_bombdrop) = 0;
+					(*player1_y_bombdrop) = 0;
+				}
 				grid[collumn][row] = 9;
 				screen.fillRect(((collumn * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
 				icollumn = collumn;

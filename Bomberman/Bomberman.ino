@@ -14,7 +14,7 @@
 #include "Libraries/Potmeter/Potmeter.h"
 #include "Libraries/Sound/Sound.h"
 
-uint8_t isPlayer2 = 0;
+uint8_t isPlayer2 = 1;
 MI0283QT9 lcd;					//LCD variabele
 unsigned char EEMEM  eeprom_Storagearray[12];// eeprom score array. [0] = player1, [1] = player 2
 uint8_t joy_x_axis, joy_y_axis;	//Nunchuck Data
@@ -84,7 +84,7 @@ int main() {
 		{
 			menucounter = 0;
 			update_EEPROM();
-			menu(lcd, &stage, &level, eeprom_Storagearray, &playerSpeed, &max_bombs, &newHighscore, &IRdata, &isSendingIR, &menucounter, nunchuck_buf, &joy_x_axis, &joy_y_axis, &isPressed, &menuSelect, &NunchuckReadCounter, isPlayer2);
+			menu(lcd, &stage, &level, eeprom_Storagearray, &playerSpeed, &max_bombs, &newHighscore, &IRdata, &isSendingIR, &menucounter, nunchuck_buf, &joy_x_axis, &joy_y_axis, &isPressed, &menuSelect, &NunchuckReadCounter);
 			player1_x_speed = playerSpeed;
 			player1_y_speed = playerSpeed;
 			if (!isPlayer2) {
@@ -105,7 +105,7 @@ int main() {
 				set_Brightness(lcd, 7);
 				read_Nunchuck(nunchuck_buf, &joy_x_axis, &joy_y_axis, &isPressed);
 				calculate_Movement(&player1_x, &player1_y, joy_x_axis, joy_y_axis, &player1_xCounter, &player1_yCounter, player1_x_speed, player1_y_speed, grid);
-				draw_Explosion(lcd, bombradius, grid, &livebombs, &score);
+				draw_Explosion(lcd, bombradius, grid, &livebombs, &score, player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop);
 				checkPlayerHit(player1_x, player1_y, &hit, grid, &LivesCounter);
 				update_EEPROM();
 				updateLives(&hit, &lives, lcd, &score, &stage, grid, eeprom_Storagearray, &newHighscore, &isPressed, nunchuck_buf, &livebombs);
