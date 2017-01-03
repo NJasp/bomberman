@@ -183,6 +183,14 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 {
 	for (;;)
 	{
+		// random junk
+		isSendingIR = 1;
+		for (i = 0; i < 25; ++i) {
+			DDRD |= (1 << PORTD3);
+			DDRD &= ~(1 << PORTD3);
+		}
+		isSendingIR = 0;
+
 	//	set_Brightness(lcd, 7);
 		read_Nunchuck(buffer, x, y, isPressed);
 		calculateSelectedMenu(lcd, menucounter, menuSelect, (*x), (*y));
