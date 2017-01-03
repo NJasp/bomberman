@@ -1,9 +1,10 @@
 #include "Levels.h"
 
-void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t* player1_y, uint8_t* player1_x_old, uint8_t* player1_y_old, uint8_t isPlayer2)
+void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t* player1_y, uint8_t* player1_x_old, uint8_t* player1_y_old, uint8_t isPlayer2, uint32_t* nTimer)
 {
 	if (level == 0) {
-		srand(33);
+		uint16_t seed = (uint16_t)((*nTimer) >> 18);
+		srand(seed);
 		uint8_t row, collumn, number, counter0 = 0, counter1 = 0, counter2 = 0;
 		init_OutsideWalls(grid);
 		if(isPlayer2) {
