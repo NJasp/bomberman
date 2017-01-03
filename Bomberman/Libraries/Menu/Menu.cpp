@@ -185,12 +185,12 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 	for (;;)
 	{
 		// random junk
-		*isSendingIR = 1;
-		for (i = 0; i < 25; ++i) {
-			DDRD |= (1 << PORTD3);
-			DDRD &= ~(1 << PORTD3);
-		}
-		*isSendingIR = 0;
+		//*isSendingIR = 1;
+		//for (i = 0; i < 25; ++i) {
+		//	DDRD |= (1 << PORTD3);
+		//	DDRD &= ~(1 << PORTD3);
+		//}
+		//*isSendingIR = 0;
 
 	//	set_Brightness(lcd, 7);
 		read_Nunchuck(buffer, x, y, isPressed);
@@ -356,7 +356,7 @@ void calculateSelectedMenu(MI0283QT9 lcd, uint8_t* menucounter, uint8_t* menuSel
 		if (antiZhold == 1) {
 			if ((*menuSelect) == 1) {
 				lcd.drawRect(margin - highlightMargin, margin - highlightMargin, boxSizeX + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_FINE_ORANGE); // Upper-Bottom Rectangle
-				antiZhold = 1;
+				antiZhold = 0;
 			}
 			//NUNCHUCK TO RIGHT
 			if (joy_x_axis > sensitivityRight && (*menuSelect) == 1) { //Nunchuck moved to the right
