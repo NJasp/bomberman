@@ -14,7 +14,7 @@
 #include "Libraries/Potmeter/Potmeter.h"
 #include "Libraries/Sound/Sound.h"
 
-uint8_t isPlayer2 = 1;
+uint8_t isPlayer2 = 0;
 MI0283QT9 lcd;					//LCD variabele
 unsigned char EEMEM  eeprom_Storagearray[12];// eeprom score array. [0] = player1, [1] = player 2
 uint8_t joy_x_axis, joy_y_axis;	//Nunchuck Data
@@ -88,14 +88,14 @@ int main() {
 			player1_y_speed = playerSpeed;
 			if (!isPlayer2) {
 				init_Player(player1_x, player1_y, lcd);
-				init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old, isPlayer2);
+				init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old, isPlayer2, &nTimer);
 				draw_Sprites(lcd, grid);
 			}
 		}
 		if (stage == 2) {
 			if (isPlayer2) {
 				init_Player(player1_x, player1_y, lcd);
-				init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old, isPlayer2);
+				init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old, isPlayer2, &nTimer);
 				draw_Sprites(lcd, grid);
 			}
 			// TODO: sync up arduinos, set to send
