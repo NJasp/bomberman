@@ -181,26 +181,16 @@ void levelSelect(MI0283QT9 lcd)
 
 void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_Storagearray[12], uint8_t* playerSpeed, uint8_t* max_bombs, uint8_t* newHighscore, volatile uint16_t* IRdata, volatile uint8_t* isSendingIR, uint8_t* menucounter, uint8_t buffer[], uint8_t* x, uint8_t* y, uint8_t* isPressed, uint8_t* menuSelect, uint8_t* counter)
 {
-//	uint8_t i;
 	for (;;)
 	{
-		// random junk
-		//*isSendingIR = 1;
-		//for (i = 0; i < 25; ++i) {
-		//	DDRD |= (1 << PORTD3);
-		//	DDRD &= ~(1 << PORTD3);
-		//}
-		//*isSendingIR = 0;
-
-	//	set_Brightness(lcd, 7);
 		read_Nunchuck(buffer, x, y, isPressed);
 		calculateSelectedMenu(lcd, menucounter, menuSelect, (*x), (*y));
-//		if(dataReady_IR()) {
-//			if(processMenuData_IR(stage, level, IRdata, isPressed)) {
-//				lcd.fillScreen(Background);
-//				break;
-//			}
-//		}
+		if(dataReady_IR()) {
+			if(processMenuData_IR(stage, level, IRdata, isPressed)) {
+				lcd.fillScreen(Background);
+				break;
+			}
+		}
 		//set_Brightness(lcd, 7);
 		if ((*menucounter) == 0) { //START SCREEN
 			if ((*isPressed)) {
@@ -245,7 +235,7 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 				lcd.fillScreen(Background);
 				(*level) = 1;
 				// send over level
-//				send_IR(isSendingIR, LEVEL, 127, 1);
+				send_IR(isSendingIR, LEVEL, 127, 1);
 				break;
 			} else if ((*menuSelect) == 6 && (*isPressed)) {
 				Serial.println("HOI2");
@@ -254,7 +244,7 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 				lcd.fillScreen(Background);
 				(*level) = 2;
 				// send over level
-//				send_IR(isSendingIR, LEVEL, 127, 2);
+				send_IR(isSendingIR, LEVEL, 127, 2);
 				break;
 			} else if ((*menuSelect) == 7 && (*isPressed)) {
 				(*isPressed) = 0;
@@ -262,20 +252,20 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 				lcd.fillScreen(Background);
 				(*level) = 3;
 				// send over level
-//				send_IR(isSendingIR, LEVEL, 127, 3);
+				send_IR(isSendingIR, LEVEL, 127, 3);
 			} else if ((*menuSelect) == 8 && (*isPressed)) {
 				(*isPressed) = 0;
 				(*stage) = 2;
 				lcd.fillScreen(Background);
 				(*level) = 5; // moet straks random level zijn, niet het test level
-//				send_IR(isSendingIR, LEVEL, 127, 5);
+				send_IR(isSendingIR, LEVEL, 127, 5);
 			} else if ((*menuSelect) == 9 && (*isPressed)) {
 				(*isPressed) = 0;
 				(*stage) = 2;
 				lcd.fillScreen(Background);
 				(*level) = 0; // moet straks random level zijn, niet het test level
 				// send over level
-//				send_IR(isSendingIR, LEVEL, 127, 0);
+				send_IR(isSendingIR, LEVEL, 127, 0);
 				break;
 			} else if ((*menuSelect) == 10 && (*isPressed)) {
 				(*isPressed) = 0;
