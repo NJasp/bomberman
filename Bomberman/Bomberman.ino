@@ -83,7 +83,7 @@ int main() {
 		if (stage == 1)
 		{
 			update_EEPROM();
-			menu(lcd, &stage, &level, eeprom_Storagearray, &playerSpeed, &max_bombs, &newHighscore, dataReady_IR(), &IRdata, &isSendingIR, &menucounter, nunchuck_buf, &joy_x_axis, &joy_y_axis, &isPressed, &menuSelect, &NunchuckReadCounter);
+			menu(lcd, &stage, &level, eeprom_Storagearray, &playerSpeed, &max_bombs, &newHighscore, &IRdata, &isSendingIR, &menucounter, nunchuck_buf, &joy_x_axis, &joy_y_axis, &isPressed, &menuSelect, &NunchuckReadCounter);
 			player1_x_speed = playerSpeed;
 			player1_y_speed = playerSpeed;
 			if (!isPlayer2) {
