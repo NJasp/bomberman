@@ -65,11 +65,11 @@ void startScherm(MI0283QT9 lcd, uint8_t* stage, uint8_t buffer[], uint8_t* x, ui
 		}
 		else {
 			drawfreq++;
-		}
+		}*/
 		if ((*isPressed)) {
 			(*stage) = 1;
 			break;
-		}*/
+		}
 	}
 }
 
