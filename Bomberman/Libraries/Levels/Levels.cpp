@@ -2,6 +2,7 @@
 
 void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t* player1_y, uint8_t* player1_x_old, uint8_t* player1_y_old, uint8_t isPlayer2, uint32_t* nTimer, volatile uint8_t* isSendingIR, uint16_t* seed)
 {
+	uint8_t j = 1;
 	if (level == 0) {
 		// only if seed isn't set by IR generate new seed and send it
 		if(!(*seed)) {
@@ -77,7 +78,6 @@ void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t
 			*player1_x_old = 1;
 			*player1_y_old = 1;
 		}
-		int j = 1;
 		init_OutsideWalls(grid);
 		grid[3][j] = 2;
 		grid[4][j] = 2;
@@ -239,7 +239,6 @@ void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t
 			*player1_x_old = 7;
 			*player1_y_old = 2;
 		}
-		int j = 1;
 		init_OutsideWalls(grid);
 		grid[1][j] = 2;
 		grid[2][j] = 2;
@@ -404,7 +403,6 @@ void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t
 			*player1_x_old = 1;
 			*player1_y_old = 1;
 		}
-		int j = 1;
 		init_OutsideWalls(grid);
 		grid[1][j] = 0;
 		grid[2][j] = 0;
@@ -561,7 +559,6 @@ void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t
 		*player1_y = 2;
 		*player1_x_old = 2;
 		*player1_y_old = 2;
-		int j = 1;
 		init_OutsideWalls(grid);
 		grid[1][j] = 2;
 		grid[2][j] = 2;

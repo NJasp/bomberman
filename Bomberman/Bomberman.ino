@@ -46,7 +46,7 @@ uint8_t newHighscore = 0;
 uint8_t bombradius = 1;
 uint8_t playerSpeed = 60;
 uint8_t player1_x_speed = 80, player1_y_speed = 80; //Higher is slower
-uint8_t max_bombs = 1;
+uint8_t max_bombs = 2;
 uint8_t score = 0;
 uint8_t lives = 3;
 uint8_t level = 1;
@@ -89,16 +89,16 @@ int main() {
 			player1_x_speed = playerSpeed;
 			player1_y_speed = playerSpeed;
 			if (!isPlayer2) {
-				init_Player(player1_x, player1_y, lcd);
 				init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old, isPlayer2, &nTimer, &isSendingIR, &seed);
 				draw_Sprites(lcd, grid);
+				init_Player(player1_x, player1_y, lcd);
 			}
 		}
 		if (stage == 2) {
-			if (isPlayer2) {
-				init_Player(player1_x, player1_y, lcd);
+			if (isPlayer2) {		
 				init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old, isPlayer2, &nTimer, &isSendingIR, &seed);
 				draw_Sprites(lcd, grid);
+				init_Player(player1_x, player1_y, lcd);
 			}
 			// TODO: sync up arduinos, set to send
 			for (;;) {
@@ -115,9 +115,7 @@ int main() {
 					//menucounter = 1;
 					break;
 				}
-				if (livebombs == 1) {
-					clear_Explosion(lcd, bombradius, grid, player1_x, player1_y, &livebombs);
-				}	
+				clear_Explosion(lcd, bombradius, grid, player1_x, player1_y);
 				set_Leds(lives);
 
 				if (dataReady_IR() && IRdata != 0) {
@@ -135,6 +133,7 @@ int main() {
 					if (player2_data.type == BOMB) {
 						if(player2_data.xData < 16 && player2_data.xData > 0 &&
 						   player2_data.yData < 12 && player2_data.yData > 0 && !grid[player2_data.xData][player2_data.yData]) {
+							draw_BombSprite(lcd, (player2_data.xData), (player2_data.yData));
 							grid[player2_data.xData][player2_data.yData] = 6;
 							IRdata = 0;
 						}
