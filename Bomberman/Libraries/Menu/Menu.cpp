@@ -276,20 +276,20 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 				(*isPressed) = 0;
 				(*menucounter) = 0;
 			}
-		}
 
-		if(*interruptCounter >= 100){
 			if(levelToSend){
 				send_IR(isSendingIR, LEVEL, 127, levelToSend);
 				break;
 			}
-			else
+			if(*interruptCounter >= 100){
 				send_IR(isSendingIR, 0, 0, 0);
-			levelToSend = 0;
-			*interruptCounter = 0;
+				levelToSend = 0;
+				*interruptCounter = 0;
+			}
+			*interruptCounter++;
 		}
 
-		*interruptCounter++;
+
 		if ((*menucounter) == 3) { //SETTINGS
 			if ((*menuSelect) == 11 && (*isPressed)) {
 				(*isPressed) = 0;
