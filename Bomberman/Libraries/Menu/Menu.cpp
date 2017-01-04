@@ -184,20 +184,6 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 	uint8_t levelToSend = 0;
 	for (;;)
 	{
-		if(*interruptCounter >= 100){
-			if(levelToSend){
-				send_IR(isSendingIR, LEVEL, 127, levelToSend);
-				break;
-			}
-			else
-				send_IR(isSendingIR, 0, 0, 0);
-			levelToSend = 0;
-			*interruptCounter = 0;
-		}
-		*interruptCounter++;
-
-
-
 		read_Nunchuck(buffer, x, y, isPressed);
 		calculateSelectedMenu(lcd, menucounter, menuSelect, (*x), (*y));
 		if(dataReady_IR()) {
@@ -291,6 +277,19 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 				(*menucounter) = 0;
 			}
 		}
+
+		if(*interruptCounter >= 100){
+			if(levelToSend){
+				send_IR(isSendingIR, LEVEL, 127, levelToSend);
+				break;
+			}
+			else
+				send_IR(isSendingIR, 0, 0, 0);
+			levelToSend = 0;
+			*interruptCounter = 0;
+		}
+
+		*interruptCounter++;
 		if ((*menucounter) == 3) { //SETTINGS
 			if ((*menuSelect) == 11 && (*isPressed)) {
 				(*isPressed) = 0;
