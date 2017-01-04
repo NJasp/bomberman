@@ -120,14 +120,17 @@ void highscores(MI0283QT9 lcd, unsigned char eeprom_Storagearray[12], uint8_t* n
 
 void keyboard(MI0283QT9 lcd) {
 	lcd.fillScreen(COLOR_BLACK);
+	lcd.drawLine(margin + (boxSizeX / 2) + middleSpace + 4, margin + boxSizeY - 15, margin + (boxSizeX / 2) + middleSpace + 34, margin + boxSizeY - 15, COLOR_WHITE);
+	lcd.drawLine(margin + (boxSizeX / 2) + middleSpace + 52, margin + boxSizeY - 15, margin + (boxSizeX / 2) + middleSpace + 82, margin + boxSizeY - 15, COLOR_WHITE);
+	lcd.drawLine(margin + (boxSizeX / 2) + middleSpace + 101, margin + boxSizeY - 15, margin + (boxSizeX / 2) + middleSpace + 131, margin + boxSizeY - 15, COLOR_WHITE);
 	lcd.drawRect(margin, margin + boxSizeY + middleSpace, boxSizeX / 2, boxSizeY, COLOR_FINE_BLUE); // Upper-Bottom Rectangle
 	lcd.fillRect(margin, margin + boxSizeY + middleSpace, boxSizeX / 2, boxSizeY, COLOR_FINE_RED); // Upper-Bottom Rectangle
 	lcd.drawRect(margin + (boxSizeX / 2) + middleSpace / 2, margin + boxSizeY + middleSpace, boxSizeX, boxSizeY, COLOR_FINE_BLUE); // Upper-Bottom Rectangle
 	lcd.drawRect(margin + boxSizeX + middleSpace + (boxSizeX / 2), margin + boxSizeY + middleSpace, boxSizeX / 2, boxSizeY, COLOR_FINE_BLUE); // Upper-Bottom Rectangle
 	lcd.fillRect(margin + boxSizeX + middleSpace + (boxSizeX / 2), margin + boxSizeY + middleSpace, boxSizeX / 2, boxSizeY, COLOR_FINE_GREEN); // Upper-Bottom Rectangle
 	lcd.drawText(margin + 30, margin + boxSizeY + middleSpace + 20, "-", COLOR_WHITE, COLOR_FINE_RED, 2);
-	lcd.drawText(margin + (boxSizeX / 2) + 25, margin + boxSizeY + middleSpace + 10, "char select", COLOR_WHITE, COLOR_BLACK, 1);
 	lcd.drawText(margin + (boxSizeX / 2) + middleSpace + boxSizeX + 30, margin + boxSizeY + middleSpace + 20, "+", COLOR_WHITE, COLOR_FINE_GREEN, 2);
+	lcd.drawRect(margin + (boxSizeX / 2) + middleSpace / 2, margin + boxSizeY + middleSpace + boxSizeY + middleSpace, boxSizeX, boxSizeY, COLOR_FINE_BLUE); // Upper-Bottom Rectangle
 	//Y row = 3
 	lcd.drawRect(margin + (boxSizeX / 2) + (middleSpace / 2), margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace, boxSizeX, boxSizeY, COLOR_FINE_BLUE); // Upper-Bottom Rectangle
 	lcd.drawText(margin + (boxSizeX / 2) + 45, margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace + 15, "BACK", COLOR_WHITE, COLOR_BLACK, 2);
@@ -372,14 +375,14 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 		}
 		if ((*menucounter) == 5) { //KEYBOARD
 			if (!(*isPressed)) {
-				lcd.drawChar(margin + (boxSizeX / 2) + (middleSpace / 2) + (boxSizeX / 2 - 25), margin + boxSizeY + middleSpace + 25, currentChar, COLOR_WHITE, COLOR_BLACK, 1);
+				lcd.drawChar(margin + (boxSizeX / 2) + (middleSpace / 2) + (boxSizeX / 2 - 5), margin + boxSizeY + middleSpace + 15, currentChar, COLOR_WHITE, COLOR_BLACK, 2);
 			}
 			if ((*menuSelect) == 18 && (*isPressed)) {
 				(*isPressed) = 0;
 				if (currentChar > 'A' && currentChar <= 'Z') {
 					if (charSelectSpeedCounter == 0) {
 						currentChar--;
-						lcd.drawChar(margin + (boxSizeX / 2) + (middleSpace / 2) + (boxSizeX / 2 - 25), margin + boxSizeY + middleSpace + 25, currentChar, COLOR_WHITE, COLOR_BLACK, 1);
+						lcd.drawChar(margin + (boxSizeX / 2) + (middleSpace / 2) + (boxSizeX / 2 - 5), margin + boxSizeY + middleSpace + 15, currentChar, COLOR_WHITE, COLOR_BLACK, 2);
 					}
 					charSelectSpeedCounter++;
 					if (charSelectSpeedCounter == 30) {
@@ -392,7 +395,7 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 				if (currentChar >= 'A' && currentChar < 'Z') {
 					if (charSelectSpeedCounter == 0) {
 						currentChar++;
-						lcd.drawChar(margin + (boxSizeX / 2) + (middleSpace / 2) + (boxSizeX / 2 - 25), margin + boxSizeY + middleSpace + 25, currentChar, COLOR_WHITE, COLOR_BLACK, 1);
+						lcd.drawChar(margin + (boxSizeX / 2) + (middleSpace / 2) + (boxSizeX / 2 - 5), margin + boxSizeY + middleSpace + 15, currentChar, COLOR_WHITE, COLOR_BLACK, 2);
 					}
 					charSelectSpeedCounter++;
 					if (charSelectSpeedCounter == 50) {
