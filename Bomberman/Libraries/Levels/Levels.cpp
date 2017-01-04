@@ -227,7 +227,6 @@ void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t
 		grid[14][j] = 0;
 	}
 	if (level == 2) {
-		// TODO: player2 position for other levels
 		if (isPlayer2) {
 			*player1_x = 7;
 			*player1_y = 10;
@@ -393,10 +392,18 @@ void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t
 		grid[14][j] = 2;
 	}
 	if (level == 3) {
-		*player1_x = 1;
-		*player1_y = 1;
-		*player1_x_old = 1;
-		*player1_y_old = 1;
+		if (isPlayer2) {
+			*player1_x = 10;
+			*player1_y = 14;
+			*player1_x_old = 10;
+			*player1_y_old = 14;
+		}
+		else {
+			*player1_x = 1;
+			*player1_y = 1;
+			*player1_x_old = 1;
+			*player1_y_old = 1;
+		}
 		int j = 1;
 		init_OutsideWalls(grid);
 		grid[1][j] = 0;
