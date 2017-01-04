@@ -4,6 +4,7 @@ uint8_t margin = 10, boxSizeX = 145, boxSizeY = 52, middleSpace = 10, highlightM
 uint8_t antiZhold = 0;
 uint8_t sensitivityRight = 145; //140
 uint8_t sensitivityLeft = 110; //114
+char currentChar = 'a';
 
 void startScherm(MI0283QT9 lcd, uint8_t* stage, uint8_t buffer[], uint8_t* x, uint8_t* y, uint8_t* isPressed, uint8_t* counter)
 {
@@ -331,10 +332,12 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 		}
 		if ((*menucounter) == 5) { //KEYBOARD
 			if ((*menuSelect) == 18 && (*isPressed)) {
-				(*isPressed) = 0;
+				currentChar++;
+				lcd.drawChar(margin + (boxSizeX / 2) + (middleSpace / 2) + (boxSizeX / 2 - 25), margin + boxSizeY + middleSpace + 25, currentChar, COLOR_WHITE, COLOR_BLACK, 1);
 			}
 			if ((*menuSelect) == 19 && (*isPressed)) {
 				(*isPressed) = 0;
+				currentChar--;
 			}
 			else if ((*menuSelect) == 20 && (*isPressed)) {
 				(*isPressed) = 0;
