@@ -191,7 +191,7 @@ uint8_t processMenuData_IR(uint8_t* stage, uint8_t* level, volatile uint16_t* IR
 			*stage = 2;
 			return 1;
 		}
-		else { // TODO: random level
+		else if((menuData.xData >> 5) == 7){ // TODO: fix random level
 			*level = 0;
 			*stage = 2;
 			*seed = (menuData.xData << 7) | menuData.yData;
