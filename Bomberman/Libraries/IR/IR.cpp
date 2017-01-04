@@ -192,6 +192,7 @@ uint8_t processMenuData_IR(uint8_t* stage, uint8_t* level, volatile uint16_t* IR
 			return 1;
 		}
 		else if((menuData.xData >> 5) == 7){ // TODO: fix random level
+			*isPressed = 0;
 			*level = 0;
 			*stage = 2;
 			*seed = (menuData.xData << 7) | menuData.yData;
