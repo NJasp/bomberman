@@ -5,11 +5,14 @@ void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t
 	uint8_t j = 1;
 	if (level == 0) {
 		// only if seed isn't set by IR generate new seed and send it
-		if(!(*seed)) {
+		if(*seed == 0) {
 			*seed = (uint16_t)((*nTimer) >> 18);
 
 			// make sure first 7 bits aren't all 1
 			*seed &= (1 << 8);
+
+			// make sure first 3 bits are 1
+			*seed |= (1 << 15) | (1 << 14) | (1 << 13);
 
 			// send over seed
             // split seed into two 7 bit values stored in uint8_t vars

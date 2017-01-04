@@ -190,12 +190,15 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 	{
 		read_Nunchuck(buffer, x, y, isPressed);
 		calculateSelectedMenu(lcd, menucounter, menuSelect, (*x), (*y));
+
+		// receiving levels
 		if(dataReady_IR()) {
 			if(processMenuData_IR(stage, level, IRdata, isPressed, seed)) {
 				lcd.fillScreen(Background);
 				break;
 			}
 		}
+
 		//set_Brightness(lcd, 7);
 		if ((*menucounter) == 0) { //START SCREEN
 			if ((*isPressed)) {
@@ -273,17 +276,26 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 				(*level) = 0; // moet straks random level zijn, niet het test level
 				// send over level
 //				send_IR(isSendingIR, LEVEL, 127, 0);
-				break;
+//				break;
 			} else if ((*menuSelect) == 10 && (*isPressed)) {
 				(*isPressed) = 0;
 				(*menucounter) = 0;
 			}
 
-			if(levelToSend){
-				send_IR(isSendingIR, LEVEL, 127, levelToSend);
-				break;
-			}
+			// sending levels
 			if(*interruptCounter >= 100){
+				// random level
+				if(levelToSend == 0){
+					*seed = 0;
+					*stage = 2;
+					break;
+				}
+				else if(levelToSend > 0){
+					*stage = 2;
+					send_IR(isSendingIR, LEVEL, 127, levelToSend);
+					break;
+				}
+
 				send_IR(isSendingIR, 0, 0, 0);
 				levelToSend = 0;
 				*interruptCounter = 0;
