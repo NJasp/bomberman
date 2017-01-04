@@ -181,7 +181,7 @@ void send_IR(volatile uint8_t *isSending, uint8_t type, uint8_t xData, uint8_t y
 	*isSending = 1;
 }
 
-uint8_t processMenuData_IR(uint8_t* stage, uint8_t* level, volatile uint16_t* IRdata, uint8_t* isPressed) {
+uint8_t processMenuData_IR(uint8_t* stage, uint8_t* level, volatile uint16_t* IRdata, uint8_t* isPressed, uint16_t* seed) {
 	data_store menuData = decode_IR(*IRdata);
 
 	if(menuData.type == LEVEL) {
@@ -192,8 +192,9 @@ uint8_t processMenuData_IR(uint8_t* stage, uint8_t* level, volatile uint16_t* IR
 			return 1;
 		}
 		else { // TODO: random level
-			*level = 5;
+			*level = 0;
 			*stage = 2;
+			*seed = (menuData.xData << 7) | menuData.yData;
 			return 1;
 		}
 	}
