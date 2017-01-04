@@ -183,6 +183,22 @@ void levelSelect(MI0283QT9 lcd)
 	lcd.drawText(0, 227, "Bomberman version 0.1", COLOR_WHITE, COLOR_BLACK, 1); // Version tekst
 }
 
+void about(MI0283QT9 lcd)
+{
+	lcd.fillScreen(COLOR_BLACK);
+
+	lcd.drawText(margin + 5, margin + 5, "About", COLOR_WHITE, COLOR_BLACK, 3);
+	lcd.drawText(margin + 5, margin + 45, "ICT Windesheim", COLOR_WHITE, COLOR_BLACK, 2);
+	lcd.drawText(margin + 5, margin + 75, "Made by:", COLOR_WHITE, COLOR_BLACK, 1);
+	lcd.drawText(margin + 5, margin + 90, "- Nils Jaspers", COLOR_WHITE, COLOR_BLACK, 1);
+	lcd.drawText(margin + 5, margin + 105, "- Koen Sleurink", COLOR_WHITE, COLOR_BLACK, 1);
+	lcd.drawText(margin + 5, margin + 120, "- Martijn van Olst", COLOR_WHITE, COLOR_BLACK, 1);
+	lcd.drawText(margin + 5, margin + 135, "- Mike Schotman", COLOR_WHITE, COLOR_BLACK, 1);
+
+	lcd.drawRect(margin + (boxSizeX / 2) + (middleSpace / 2), margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace, boxSizeX, boxSizeY, COLOR_FINE_BLUE); // Upper-Bottom Rectangle
+	lcd.drawText(margin + (boxSizeX / 2) + 45, margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace + 15, "BACK", COLOR_WHITE, COLOR_BLACK, 2);
+}
+
 void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_Storagearray[12], uint8_t* playerSpeed, uint8_t* max_bombs, uint8_t* newHighscore, volatile uint16_t* IRdata, volatile uint8_t* isSendingIR, volatile uint8_t* interruptCounter, uint16_t* seed, uint8_t* menucounter, uint8_t buffer[], uint8_t* x, uint8_t* y, uint8_t* isPressed, uint8_t* menuSelect, uint8_t* counter)
 {
 	int8_t levelToSend = -1;
@@ -230,9 +246,9 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 			}
 			else if ((*menuSelect) == 4 && (*isPressed)) {
 				(*isPressed) = 0;
-				//about();
-				//(*menucounter) = 5;
-				//(*menuSelect) = 18;
+				about(lcd);
+				(*menucounter) = 6;
+				(*menuSelect) = 21;
 			}
 		}
 		if ((*menucounter) == 2) { //LEVEL SELECT
@@ -391,6 +407,12 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 				}
 			}
 			else if ((*menuSelect) == 20 && (*isPressed)) {
+				(*isPressed) = 0;
+				(*menucounter) = 0;
+			}
+		}
+		if ((*menucounter) == 6) { // ABOUT
+			if ((*menuSelect) == 21 && (*isPressed)) {
 				(*isPressed) = 0;
 				(*menucounter) = 0;
 			}
@@ -723,6 +745,29 @@ void calculateSelectedMenu(MI0283QT9 lcd, uint8_t* menucounter, uint8_t* menuSel
 				(*menuSelect) = 18;
 				lcd.drawRect(margin + (boxSizeX / 2) + (middleSpace / 2) - highlightMargin, margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace - highlightMargin, boxSizeX + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_BLACK); //Menuselect 20
 				lcd.drawRect(margin - highlightMargin, margin + boxSizeY + middleSpace - highlightMargin, boxSizeX / 2 + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_FINE_ORANGE); //Menuselect 18
+				antiZhold = 0;
+			}
+		}
+		else {
+			if (joy_y_axis > 114 && joy_y_axis < 140 && joy_x_axis > 114 && joy_x_axis < 140) {
+				antiZhold = 1;
+			}
+		}
+	}
+	// MENUCOUTNER == ABOUT
+	if ((*menucounter) == 6) {
+		if (antiZhold == 1) {
+			if ((*menuSelect) == 21) {
+				antiZhold = 0;
+			}
+			if (joy_y_axis < sensitivityLeft && (*menuSelect) == 21) {
+				(*menuSelect) = 21;
+				lcd.drawRect(margin + (boxSizeX / 2) + (middleSpace / 2) - highlightMargin, margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace - highlightMargin, boxSizeX + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_FINE_ORANGE); //MenuSelect 21
+				antiZhold = 0;
+			}
+			if (joy_y_axis > sensitivityRight && (*menuSelect) == 21) {
+				(*menuSelect) = 21;
+				lcd.drawRect(margin + (boxSizeX / 2) + (middleSpace / 2) - highlightMargin, margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace - highlightMargin, boxSizeX + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_FINE_ORANGE); //MenuSelect 21
 				antiZhold = 0;
 			}
 		}
