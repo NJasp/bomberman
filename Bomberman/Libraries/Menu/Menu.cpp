@@ -431,7 +431,7 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 			}
 			if ((*menuSelect) == 20 && (*isPressed)) {
 				(*isPressed) = 0;
-				(*menucounter) = 4;
+				(*menucounter) = 0;
 				lettercounter = 0;
 			}
 		}

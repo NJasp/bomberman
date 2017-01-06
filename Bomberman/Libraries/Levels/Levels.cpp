@@ -1,16 +1,14 @@
 #include "Levels.h"
 
-void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t* player1_y, uint8_t* player1_x_old, uint8_t* player1_y_old, uint8_t isPlayer2, uint32_t* nTimer, volatile uint8_t* isSendingIR, uint16_t* seed)
+void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t* player1_y, uint8_t* player1_x_old, uint8_t* player1_y_old, uint8_t isPlayer2, uint32_t nTimer, volatile uint8_t* isSendingIR, uint16_t* seed)
 {
 	uint8_t j = 1;
 	if (level == 0) {
 		// only if seed isn't set by IR generate new seed and send it
 		if(*seed == 0) {
-			*seed = (uint16_t)(*nTimer);
-
+			*seed = (uint16_t)(nTimer);
 			// make sure first 7 bits aren't all 1
 			*seed &= (1 << 8);
-
 			// make sure first 3 bits are 1
 			*seed |= (1 << 15) | (1 << 14) | (1 << 13);
 
@@ -21,7 +19,7 @@ void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t
 
 		srand(*seed);
 		Serial.println(*seed);
-		Serial.println(*nTimer);
+		Serial.println(nTimer);
 		uint8_t row, collumn, number, counter0 = 0, counter1 = 0, counter2 = 0;
 		init_OutsideWalls(grid);
 		if(isPlayer2) {
