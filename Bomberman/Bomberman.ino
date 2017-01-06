@@ -63,8 +63,6 @@ uint16_t speakerCounter;
 uint16_t speakerTone = 500;
 uint16_t seed = 0;
 uint8_t player2isDead = 0;
-uint8_t prevBombx = 0, prevBomby= 0;
-uint8_t bombDelay = 3;
 
 void init_Timer();
 
@@ -132,10 +130,6 @@ int main() {
 
 					// process IR data
 					if (player2_data.type == PLAYER) {
-						// reset previous stored bombs after no longer receiving them
-						prevBombx = 0;
-						prevBomby = 0;
-
 						player2_x_old = player2_x;
 						player2_y_old = player2_y;
 						if (!grid[player2_data.xData][player2_data.yData]) {
@@ -150,17 +144,7 @@ int main() {
 						   !grid[player2_data.xData][player2_data.yData]) {
 							draw_BombSprite(lcd, (player2_data.xData), (player2_data.yData));
 
-							// if previous bomb isn't saved yet save it now
-							if(prevBombx == 0 && prevBomby == 0) {
-								prevBombx = player2_data.xData;
-								prevBomby = player2_data.yData;
-							}
-							// only set bombs when 2/3 bombs are the same
-							else if(prevBombx == player2_data.xData && prevBomby == player2_data.yData) {
-								prevBombx = 0;
-								prevBomby = 0;
-								grid[player2_data.xData][player2_data.yData] = 6;
-							}
+							grid[player2_data.xData][player2_data.yData] = 6;
 							IRdata = 0;
 						}
 					}
@@ -195,11 +179,7 @@ int main() {
 						send_bombdrop_x = 0;
 						send_bombdrop_y = 0;
 
-						// make sure to send bombs 3 times
-						if(bombDelay >= 3) {
-							sendBomb = 0;
-						}
-						bombDelay++;
+						sendBomb = 0;
 					}
 					else {
 						send_IR(&isSendingIR, PLAYER, player1_x, player1_y);
