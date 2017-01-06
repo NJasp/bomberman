@@ -192,7 +192,7 @@ void about(MI0283QT9 lcd)
 {
 	lcd.fillScreen(COLOR_BLACK);
 
-	lcd.drawText(margin + 5, margin + 5, "About", COLOR_WHITE, COLOR_BLACK, 3);
+	lcd.drawText(margin + 90, margin + 5, "About", COLOR_WHITE, COLOR_BLACK, 3);
 	lcd.drawText(margin + 5, margin + 45, "ICT Windesheim", COLOR_WHITE, COLOR_BLACK, 2);
 	lcd.drawText(margin + 5, margin + 75, "Made by:", COLOR_WHITE, COLOR_BLACK, 1);
 	lcd.drawText(margin + 5, margin + 90, "- Nils Jaspers", COLOR_WHITE, COLOR_BLACK, 1);

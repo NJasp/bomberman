@@ -6,7 +6,7 @@ void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t
 	if (level == 0) {
 		// only if seed isn't set by IR generate new seed and send it
 		if(*seed == 0) {
-			*seed = (uint16_t)((*nTimer) >> 18);
+			*seed = (uint16_t)(*nTimer);
 
 			// make sure first 7 bits aren't all 1
 			*seed &= (1 << 8);
@@ -20,6 +20,8 @@ void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t
 		}
 
 		srand(*seed);
+		Serial.println(*seed);
+		Serial.println(*nTimer);
 		uint8_t row, collumn, number, counter0 = 0, counter1 = 0, counter2 = 0;
 		init_OutsideWalls(grid);
 		if(isPlayer2) {
