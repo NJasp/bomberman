@@ -8,7 +8,7 @@ uint8_t sensitivityLaggScreenRight = 145;
 uint8_t sensitivityLaggScreenLeft = 110;
 uint8_t charSelectSpeedCounter = 0;
 uint8_t lettercounter = 0;
-uint8_t currentChar = 'A';
+char currentChar = 'A';
 
 void startScherm(MI0283QT9 lcd, uint8_t* stage, uint8_t buffer[], uint8_t* x, uint8_t* y, uint8_t* isPressed, uint8_t* counter)
 {
@@ -407,7 +407,6 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 			}
 			if ((*menuSelect) == 22 && (*isPressed)) {
 				(*isPressed) = 0;
-				(*menucounter) = 0;
 				if (lettercounter < 3) {
 					name[lettercounter] = currentChar;
 					lettercounter++;
