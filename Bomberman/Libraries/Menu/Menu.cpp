@@ -259,44 +259,31 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 			if ((*menuSelect) == 5 && (*isPressed)) {
 				(*isPressed) = 0;
 				(*stage) = 2;
-				lcd.fillScreen(Background);
 				(*level) = 1;
 				// send over level
 				levelToSend = 1;
-//				send_IR(isSendingIR, LEVEL, 127, 1);
-//				break;
 			} else if ((*menuSelect) == 6 && (*isPressed)) {
 				(*isPressed) = 0;
 				(*stage) = 2;
-				lcd.fillScreen(Background);
 				(*level) = 2;
 				// send over level
 				levelToSend = 2;
-//				send_IR(isSendingIR, LEVEL, 127, 2);
-//				break;
 			} else if ((*menuSelect) == 7 && (*isPressed)) {
 				(*isPressed) = 0;
 				(*stage) = 2;
-				lcd.fillScreen(Background);
 				(*level) = 3;
 				// send over level
 				levelToSend = 3;
-//				send_IR(isSendingIR, LEVEL, 127, 3);
 			} else if ((*menuSelect) == 8 && (*isPressed)) {
 				(*isPressed) = 0;
 				(*stage) = 2;
-				lcd.fillScreen(Background);
-				(*level) = 5; // moet straks random level zijn, niet het test level
+				(*level) = 5;
 				levelToSend = 5;
-//				send_IR(isSendingIR, LEVEL, 127, 5);
 			} else if ((*menuSelect) == 9 && (*isPressed)) {
 				(*isPressed) = 0;
 				(*stage) = 2;
-				lcd.fillScreen(Background);
-				(*level) = 0; // moet straks random level zijn, niet het test level
-				// send over level
-//				send_IR(isSendingIR, LEVEL, 127, 0);
-//				break;
+				(*level) = 0; // random level
+				levelToSend = 0;
 			} else if ((*menuSelect) == 10 && (*isPressed)) {
 				(*isPressed) = 0;
 				(*menucounter) = 0;
@@ -307,15 +294,22 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 				// random level
 				if(levelToSend == 0){
 					*seed = 0;
+					*isPressed = 0;
 					*stage = 2;
+					lcd.fillScreen(Background);
 					break;
 				}
+				// normal level
 				else if(levelToSend > 0){
+					*isPressed = 0;
 					*stage = 2;
+					*level = levelToSend;
 					send_IR(isSendingIR, LEVEL, 127, levelToSend);
+					lcd.fillScreen(Background);
 					break;
 				}
 
+				// noise to keep sensor calibrated
 				send_IR(isSendingIR, 0, 0, 0);
 				*interruptCounter = 0;
 			}
