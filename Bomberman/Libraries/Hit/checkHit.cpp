@@ -22,7 +22,7 @@ void checkPlayerHit(uint8_t player1_x, uint8_t player1_y, uint8_t *hit, uint8_t 
 
 void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t* score, uint8_t* stage, uint8_t grid[16][12], unsigned char eeprom_Storagearray[12], uint8_t* newHighscore, uint8_t* isPressed, uint8_t nunchuck_buf[6], uint8_t* livebombs, uint8_t* player2isDead, volatile uint8_t* isSendingIR) {
 
-	if (!(*lives) || *player2isDead) {// TODO: display win/loss based on if you died or player2
+	if (!(*lives) || *player2isDead) {
 		(*stage) = 3;
 		uint8_t a, b, c;
 
@@ -31,7 +31,10 @@ void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t* score, ui
 		//	lcd.drawText(50, 60, " You win ", RGB(255, 255, 255), RGB(0, 0, 0), 3);
 		//}
 		//else {
-		lcd.drawText(50, 60, "GAME OVER", RGB(255, 255, 255), RGB(0, 0, 0), 3);
+		if(!(*lives))
+			lcd.drawText(50, 60, "YOU LOSE!", RGB(255, 255, 255), RGB(0, 0, 0), 3);
+		else
+			lcd.drawText(50, 60, "YOU WIN!!", RGB(255, 255, 255), RGB(0, 0, 0), 3);
 		//}
 		lcd.drawText(120, 100, "Scores", RGB(255, 255, 255), RGB(0, 0, 0), 1);
 		a = lcd.drawText(120, 120, "Player ", RGB(255, 255, 255), RGB(0, 0, 0), 1);
