@@ -42,6 +42,7 @@ uint16_t LivesCounter = 0;
 uint8_t maxBombCounter = 0;
 uint8_t stage = 0;
 uint8_t newHighscore = 0;
+uint8_t name[3];
 
 uint8_t bombradius = 1;
 uint8_t playerSpeed = 60;
@@ -85,7 +86,7 @@ int main() {
 		{
 			menucounter = 0;
 			update_EEPROM();
-			menu(lcd, &stage, &level, eeprom_Storagearray, &playerSpeed, &max_bombs, &newHighscore, &IRdata, &isSendingIR, &interruptCounter, &seed, &menucounter, nunchuck_buf, &joy_x_axis, &joy_y_axis, &isPressed, &menuSelect, &NunchuckReadCounter);
+			menu(lcd, &stage, &level, eeprom_Storagearray, &playerSpeed, &max_bombs, &newHighscore, &IRdata, &isSendingIR, &interruptCounter, &seed, &menucounter, nunchuck_buf, &joy_x_axis, &joy_y_axis, &isPressed, &menuSelect, &NunchuckReadCounter, name);
 			player1_x_speed = playerSpeed;
 			player1_y_speed = playerSpeed;
 			if (!isPlayer2) {
