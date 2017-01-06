@@ -8,7 +8,8 @@ void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t
 		if(*seed == 0) {
 			*seed = (uint16_t)(nTimer);
 			// make sure first 7 bits aren't all 1
-			*seed &= (1 << 8);
+			*seed &= ~(1 << 8);
+
 			// make sure first 3 bits are 1
 			*seed |= (1 << 15) | (1 << 14) | (1 << 13);
 
