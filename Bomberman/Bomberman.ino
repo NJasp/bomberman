@@ -14,7 +14,7 @@
 #include "Libraries/Potmeter/Potmeter.h"
 #include "Libraries/Sound/Sound.h"
 
-uint8_t isPlayer2 = 1;
+uint8_t isPlayer2 = 0;
 MI0283QT9 lcd;					//LCD variabele
 unsigned char EEMEM  eeprom_Storagearray[5];// eeprom score array. [0] = player1, [1] = player 2
 uint8_t joy_x_axis, joy_y_axis;	//Nunchuck Data
@@ -43,6 +43,7 @@ uint8_t maxBombCounter = 0;
 uint8_t stage = 0;
 uint8_t newHighscore = 0;
 uint8_t name[3];
+uint8_t eepromname[3];
 
 uint8_t bombradius = 1;
 uint8_t playerSpeed = 60;
@@ -61,6 +62,7 @@ uint8_t menuSelect = 1;
 uint16_t speakerCounter;
 uint16_t speakerTone = 500;
 uint16_t seed = 0;
+uint8_t player2isDead = 0;
 
 void init_Timer();
 
@@ -74,6 +76,11 @@ int main() {
 	init_Nunchuck();
 	init_LCD(lcd);
 	init_Potmeter();
+	uint8_t i;
+	for (i = 0; i < 5; i++) {
+		name[i] = 0;
+		eepromname[i] = read_eeprom_word(&eeprom_Storagearray[i]);
+	}
 	if (isPlayer2 == 1) {
 		lcd.setOrientation(180);
 	}
@@ -90,14 +97,14 @@ int main() {
 			player1_x_speed = playerSpeed;
 			player1_y_speed = playerSpeed;
 			if (!isPlayer2) {
-				init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old, isPlayer2, &nTimer, &isSendingIR, &seed);
+				init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old, isPlayer2, nTimer, &isSendingIR, &seed);
 				draw_Sprites(lcd, grid);
 				init_Player(player1_x, player1_y, lcd);
 			}
 		}
 		if (stage == 2) {
 			if (isPlayer2) {		
-				init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old, isPlayer2, &nTimer, &isSendingIR, &seed);
+				init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old, isPlayer2, nTimer, &isSendingIR, &seed);
 				draw_Sprites(lcd, grid);
 				init_Player(player1_x, player1_y, lcd);
 			}
@@ -110,7 +117,7 @@ int main() {
 				draw_Explosion(lcd, bombradius, grid, &livebombs, &score, player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop);
 				checkPlayerHit(player1_x, player1_y, &hit, grid, &LivesCounter);
 				update_EEPROM();
-				updateLives(&hit, &lives, lcd, &score, &stage, grid, eeprom_Storagearray, &newHighscore, &isPressed, nunchuck_buf, &livebombs);
+				updateLives(&hit, &lives, lcd, &score, &stage, grid, eeprom_Storagearray, &newHighscore, &isPressed, nunchuck_buf, &livebombs, &player2isDead, &isSendingIR);
 				if (stage == 1) //If stage is set to 0 in gameover screen. break out main game loop
 				{
 					//menucounter = 1;
@@ -131,13 +138,17 @@ int main() {
 							player2_y = player2_data.yData;
 						}
 					}
-					if (player2_data.type == BOMB) {
+					else if (player2_data.type == BOMB) {
 						if(player2_data.xData < 16 && player2_data.xData > 0 &&
-						   player2_data.yData < 12 && player2_data.yData > 0 && !grid[player2_data.xData][player2_data.yData]) {
+						   player2_data.yData < 12 && player2_data.yData > 0 &&
+						   !grid[player2_data.xData][player2_data.yData]) {
 							draw_BombSprite(lcd, (player2_data.xData), (player2_data.yData));
 							grid[player2_data.xData][player2_data.yData] = 6;
 							IRdata = 0;
 						}
+					}
+					else if (player2_data.type == 0 && player2_data.xData == 77 && player2_data.yData == 7) {
+						player2isDead = 1;
 					}
 				}
 
@@ -214,6 +225,13 @@ void init_Timer() {
 }
 
 void update_EEPROM() {
+	if (!name[0] || !name[1] || !name[2]) {
+		if (name[0] != eepromname[0] || name[1] != eepromname[1] || name[2] != eepromname[2]) {
+			write_eeprom_word(&eeprom_Storagearray[2], name[0]);
+			write_eeprom_word(&eeprom_Storagearray[3], name[1]);
+			write_eeprom_word(&eeprom_Storagearray[4], name[2]);
+		}
+	}
 
 	if (read_eeprom_word(&eeprom_Storagearray[0]) < score && lives == 0) { //if score of player1 in eeprom < score in game
 		write_eeprom_word(&eeprom_Storagearray[0], score);  // write highest score to [0] (player 1 in eeprom)
