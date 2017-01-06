@@ -55,7 +55,7 @@ void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t* score, ui
 		//(*score) = 0;
 		//(*lives) = 1;
 		//(*stage) = 1;
-		lcd.drawText(30, 200, "Touch to continue", RGB(255, 255, 255), RGB(0, 0, 0), 2);
+		lcd.drawText(25, 200, " 'Z' to continue", COLOR_WHITE, COLOR_BLACK, 2);
 		uint8_t sendDelay = 0;
 		for (;;)
 		{
