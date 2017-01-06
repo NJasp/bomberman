@@ -407,15 +407,31 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 			}
 			if ((*menuSelect) == 22 && (*isPressed)) {
 				(*isPressed) = 0;
-				if (lettercounter < 3) {
-					name[lettercounter] = currentChar;
-					lcd.drawChar(50, 50, currentChar, RGB(255, 0, 0), RGB(0, 255, 0), 4);
-					lettercounter++;
+				if ((*counter) == 0) {
+					if (lettercounter < 3) {
+						name[lettercounter] = currentChar;
+						switch (lettercounter) {
+						case 0:
+							lcd.drawChar(margin + (boxSizeX / 2) + middleSpace + 10, margin + boxSizeY - 40, currentChar, COLOR_WHITE, COLOR_BLACK, 3);
+							break;
+						case 1:
+							lcd.drawChar(margin + (boxSizeX / 2) + middleSpace + 58, margin + boxSizeY - 40, currentChar, COLOR_WHITE, COLOR_BLACK, 3);
+							break;
+						case 2:
+							lcd.drawChar(margin + (boxSizeX / 2) + middleSpace + 107, margin + boxSizeY - 40, currentChar, COLOR_WHITE, COLOR_BLACK, 3);
+							break;
+						}
+						lettercounter++;
+					}
+				}
+				(*counter)++;
+				if ((*counter) == 252) {
+					(*counter) = 0;
 				}
 			}
 			if ((*menuSelect) == 20 && (*isPressed)) {
 				(*isPressed) = 0;
-				(*menucounter) = 0;
+				(*menucounter) = 4;
 				lettercounter = 0;
 			}
 		}
