@@ -43,6 +43,7 @@ uint8_t maxBombCounter = 0;
 uint8_t stage = 0;
 uint8_t newHighscore = 0;
 uint8_t name[3];
+uint8_t eepromname[3];
 
 uint8_t bombradius = 1;
 uint8_t playerSpeed = 60;
@@ -75,6 +76,11 @@ int main() {
 	init_Nunchuck();
 	init_LCD(lcd);
 	init_Potmeter();
+	uint8_t i;
+	for (i = 0; i < 5; i++) {
+		name[i] = 0;
+		eepromname[i] = read_eeprom_word(&eeprom_Storagearray[i]);
+	}
 	if (isPlayer2 == 1) {
 		lcd.setOrientation(180);
 	}
@@ -91,14 +97,14 @@ int main() {
 			player1_x_speed = playerSpeed;
 			player1_y_speed = playerSpeed;
 			if (!isPlayer2) {
-				init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old, isPlayer2, &nTimer, &isSendingIR, &seed);
+				init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old, isPlayer2, nTimer, &isSendingIR, &seed);
 				draw_Sprites(lcd, grid);
 				init_Player(player1_x, player1_y, lcd);
 			}
 		}
 		if (stage == 2) {
 			if (isPlayer2) {		
-				init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old, isPlayer2, &nTimer, &isSendingIR, &seed);
+				init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old, isPlayer2, nTimer, &isSendingIR, &seed);
 				draw_Sprites(lcd, grid);
 				init_Player(player1_x, player1_y, lcd);
 			}
@@ -219,6 +225,13 @@ void init_Timer() {
 }
 
 void update_EEPROM() {
+	if (!name[0] || !name[1] || !name[2]) {
+		if (name[0] != eepromname[0] || name[1] != eepromname[1] || name[2] != eepromname[2]) {
+			write_eeprom_word(&eeprom_Storagearray[2], name[0]);
+			write_eeprom_word(&eeprom_Storagearray[3], name[1]);
+			write_eeprom_word(&eeprom_Storagearray[4], name[2]);
+		}
+	}
 
 	if (read_eeprom_word(&eeprom_Storagearray[0]) < score && lives == 0) { //if score of player1 in eeprom < score in game
 		write_eeprom_word(&eeprom_Storagearray[0], score);  // write highest score to [0] (player 1 in eeprom)
