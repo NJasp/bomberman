@@ -408,6 +408,7 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 				(*isPressed) = 0;
 				if (lettercounter < 3) {
 					name[lettercounter] = currentChar;
+					lcd.drawChar(50, 50, currentChar, RGB(255, 0, 0), RGB(0, 255, 0), 4);
 					lettercounter++;
 				}
 			}
