@@ -21,19 +21,19 @@ void startScherm(MI0283QT9 lcd, uint8_t* stage, uint8_t buffer[], uint8_t* x, ui
 	lcd.fillCircle(54, 46, 2, RGB(127, 127, 127));
 	lcd.fillCircle(52, 48, 2, RGB(127, 127, 127));
 	lcd.drawRect(53, 35, 15, 5, RGB(102, 102, 102));
-	lcd.fillRect(53, 35, 15, 5, RGB(0, 0, 0));
+	lcd.fillRect(53, 35, 15, 5, COLOR_BLACK);
 	//Lont
 	lcd.fillRect(58, 30, 6, 5, RGB(127, 80, 0));
 	lcd.fillRect(56, 28, 6, 5, RGB(127, 80, 0));
 	lcd.fillRect(54, 26, 6, 5, RGB(127, 80, 0));
 	lcd.fillRect(52, 24, 6, 5, RGB(127, 80, 0));
 	//Lijnen
-	//lcd.drawLine(0, 70, lcd.width(), 70, RGB(0, 0, 0));
-	//lcd.fillRect(0, 115, 50, 50, RGB(0, 0, 0));
-	//lcd.fillRect((lcd.width()-50), 115, 50, 50, RGB(0, 0, 0));
+	//lcd.drawLine(0, 70, lcd.width(), 70, COLOR_BLACK);
+	//lcd.fillRect(0, 115, 50, 50, COLOR_BLACK);
+	//lcd.fillRect((lcd.width()-50), 115, 50, 50, COLOR_BLACK);
 	//lcd.fillRect(50, 160, (lcd.width()-100), 5, RGB(0,0,255));
-	//lcd.drawLine(0, 199, lcd.width(), 199, RGB(0, 0, 0));
-	//lcd.drawLine(0, 30, 20, 0, RGB(0, 0, 0));
+	//lcd.drawLine(0, 199, lcd.width(), 199, COLOR_BLACK);
+	//lcd.drawLine(0, 30, 20, 0, COLOR_BLACK);
 	for (;;) {
 		read_Nunchuck(buffer, x, y, isPressed);
 		//if (toggle1) {//Elke loop toggle de animatie van het vuur naar een andere
@@ -79,8 +79,8 @@ void startScherm(MI0283QT9 lcd, uint8_t* stage, uint8_t buffer[], uint8_t* x, ui
 }
 
 void mainMenu(MI0283QT9 lcd) {
-	//lcd.fillRect(65, 180, 185, 50, (RGB(0, 0, 0)));
-	//lcd.drawText(80, 195, "Options", (RGB(255, 255, 255)), (RGB(0, 0, 0)), 3);
+	//lcd.fillRect(65, 180, 185, 50, (COLOR_BLACK));
+	//lcd.drawText(80, 195, "Options", (COLOR_WHITE), (COLOR_BLACK), 3);
 	lcd.fillScreen(COLOR_BLACK);
 	//Y row = 1
 	lcd.drawRect(margin, margin, boxSizeX, boxSizeY, COLOR_FINE_BLUE); // Upper-Bottom Rectangle
@@ -106,11 +106,11 @@ void highscores(MI0283QT9 lcd, unsigned char eeprom_Storagearray[12], uint8_t* n
 	lcd.drawRect(margin + (boxSizeX / 2) + middleSpace / 2, margin + boxSizeY + middleSpace, boxSizeX, boxSizeY, COLOR_FINE_BLUE); // Upper-Bottom Rectangle
 	uint8_t a, b;
 	char playerName[] = { (read_eeprom_word((&eeprom_Storagearray[2]))), (read_eeprom_word((&eeprom_Storagearray[3]))), (read_eeprom_word((&eeprom_Storagearray[4]))), (read_eeprom_word((&eeprom_Storagearray[5]))), (read_eeprom_word((&eeprom_Storagearray[6]))), '\0' };
-	a = lcd.drawText(margin + (boxSizeX / 2) + middleSpace / 2 + 27, margin + boxSizeY + middleSpace + 15, playerName, RGB(255, 255, 255), RGB(0, 0, 0), 1);
-	b = lcd.drawText(a, margin + boxSizeY + middleSpace + 15, ": ", RGB(255, 255, 255), RGB(0, 0, 0), 1);
-	lcd.drawInteger(b, margin + boxSizeY + middleSpace + 15, read_eeprom_word(&eeprom_Storagearray[0]), 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
+	a = lcd.drawText(margin + (boxSizeX / 2) + middleSpace / 2 + 27, margin + boxSizeY + middleSpace + 15, playerName, COLOR_WHITE, COLOR_BLACK, 1);
+	b = lcd.drawText(a, margin + boxSizeY + middleSpace + 15, ": ", COLOR_WHITE, COLOR_BLACK, 1);
+	lcd.drawInteger(b, margin + boxSizeY + middleSpace + 15, read_eeprom_word(&eeprom_Storagearray[0]), 10, COLOR_WHITE, COLOR_BLACK, 1);
 	if ((*newHighscore)) {
-		lcd.drawText(margin + (boxSizeX / 2) + middleSpace / 2 + 5, margin + boxSizeY + middleSpace + 30, "touch to add name", RGB(255, 255, 255), RGB(0, 0, 0), 1);
+		lcd.drawText(margin + (boxSizeX / 2) + middleSpace / 2 + 5, margin + boxSizeY + middleSpace + 30, "touch to add name", COLOR_WHITE, COLOR_BLACK, 1);
 		if (read_eeprom_word(&eeprom_Storagearray[2]) != '1') {
 			(*newHighscore) = 0;
 		}

@@ -26,32 +26,32 @@ void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t* score, ui
 		(*stage) = 3;
 		uint8_t a, b, c;
 
-		lcd.fillScreen(RGB(0, 0, 0));
+		lcd.fillScreen(COLOR_BLACK);
 		//if (player_scoreArray[1] > player_scoreArray[3]) { //make win conditon. check which player has the highest score
-		//	lcd.drawText(50, 60, " You win ", RGB(255, 255, 255), RGB(0, 0, 0), 3);
+		//	lcd.drawText(50, 60, " You win ", COLOR_WHITE, COLOR_BLACK, 3);
 		//}
 		//else {
 		if(!(*lives))
-			lcd.drawText(50, 60, "YOU LOSE!", RGB(255, 255, 255), RGB(0, 0, 0), 3);
+			lcd.drawText(50, 60, "YOU LOSE!", COLOR_WHITE, COLOR_BLACK, 3);
 		else
-			lcd.drawText(50, 60, "YOU WIN!!", RGB(255, 255, 255), RGB(0, 0, 0), 3);
+			lcd.drawText(50, 60, "YOU WIN!!", COLOR_WHITE, COLOR_BLACK, 3);
 		//}
-		lcd.drawText(120, 100, "Scores", RGB(255, 255, 255), RGB(0, 0, 0), 1);
-		a = lcd.drawText(120, 120, "Player ", RGB(255, 255, 255), RGB(0, 0, 0), 1);
-		b = lcd.drawInteger(a, 120, 1, 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
-		c = lcd.drawText(b, 120, ": ", RGB(255, 255, 255), RGB(0, 0, 0), 1);
-		lcd.drawInteger(c, 120, (*score), 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
+		lcd.drawText(120, 100, "Scores", COLOR_WHITE, COLOR_BLACK, 1);
+		a = lcd.drawText(120, 120, "Player ", COLOR_WHITE, COLOR_BLACK, 1);
+		b = lcd.drawInteger(a, 120, 1, 10, COLOR_WHITE, COLOR_BLACK, 1);
+		c = lcd.drawText(b, 120, ": ", COLOR_WHITE, COLOR_BLACK, 1);
+		lcd.drawInteger(c, 120, (*score), 10, COLOR_WHITE, COLOR_BLACK, 1);
 		/*
 		if ((*newHighscore)) {
-			lcd.drawText(110, 140, "NEW HIGHSCORE!!", RGB(255, 255, 255), RGB(0, 0, 0), 1);
-			lcd.drawText(70, 160, "Please add your name in the scores menu", RGB(255, 255, 255), RGB(0, 0, 0), 1);
+			lcd.drawText(110, 140, "NEW HIGHSCORE!!", COLOR_WHITE, COLOR_BLACK, 1);
+			lcd.drawText(70, 160, "Please add your name in the scores menu", COLOR_WHITE, COLOR_BLACK, 1);
 			//(*newHighscore) = 0;
 		}*/
 
-		//a = lcd.drawText(120, 140, "Player ", RGB(255, 255, 255), RGB(0, 0, 0), 1);
-		//b = lcd.drawInteger(a, 140, player_scoreArray[2], 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
-		//c = lcd.drawText(b, 140, ": ", RGB(255, 255, 255), RGB(0, 0, 0), 1);
-		//lcd.drawInteger(c, 140, (*score2), 10, RGB(255, 255, 255), RGB(0, 0, 0), 1);
+		//a = lcd.drawText(120, 140, "Player ", COLOR_WHITE, COLOR_BLACK, 1);
+		//b = lcd.drawInteger(a, 140, player_scoreArray[2], 10, COLOR_WHITE, COLOR_BLACK, 1);
+		//c = lcd.drawText(b, 140, ": ", COLOR_WHITE, COLOR_BLACK, 1);
+		//lcd.drawInteger(c, 140, (*score2), 10, COLOR_WHITE, COLOR_BLACK, 1);
 		//(*score) = 0;
 		//(*lives) = 1;
 		//(*stage) = 1;
