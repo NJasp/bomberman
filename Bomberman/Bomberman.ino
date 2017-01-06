@@ -64,7 +64,7 @@ uint16_t speakerTone = 500;
 uint16_t seed = 0;
 uint8_t player2isDead = 0;
 uint8_t prevBombx = 0, prevBomby= 0;
-static const uint8_t bombDelay = 3;
+uint8_t bombDelay = 3;
 
 void init_Timer();
 
@@ -196,8 +196,10 @@ int main() {
 						send_bombdrop_y = 0;
 
 						// make sure to send bombs 3 times
-						if(bombDelay >= 3)
+						if(bombDelay >= 3) {
 							sendBomb = 0;
+						}
+						bombDelay++;
 					}
 					else {
 						send_IR(&isSendingIR, PLAYER, player1_x, player1_y);
