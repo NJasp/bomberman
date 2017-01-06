@@ -63,6 +63,8 @@ uint16_t speakerCounter;
 uint16_t speakerTone = 500;
 uint16_t seed = 0;
 uint8_t player2isDead = 0;
+uint8_t prevBombx = 0, prevBomby= 0;
+static const uint8_t bombDelay = 3;
 
 void init_Timer();
 
@@ -93,7 +95,7 @@ int main() {
 		if (stage == 1)
 		{
 			menucounter = 0;
-			menu(lcd, &stage, &level, eeprom_Storagearray, &playerSpeed, &max_bombs, &newHighscore, &IRdata, &isSendingIR, &interruptCounter, &seed, &menucounter, nunchuck_buf, &joy_x_axis, &joy_y_axis, &isPressed, &menuSelect, &NunchuckReadCounter, name, eepromname, &score, &lives);
+			menu(lcd, &stage, &level, eeprom_Storagearray, &playerSpeed, &max_bombs, &newHighscore, &IRdata, &isSendingIR, &interruptCounter, &seed, &menucounter, nunchuck_buf, &joy_x_axis, &joy_y_axis, &isPressed, &menuSelect, &NunchuckReadCounter, name);
 			player1_x_speed = playerSpeed;
 			player1_y_speed = playerSpeed;
 			if (!isPlayer2) {
@@ -130,6 +132,10 @@ int main() {
 
 					// process IR data
 					if (player2_data.type == PLAYER) {
+						// reset previous stored bombs after no longer receiving them
+						prevBombx = 0;
+						prevBomby = 0;
+
 						player2_x_old = player2_x;
 						player2_y_old = player2_y;
 						if (!grid[player2_data.xData][player2_data.yData]) {
@@ -137,12 +143,24 @@ int main() {
 							player2_y = player2_data.yData;
 						}
 					}
+
 					else if (player2_data.type == BOMB) {
 						if(player2_data.xData < 16 && player2_data.xData > 0 &&
 						   player2_data.yData < 12 && player2_data.yData > 0 &&
 						   !grid[player2_data.xData][player2_data.yData]) {
 							draw_BombSprite(lcd, (player2_data.xData), (player2_data.yData));
-							grid[player2_data.xData][player2_data.yData] = 6;
+
+							// if previous bomb isn't saved yet save it now
+							if(prevBombx == 0 && prevBomby == 0) {
+								prevBombx = player2_data.xData;
+								prevBomby = player2_data.yData;
+							}
+							// only set bombs when 2/3 bombs are the same
+							else if(prevBombx == player2_data.xData && prevBomby == player2_data.yData) {
+								prevBombx = 0;
+								prevBomby = 0;
+								grid[player2_data.xData][player2_data.yData] = 6;
+							}
 							IRdata = 0;
 						}
 					}
@@ -174,9 +192,12 @@ int main() {
 				if (interruptCounter >= 100 /*3906*/) {
 					if (sendBomb) {
 						send_IR(&isSendingIR, BOMB, send_bombdrop_x, send_bombdrop_y);
-						sendBomb = 0;
 						send_bombdrop_x = 0;
 						send_bombdrop_y = 0;
+
+						// make sure to send bombs 3 times
+						if(bombDelay >= 3)
+							sendBomb = 0;
 					}
 					else {
 						send_IR(&isSendingIR, PLAYER, player1_x, player1_y);
