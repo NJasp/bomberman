@@ -20,9 +20,9 @@ void checkPlayerHit(uint8_t player1_x, uint8_t player1_y, uint8_t *hit, uint8_t 
 }
 
 
-void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t* score, uint8_t* stage, uint8_t grid[16][12], unsigned char eeprom_Storagearray[12], uint8_t* newHighscore, uint8_t* isPressed, uint8_t nunchuck_buf[6], uint8_t* livebombs) {
+void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t* score, uint8_t* stage, uint8_t grid[16][12], unsigned char eeprom_Storagearray[12], uint8_t* newHighscore, uint8_t* isPressed, uint8_t nunchuck_buf[6], uint8_t* livebombs, uint8_t* player2isDead, volatile uint8_t* isSendingIR) {
 
-	if (!(*lives)) {
+	if (!(*lives) || *player2isDead) {// TODO: display win/loss based on if you died or player2
 		(*stage) = 3;
 		uint8_t a, b, c;
 
@@ -53,6 +53,7 @@ void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t* score, ui
 		//(*lives) = 1;
 		//(*stage) = 1;
 		lcd.drawText(30, 200, "Touch to continue", RGB(255, 255, 255), RGB(0, 0, 0), 2);
+		uint8_t sendDelay = 0;
 		for (;;)
 		{
 			read_Nunchuck(nunchuck_buf, 0, 0, isPressed);
@@ -61,8 +62,17 @@ void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t* score, ui
 			if ((*isPressed))
 			{
 				(*isPressed) = 0;
-				resetVariables(score, stage, lives, grid, livebombs);
+				resetVariables(score, stage, lives, grid, livebombs, player2isDead);
 				break;
+			}
+
+			// only send over 'dead' messages if you died first
+			if(!(*lives)) {
+				sendDelay++;
+				if(sendDelay == 100) {
+					send_IR(isSendingIR, 0, 77, 7);
+					sendDelay = 0;
+				}
 			}
 		}
 	}
@@ -72,7 +82,7 @@ void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t* score, ui
 	}
 }
 
-void resetVariables(uint8_t* score, uint8_t* stage, uint8_t* lives, uint8_t grid[16][12], uint8_t* livebombs)
+void resetVariables(uint8_t* score, uint8_t* stage, uint8_t* lives, uint8_t grid[16][12], uint8_t* livebombs, uint8_t* player2isDead)
 {
 	uint8_t row, collumn;
 
@@ -80,6 +90,7 @@ void resetVariables(uint8_t* score, uint8_t* stage, uint8_t* lives, uint8_t grid
 	(*lives) = 3;
 	(*stage) = 1;
 	(*livebombs) = 0;
+	(*player2isDead) = 0;
 
 	for (row = 0; row < 12; row++) {
 		for (collumn = 0; collumn < 16; collumn++) {

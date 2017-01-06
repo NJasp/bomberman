@@ -60,6 +60,7 @@ uint8_t menuSelect = 1;
 uint16_t speakerCounter;
 uint16_t speakerTone = 500;
 uint16_t seed = 0;
+uint8_t player2isDead = 0;
 
 void init_Timer();
 
@@ -109,7 +110,7 @@ int main() {
 				draw_Explosion(lcd, bombradius, grid, &livebombs, &score, player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop);
 				checkPlayerHit(player1_x, player1_y, &hit, grid, &LivesCounter);
 				update_EEPROM();
-				updateLives(&hit, &lives, lcd, &score, &stage, grid, eeprom_Storagearray, &newHighscore, &isPressed, nunchuck_buf, &livebombs);
+				updateLives(&hit, &lives, lcd, &score, &stage, grid, eeprom_Storagearray, &newHighscore, &isPressed, nunchuck_buf, &livebombs, &player2isDead, &isSendingIR);
 				if (stage == 1) //If stage is set to 0 in gameover screen. break out main game loop
 				{
 					//menucounter = 1;
@@ -130,13 +131,17 @@ int main() {
 							player2_y = player2_data.yData;
 						}
 					}
-					if (player2_data.type == BOMB) {
+					else if (player2_data.type == BOMB) {
 						if(player2_data.xData < 16 && player2_data.xData > 0 &&
-						   player2_data.yData < 12 && player2_data.yData > 0 && !grid[player2_data.xData][player2_data.yData]) {
+						   player2_data.yData < 12 && player2_data.yData > 0 &&
+						   !grid[player2_data.xData][player2_data.yData]) {
 							draw_BombSprite(lcd, (player2_data.xData), (player2_data.yData));
 							grid[player2_data.xData][player2_data.yData] = 6;
 							IRdata = 0;
 						}
+					}
+					else if (player2_data.type == 0 && player2_data.xData == 77 && player2_data.yData == 7) {
+						player2isDead = 1;
 					}
 				}
 
