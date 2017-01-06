@@ -1,5 +1,7 @@
 #include "Menu.h"
 #include "../Nunchuck/Nunchuck.h"
+#include "../Eeprom/Eeprom.h"
+
 uint8_t margin = 10, boxSizeX = 145, boxSizeY = 52, middleSpace = 10, highlightMargin = 2; //Has to be 320 together for x and 240 together for y;
 uint8_t antiZhold = 0;
 uint8_t sensitivityRight = 140; //140
@@ -105,7 +107,7 @@ void highscores(MI0283QT9 lcd, unsigned char eeprom_Storagearray[12], uint8_t* n
 	lcd.drawText(margin + 15, margin + 5, "HIGH SCORES", COLOR_WHITE, COLOR_BLACK, 3);
 	lcd.drawRect(margin + (boxSizeX / 2) + middleSpace / 2, margin + boxSizeY + middleSpace, boxSizeX, boxSizeY, COLOR_FINE_BLUE); // Upper-Bottom Rectangle
 	uint8_t a, b;
-	char playerName[] = { (read_eeprom_word((&eeprom_Storagearray[2]))), (read_eeprom_word((&eeprom_Storagearray[3]))), (read_eeprom_word((&eeprom_Storagearray[4]))), (read_eeprom_word((&eeprom_Storagearray[5]))), (read_eeprom_word((&eeprom_Storagearray[6]))), '\0' };
+	char playerName[] = { (read_eeprom_word((&eeprom_Storagearray[2]))), (read_eeprom_word((&eeprom_Storagearray[3]))), (read_eeprom_word((&eeprom_Storagearray[4]))), (read_eeprom_word((&eeprom_Storagearray[5]))), '\0' };
 	a = lcd.drawText(margin + (boxSizeX / 2) + middleSpace / 2 + 27, margin + boxSizeY + middleSpace + 15, playerName, COLOR_WHITE, COLOR_BLACK, 1);
 	b = lcd.drawText(a, margin + boxSizeY + middleSpace + 15, ": ", COLOR_WHITE, COLOR_BLACK, 1);
 	lcd.drawInteger(b, margin + boxSizeY + middleSpace + 15, read_eeprom_word(&eeprom_Storagearray[0]), 10, COLOR_WHITE, COLOR_BLACK, 1);
@@ -204,7 +206,7 @@ void about(MI0283QT9 lcd)
 	lcd.drawText(margin + (boxSizeX / 2) + 45, margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace + 15, "BACK", COLOR_WHITE, COLOR_BLACK, 2);
 }
 
-void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_Storagearray[12], uint8_t* playerSpeed, uint8_t* max_bombs, uint8_t* newHighscore, volatile uint16_t* IRdata, volatile uint8_t* isSendingIR, volatile uint8_t* interruptCounter, uint16_t* seed, uint8_t* menucounter, uint8_t buffer[], uint8_t* x, uint8_t* y, uint8_t* isPressed, uint8_t* menuSelect, uint8_t* counter, uint8_t name[])
+void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_Storagearray[12], uint8_t* playerSpeed, uint8_t* max_bombs, uint8_t* newHighscore, volatile uint16_t* IRdata, volatile uint8_t* isSendingIR, volatile uint8_t* interruptCounter, uint16_t* seed, uint8_t* menucounter, uint8_t buffer[], uint8_t* x, uint8_t* y, uint8_t* isPressed, uint8_t* menuSelect, uint8_t* counter, uint8_t name[], uint8_t eepromname[], uint8_t* score, uint8_t* lives)
 {
 	int8_t levelToSend = -1;
 	for (;;)
@@ -433,6 +435,7 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 				(*isPressed) = 0;
 				(*menucounter) = 0;
 				lettercounter = 0;
+				update_EEPROM(eeprom_Storagearray, name, eepromname, (*score), 0, (*lives));
 			}
 		}
 		if ((*menucounter) == 6) { // ABOUT
