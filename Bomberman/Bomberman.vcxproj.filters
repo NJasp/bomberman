@@ -63,6 +63,9 @@
     <ClInclude Include="Libraries\Sound\Sound.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Libraries\Eeprom\Eeprom.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Libraries\Levels\Levels.cpp">
@@ -102,6 +105,9 @@
       <Filter>Header Files\Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="Libraries\Sound\Sound.cpp">
+      <Filter>Header Files\Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\Eeprom\Eeprom.cpp">
       <Filter>Header Files\Resource Files</Filter>
     </ClCompile>
   </ItemGroup>

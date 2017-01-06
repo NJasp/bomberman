@@ -42,4 +42,6 @@ C:\Users\Martijn\AppData\Local\Temp\VMBuilds\Bomberman\uno\Debug\Bomberman.cpp.o
  C:\Users\Martijn\AppData\Local\Temp\VMBuilds\Bomberman\uno\Debug\Libraries/Potmeter/Potmeter.h \
  C:\Users\Martijn\AppData\Local\Temp\VMBuilds\Bomberman\uno\Debug\Libraries/Potmeter/../Includes/Includes.h \
  C:\Users\Martijn\AppData\Local\Temp\VMBuilds\Bomberman\uno\Debug\Libraries/Sound/Sound.h \
- C:\Users\Martijn\AppData\Local\Temp\VMBuilds\Bomberman\uno\Debug\Libraries/Sound/../Includes/Includes.h
+ C:\Users\Martijn\AppData\Local\Temp\VMBuilds\Bomberman\uno\Debug\Libraries/Sound/../Includes/Includes.h \
+ C:\Users\Martijn\AppData\Local\Temp\VMBuilds\Bomberman\uno\Debug\Libraries/Eeprom/Eeprom.h \
+ C:\Users\Martijn\AppData\Local\Temp\VMBuilds\Bomberman\uno\Debug\Libraries/Eeprom/../Includes/Includes.h

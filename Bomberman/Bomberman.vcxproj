@@ -84,6 +84,7 @@
   <ItemGroup>
     <ClInclude Include="Libraries\Bomb\Bomb.h" />
     <ClInclude Include="Libraries\DebugTools\DebugTools.h" />
+    <ClInclude Include="Libraries\Eeprom\Eeprom.h" />
     <ClInclude Include="Libraries\Hit\checkHit.h" />
     <ClInclude Include="Libraries\Includes\Includes.h" />
     <ClInclude Include="Libraries\IR\IR.h" />
@@ -103,6 +104,7 @@
   <ItemGroup>
     <ClCompile Include="Libraries\Bomb\Bomb.cpp" />
     <ClCompile Include="Libraries\DebugTools\DebugTools.cpp" />
+    <ClCompile Include="Libraries\Eeprom\Eeprom.cpp" />
     <ClCompile Include="Libraries\Hit\checkHit.cpp" />
     <ClCompile Include="Libraries\IR\IR.cpp" />
     <ClCompile Include="Libraries\LCD\LCD.cpp" />
@@ -120,7 +122,7 @@
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties arduino.upload.port="COM6" />
+      <UserProperties arduino.upload.port="COM4" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
