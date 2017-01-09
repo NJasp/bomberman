@@ -37,7 +37,7 @@ volatile uint8_t interruptCounter = 0;											//Used to set sending interval
 volatile uint8_t menu_interruptCounter = 0;										//Used to set sending interval in menu
 uint8_t livebombs = 0;															//Number of bombs currently in the game from this player
 uint8_t hit = 0;																//Is set when a player is hit by an explosion
-uint8_t menucounter = 0;														//Is used to select different menuscreens (each number represents a different menu screen)
+uint8_t menucounter;															//Is used to select different menuscreens (each number represents a different menu screen)
 uint16_t LivesCounter = 0;														//Used to be invincible after being hit												
 uint8_t stage = 0;																//Is used to select a stage (Startscherm, Menu, Game)
 uint8_t newHighscore = 0;														//Is set when a new highscore is reached
@@ -72,37 +72,29 @@ int main() {
 	init_Potmeter();
 	update_EEPROM(eeprom_Storagearray, name, eepromname, score, 0, lives);
 	uint8_t i;
-	for (i = 0; i < 3; i++) {
+	for (i = 0; i < 3; i++) {													//Store the EEPROM values in an array
 		eepromname[i] = read_eeprom_word(&eeprom_Storagearray[i + 2]);
 	}
-	if (isPlayer2 == 1) {
+	if (isPlayer2 == 1) {														//If this is player2, turn the screen around 180 degrees so the screens have the same orientation
 		lcd.setOrientation(180);
 	}
-	for (;;) {	// MAIN LOOP	
+	for (;;) {																	// MAIN LOOP	
 		if (stage == 0) {
 			startScherm(lcd, &stage, nunchuck_buf, &joy_x_axis, &joy_y_axis, &isPressed);
 		}
 		if (stage == 1)
 		{
-			menucounter = 0;
+			menucounter = 0;													//The main menu = menucounter 0
 			menu(lcd, &stage, &level, eeprom_Storagearray, &playerSpeed, &max_bombs, &newHighscore, &IRdata, &isSendingIR, &menu_interruptCounter, &seed, &menucounter, nunchuck_buf, &joy_x_axis, &joy_y_axis, &isPressed, &buttonSelect, &MenuMaxBombsCounter, name, eepromname, &score, &lives);
-			player1_x_speed = playerSpeed;
+			player1_x_speed = playerSpeed;										//After the player went trough the menu, set the selected player speed.
 			player1_y_speed = playerSpeed;
-			if (!isPlayer2) {
-				init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old, isPlayer2, nTimer, &isSendingIR, &seed);
-				draw_Sprites(lcd, grid);
-				init_Player(player1_x, player1_y, lcd);
-			}
 		}
-		if (stage == 2) {
-			if (isPlayer2) {		
-				init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old, isPlayer2, nTimer, &isSendingIR, &seed);
-				draw_Sprites(lcd, grid);
-				init_Player(player1_x, player1_y, lcd);
-			}
+		if (stage == 2) {	
+			init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old, isPlayer2, nTimer, &isSendingIR, &seed);			//Initialize the level selected in menu in stage 1
+			draw_Sprites(lcd, grid);
+			init_Player(player1_x, player1_y, lcd);
 			for (;;) {
-				//sound(&speakerCounter, &speakerTone);
-				set_Brightness(lcd, 7);
+				set_Brightness(lcd, 7);											//Set the brightness according to the Potentiometers value
 				read_Nunchuck(nunchuck_buf, &joy_x_axis, &joy_y_axis, &isPressed);
 				calculate_Movement(&player1_x, &player1_y, joy_x_axis, joy_y_axis, &player1_xCounter, &player1_yCounter, player1_x_speed, player1_y_speed, grid);
 				draw_Explosion(lcd, bombradius, grid, &livebombs, &score, player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop);
@@ -110,7 +102,6 @@ int main() {
 				updateLives(&hit, &lives, lcd, &score, &stage, grid, eeprom_Storagearray, &newHighscore, &isPressed, nunchuck_buf, &livebombs, &player2isDead, &isSendingIR, name, eepromname);
 				if (stage == 1) //If stage is set to 0 in gameover screen. break out main game loop
 				{
-					//menucounter = 1;
 					break;
 				}
 				clear_Explosion(lcd, bombradius, grid, player1_x, player1_y);
@@ -144,7 +135,7 @@ int main() {
 					}
 				}
 
-				// draw other player position if new
+				// draw other player if position is new
 				if (player2_x != player2_x_old || player2_y != player2_y_old) {
 					lcd.fillRect(player2_x_old * 20, player2_y_old * 20, 20, 20, Background);
 					lcd.fillRect(player2_x * 20, player2_y * 20, 20, 20, RGB(0, 0, 255));
@@ -191,7 +182,7 @@ int main() {
 				else {
 					interruptCounter++;
 				}
-				sound();
+				//sound();
 			}
 		}
 	}

@@ -8,6 +8,6 @@ void sound()
 		PORTD ^= (1 << PORTD4);
 		(speakerCounter) = 0;
 	}
-	(speakerCounter)++;
+	speakerCounter++;
 
 }

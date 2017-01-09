@@ -155,7 +155,7 @@ void about(MI0283QT9 lcd)
 	lcd.drawText(margin + 5, margin + 45, "ICT Windesheim", COLOR_WHITE, COLOR_BLACK, 2);
 	lcd.drawText(margin + 5, margin + 75, "Made by:", COLOR_WHITE, COLOR_BLACK, 1);
 	lcd.drawText(margin + 5, margin + 90, "- Nils Jaspers", COLOR_WHITE, COLOR_BLACK, 1);
-	lcd.drawText(margin + 5, margin + 105, "- Koen Sleurink", COLOR_WHITE, COLOR_BLACK, 1);
+	lcd.drawText(margin + 5, margin + 105, "- Koen Sleurink", RGB(255,0,0), COLOR_BLACK, 1);
 	lcd.drawText(margin + 5, margin + 120, "- Martijn van Olst", COLOR_WHITE, COLOR_BLACK, 1);
 	lcd.drawText(margin + 5, margin + 135, "- Mike Schotman", COLOR_WHITE, COLOR_BLACK, 1);
 
@@ -218,31 +218,31 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 		if ((*menucounter) == 2) { //LEVEL SELECT
 			if ((*buttonSelect) == 5 && (*isPressed)) {
 				(*isPressed) = 0;
-				(*stage) = 2;
 				(*level) = 1;
+				(*stage) = 2;
 				// send over level
 				levelToSend = 1;
 			} else if ((*buttonSelect) == 6 && (*isPressed)) {
 				(*isPressed) = 0;
-				(*stage) = 2;
 				(*level) = 2;
+				(*stage) = 2;
 				// send over level
 				levelToSend = 2;
 			} else if ((*buttonSelect) == 7 && (*isPressed)) {
 				(*isPressed) = 0;
-				(*stage) = 2;
 				(*level) = 3;
+				(*stage) = 2;
 				// send over level
 				levelToSend = 3;
 			} else if ((*buttonSelect) == 8 && (*isPressed)) {
 				(*isPressed) = 0;
-				(*stage) = 2;
 				(*level) = 5;
+				(*stage) = 2;
 				levelToSend = 5;
 			} else if ((*buttonSelect) == 9 && (*isPressed)) {
 				(*isPressed) = 0;
-				(*stage) = 2;
 				(*level) = 0; // random level
+				(*stage) = 2;
 				levelToSend = 0;
 			} else if ((*buttonSelect) == 10 && (*isPressed)) {
 				(*isPressed) = 0;
