@@ -13,6 +13,7 @@ typedef struct data_store {
 	uint8_t yData;
 } data_store;
 
+static const uint8_t MISC = 0;
 static const uint8_t PLAYER = 1;
 static const uint8_t BOMB = 2;
 static const uint8_t LEVEL = 3;

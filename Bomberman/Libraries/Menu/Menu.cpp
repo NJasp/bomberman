@@ -270,7 +270,7 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 				}
 
 				// noise to keep sensor calibrated
-				send_IR(isSendingIR, 0, 0, 0);
+				send_IR(isSendingIR, MISC, MISC, MISC);
 				*interruptCounter = 0;
 			}
 			*interruptCounter++;
