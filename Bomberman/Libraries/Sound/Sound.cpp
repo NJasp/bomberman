@@ -1,13 +1,13 @@
 #include "Sound.h"
 
-void sound(uint16_t* speakerCounter, uint16_t* speakerTone)
-{
-	DDRD = (1 << PORTD4); // speaker port
+uint16_t speakerCounter = 0;
 
-	if ((*speakerCounter) > (*speakerTone)) {
+void sound()
+{
+	if ((speakerCounter) > 100){
 		PORTD ^= (1 << PORTD4);
-		(*speakerCounter) = 0;
+		(speakerCounter) = 0;
 	}
-	(*speakerCounter)++;
+	(speakerCounter)++;
 
 }

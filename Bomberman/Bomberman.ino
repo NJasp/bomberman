@@ -15,64 +15,56 @@
 #include "Libraries/Sound/Sound.h"
 #include "Libraries/Eeprom/Eeprom.h"
 
-uint8_t isPlayer2 = 0;
-MI0283QT9 lcd;					//LCD variabele
-unsigned char EEMEM  eeprom_Storagearray[5];// eeprom score array. [0] = player1, [1] = player 2
-uint8_t joy_x_axis, joy_y_axis;	//Nunchuck Data
-static uint8_t nunchuck_buf[6];	//Nunchuck Buffer
-uint8_t grid[16][12];		//Griddata
-uint8_t collumnCounter;		//collumnCounter
-uint8_t rowCounter;			//rowCounter
-uint8_t player1_x = 1, player1_x_old = 0, player1_y = 1, player1_y_old = 0;
-uint8_t player2_x = 1, player2_y = 1, player2_x_old = 1, player2_y_old = 1;
-//uint8_t player2_x = 14, player2_y = 10, player2_x_old = 14, player2_y_old = 10;
-uint8_t player1_xCounter = 0, player1_yCounter = 0;		//Player movement speed
-uint8_t player1_x_bombdrop = 0, player1_y_bombdrop = 0;		//Location of the dropped bomb p1
-uint8_t send_bombdrop_x = 0, send_bombdrop_y = 0;		//Location of the dropped bomb p2
-uint8_t antiholdCounter = 0;				// 1 when the player holds the 'Z' button, so the game doesn't place too many bombs
-uint32_t nTimer = 0;
-uint8_t tTimer = 0;
-volatile uint8_t isSendingIR = 0;
-volatile uint16_t IRdata;
-volatile uint8_t interruptCounter = 0;				//used to count seconds in the interrupt
-uint16_t touchx = 0, touchy = 0;
-uint8_t livebombs = 0;
-uint8_t hit = 0;
-uint8_t menucounter = 0;
-uint16_t LivesCounter = 0;
-uint8_t maxBombCounter = 0;
-uint8_t stage = 0;
-uint8_t newHighscore = 0;
-uint8_t name[3] = { 0,0,0 };
-uint8_t eepromname[3];
+uint8_t isPlayer2 = 0;															//Set if current player is player 2.
+MI0283QT9 lcd;																	//LCD variabele
+unsigned char EEMEM  eeprom_Storagearray[5];									// eeprom score array. [0] = player1, [2,3,4] = highscore name
+uint8_t joy_x_axis, joy_y_axis;													//Nunchuck Data, for joystick
+static uint8_t nunchuck_buf[6];													//Nunchuck Buffer, to store the data received from Nunchuck
+uint8_t grid[16][12];															//Griddata
+uint8_t collumnCounter;
+uint8_t rowCounter;			
+uint8_t player1_x = 1, player1_x_old = 0, player1_y = 1, player1_y_old = 0;		//Player1 positions
+uint8_t player2_x = 1, player2_y = 1, player2_x_old = 1, player2_y_old = 1;		//Player2 positions
+uint8_t player1_xCounter = 0, player1_yCounter = 0;								//Player counter needed to adjust player speed
+uint8_t player1_x_bombdrop = 0, player1_y_bombdrop = 0;							//Location of the dropped bomb from player1
+uint8_t send_bombdrop_x = 0, send_bombdrop_y = 0;								//Location of the dropped bomb from player2
+uint8_t antiholdCounter = 0;													//Needed when the player holds the 'Z' button, so the game doesn't place too many bombs on the same spot
+uint32_t nTimer = 0;															//Timer used for IR interrupts
+uint8_t tTimer = 0;																//Timer used to create an interval between sending data 
+volatile uint8_t isSendingIR = 0;												//Is set when IR is being send over
+volatile uint16_t IRdata;														//Is used to store the data in that needs to be send
+volatile uint8_t interruptCounter = 0;											//Used to set sending interval
+volatile uint8_t menu_interruptCounter = 0;										//Used to set sending interval in menu
+uint8_t livebombs = 0;															//Number of bombs currently in the game from this player
+uint8_t hit = 0;																//Is set when a player is hit by an explosion
+uint8_t menucounter = 0;														//Is used to select different menuscreens (each number represents a different menu screen)
+uint16_t LivesCounter = 0;														//Used to be invincible after being hit												
+uint8_t stage = 0;																//Is used to select a stage (Startscherm, Menu, Game)
+uint8_t newHighscore = 0;														//Is set when a new highscore is reached
+uint8_t name[3] = { 0,0,0 };													//Used to temporarily store the new name of a highscore, when you set a new name
+uint8_t eepromname[3];															//The name currently in EEPROM, used to compare it with name[3]
 
-uint8_t bombradius = 1;
-uint8_t playerSpeed = 60;
-uint8_t player1_x_speed = 80, player1_y_speed = 80; //Higher is slower
-uint8_t max_bombs = 2;
-uint8_t score = 0;
-uint8_t lives = 3;
-uint8_t level = 1;
-uint8_t sendBomb = 0;
-uint8_t bombDelayCounter = 0;
-uint8_t NunchuckReadCounter = 0;
+uint8_t bombradius = 1;															//The radius a bomb has from the center of the explosion. [0] is just the center of the explosion. [1] is a single explosion circle. [2] is 2 circles etc.
+uint8_t playerSpeed = 60;														//Used to set both the players' x and y speed to the same
+uint8_t player1_x_speed = 80, player1_y_speed = 80;								//Used to set the players' x and y speed individually
+uint8_t max_bombs = 1;															//The maximum of bombs a player can place, before you have to wait until the bombs explode
+uint8_t score = 0;										
+uint8_t lives = 3;		
+uint8_t level = 1;																//The level that is being selected. Standard Level 1 is selected.
+uint8_t sendBomb = 0;															//Is set when IR needs to send a bomb to the other player.
+uint8_t bombDelayCounter = 0;									
+uint8_t MenuMaxBombsCounter = 0;												//Used to delay the input in the menu's, so that one press doesn't go trough the menu instantly
 
-uint8_t isPressed = 0;
-uint8_t menuSelect = 1;
-uint16_t speakerCounter;
-uint16_t speakerTone = 500;
+uint8_t isPressed = 0;															//Is set when the 'Z' button is pressed
+uint8_t buttonSelect = 1;														//Used to check which menubutton is selected
 uint16_t seed = 0;
 uint8_t player2isDead = 0;
-uint8_t prevBombx = 0, prevBomby= 0;
-static const uint8_t bombDelay = 3;
 
 void init_Timer();
 
 int main() {
-	//DDRD = (1 << PORTD4); // speaker port
 	data_store player2_data;
 	init();
-	Serial.begin(9600);
 	init_Timer();
 	init_IR();
 	init_Nunchuck();
@@ -80,22 +72,20 @@ int main() {
 	init_Potmeter();
 	update_EEPROM(eeprom_Storagearray, name, eepromname, score, 0, lives, 0);
 	uint8_t i;
-	for (i = 0; i < 5; i++) {
-		name[i] = 0;
-		eepromname[i] = read_eeprom_word(&eeprom_Storagearray[i]);
+	for (i = 0; i < 3; i++) {
+		eepromname[i] = read_eeprom_word(&eeprom_Storagearray[i + 2]);
 	}
 	if (isPlayer2 == 1) {
 		lcd.setOrientation(180);
 	}
 	for (;;) {	// MAIN LOOP	
-		//set_Brightness(lcd, 7);	// Hier werkt overal de set_brightness, maar bij het laden van het spel is het scherm zwart voor ongeveer 5-10 seconden en daarna komt het spel opeens tevoorschijn
 		if (stage == 0) {
-			startScherm(lcd, &stage, nunchuck_buf, &joy_x_axis, &joy_y_axis, &isPressed, &NunchuckReadCounter);
+			startScherm(lcd, &stage, nunchuck_buf, &joy_x_axis, &joy_y_axis, &isPressed);
 		}
 		if (stage == 1)
 		{
 			menucounter = 0;
-			menu(lcd, &stage, &level, eeprom_Storagearray, &playerSpeed, &max_bombs, &newHighscore, &IRdata, &isSendingIR, &interruptCounter, &seed, &menucounter, nunchuck_buf, &joy_x_axis, &joy_y_axis, &isPressed, &menuSelect, &NunchuckReadCounter, name, eepromname, &score, &lives);
+			menu(lcd, &stage, &level, eeprom_Storagearray, &playerSpeed, &max_bombs, &newHighscore, &IRdata, &isSendingIR, &menu_interruptCounter, &seed, &menucounter, nunchuck_buf, &joy_x_axis, &joy_y_axis, &isPressed, &buttonSelect, &MenuMaxBombsCounter, name, eepromname, &score, &lives);
 			player1_x_speed = playerSpeed;
 			player1_y_speed = playerSpeed;
 			if (!isPlayer2) {
@@ -110,7 +100,6 @@ int main() {
 				draw_Sprites(lcd, grid);
 				init_Player(player1_x, player1_y, lcd);
 			}
-			// TODO: sync up arduinos, set to send
 			for (;;) {
 				//sound(&speakerCounter, &speakerTone);
 				set_Brightness(lcd, 7);
@@ -132,10 +121,6 @@ int main() {
 
 					// process IR data
 					if (player2_data.type == PLAYER) {
-						// reset previous stored bombs after no longer receiving them
-						prevBombx = 0;
-						prevBomby = 0;
-
 						player2_x_old = player2_x;
 						player2_y_old = player2_y;
 						if (!grid[player2_data.xData][player2_data.yData]) {
@@ -150,17 +135,7 @@ int main() {
 						   !grid[player2_data.xData][player2_data.yData]) {
 							draw_BombSprite(lcd, (player2_data.xData), (player2_data.yData));
 
-							// if previous bomb isn't saved yet save it now
-							if(prevBombx == 0 && prevBomby == 0) {
-								prevBombx = player2_data.xData;
-								prevBomby = player2_data.yData;
-							}
-							// only set bombs when 2/3 bombs are the same
-							else if(prevBombx == player2_data.xData && prevBomby == player2_data.yData) {
-								prevBombx = 0;
-								prevBomby = 0;
-								grid[player2_data.xData][player2_data.yData] = 6;
-							}
+							grid[player2_data.xData][player2_data.yData] = 6;
 							IRdata = 0;
 						}
 					}
@@ -195,9 +170,7 @@ int main() {
 						send_bombdrop_x = 0;
 						send_bombdrop_y = 0;
 
-						// make sure to send bombs 3 times
-						if(bombDelay >= 3)
-							sendBomb = 0;
+						sendBomb = 0;
 					}
 					else {
 						send_IR(&isSendingIR, PLAYER, player1_x, player1_y);
@@ -218,13 +191,7 @@ int main() {
 				else {
 					interruptCounter++;
 				}
-
-				// speaker sound, set PORTB4 to input to toggle speaker off
-				/*if(speakerCounter > speakerTone) {
-					PORTD ^= (1 << PORTD4);
-					speakerCounter = 0;
-				}
-				speakerCounter++;*/
+				sound();
 			}
 		}
 	}
@@ -261,5 +228,5 @@ ISR(TIMER2_COMPA_vect) {// timer for receiving/sending
 ISR(INT0_vect) { // receive interrupt
 	// only receive while not sending
 	if(!isSendingIR)
-		processRecieve_IR(nTimer, &IRdata, &interruptCounter);
+		processRecieve_IR(nTimer, &IRdata, &interruptCounter, &menu_interruptCounter);
 }

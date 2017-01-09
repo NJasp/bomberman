@@ -3,6 +3,6 @@
 
 #include "../Includes/Includes.h"
 
-void sound(uint16_t* speakerCounter, uint16_t* speakerTone);
+void sound();
 
 #endif
