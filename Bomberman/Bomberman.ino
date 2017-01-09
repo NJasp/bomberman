@@ -86,7 +86,6 @@ int main() {
 		lcd.setOrientation(180);
 	}
 	for (;;) {	// MAIN LOOP	
-		//set_Brightness(lcd, 7);	// Hier werkt overal de set_brightness, maar bij het laden van het spel is het scherm zwart voor ongeveer 5-10 seconden en daarna komt het spel opeens tevoorschijn
 		if (stage == 0) {
 			startScherm(lcd, &stage, nunchuck_buf, &joy_x_axis, &joy_y_axis, &isPressed, &NunchuckReadCounter);
 		}
@@ -108,7 +107,6 @@ int main() {
 				draw_Sprites(lcd, grid);
 				init_Player(player1_x, player1_y, lcd);
 			}
-			// TODO: sync up arduinos, set to send
 			for (;;) {
 				//sound(&speakerCounter, &speakerTone);
 				set_Brightness(lcd, 7);

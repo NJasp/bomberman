@@ -18,11 +18,9 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 				icollumn = collumn;
 				irow = row;
 				for (collumn; collumn < (icollumn + bombradius); collumn++) {
-					//checkPlayerHit(player1_x, player1_y, hit, grid);
 					if ((grid[collumn + 1][row] == 0) || (grid[collumn + 1][row] == 7) || (grid[collumn + 1][row] == 8) || (grid[collumn + 1][row] == 9)) {
 						grid[collumn + 1][row] = 9;
 						screen.fillRect((((collumn + 1) * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
-						//test
 					}
 					else if (grid[collumn + 1][row] == 2) {
 						grid[collumn + 1][row] = 9;
@@ -35,7 +33,6 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 					}
 				}
 				for (collumn; collumn > (icollumn - bombradius); collumn--) {
-					//checkPlayerHit(player1_x, player1_y, hit, grid);
 					if ((grid[collumn - 1][row] == 0) || (grid[collumn - 1][row] == 7) || (grid[collumn - 1][row] == 8) || (grid[collumn - 1][row] == 9)) {
 						grid[collumn - 1][row] = 9;
 						screen.fillRect((((collumn - 1) * 20) + 4), ((row * 20) + 4), 14, 14, RGB(255, 127, 0));
@@ -53,7 +50,6 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 				collumn = icollumn;
 				row = irow;
 				for (row; row < (irow + bombradius); row++) {
-					//checkPlayerHit(player1_x, player1_y, hit, grid);
 					if ((grid[collumn][row + 1] == 0) || (grid[collumn][row + 1] == 7) || (grid[collumn][row + 1] == 8) || (grid[collumn][row + 1] == 9)) {
 						grid[collumn][row + 1] = 9;
 						screen.fillRect(((collumn * 20) + 4), (((row + 1) * 20) + 4), 14, 14, RGB(255, 127, 0));
@@ -69,7 +65,6 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 					}
 				}
 				for (row; row > (irow - bombradius); row--) {
-					//checkPlayerHit(player1_x, player1_y, hit, grid);
 					if ((grid[collumn][row - 1] == 0) || (grid[collumn][row - 1] == 7) || (grid[collumn][row - 1] == 8) || (grid[collumn][row - 1] == 9)) {
 						grid[collumn][row - 1] = 9;
 						screen.fillRect(((collumn * 20) + 4), (((row - 1) * 20) + 4), 14, 14, RGB(255, 127, 0));
@@ -86,7 +81,6 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 				}
 				(*livebombs)--;
 			}
-			//checkPlayerHit(player1_x, player1_y, hit, grid, LivesCounter);
 		}
 
 	}
@@ -133,7 +127,6 @@ void check_Bomb(uint8_t collumn, uint8_t row, uint8_t* collumn_bombdrop, uint8_t
 void draw_Bomb(uint8_t collumn, uint8_t row, uint8_t* collumn_bombdrop, uint8_t* row_bombdrop, MI0283QT9 screen, uint8_t grid[16][12])
 {
 	if ((((*collumn_bombdrop) != 0) && ((*row_bombdrop) != 0)) && ((collumn != (*collumn_bombdrop)) || (row != (*row_bombdrop)))) {
-		//screen.fillRect((((*collumn_bombdrop) * 20) + 4), (((*row_bombdrop) * 20) + 4), 14, 14, RGB(180, 0, 0));
 		draw_BombSprite(screen, (*collumn_bombdrop), (*row_bombdrop));
 		if (((collumn == (*collumn_bombdrop)) || (row == (*row_bombdrop)))) {
 			(*collumn_bombdrop) = 0;
