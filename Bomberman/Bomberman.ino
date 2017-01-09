@@ -78,7 +78,7 @@ int main() {
 	init_Nunchuck();
 	init_LCD(lcd);
 	init_Potmeter();
-	update_EEPROM(eeprom_Storagearray, name, eepromname, score, 0, lives);
+	update_EEPROM(eeprom_Storagearray, name, eepromname, score, 0, lives, 0);
 	uint8_t i;
 	for (i = 0; i < 5; i++) {
 		name[i] = 0;

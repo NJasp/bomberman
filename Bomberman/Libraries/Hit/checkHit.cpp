@@ -32,17 +32,23 @@ void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t* score, ui
 		//	lcd.drawText(50, 60, " You win ", COLOR_WHITE, COLOR_BLACK, 3);
 		//}
 		//else {
-		update_EEPROM(eeprom_Storagearray, name, eepromname, (*score), 0, (*lives));
-		if(!(*lives))
+		if (!(*lives)) {
 			lcd.drawText(50, 60, "YOU LOSE!", COLOR_WHITE, COLOR_BLACK, 3);
-		else
+			lcd.drawText(120, 100, "Scores", COLOR_WHITE, COLOR_BLACK, 1);
+			a = lcd.drawText(120, 120, "Player ", COLOR_WHITE, COLOR_BLACK, 1);
+			b = lcd.drawInteger(a, 120, 1, 10, COLOR_WHITE, COLOR_BLACK, 1);
+			c = lcd.drawText(b, 120, ": ", COLOR_WHITE, COLOR_BLACK, 1);
+			lcd.drawInteger(c, 120, (*score), 10, COLOR_WHITE, COLOR_BLACK, 1);
+		}
+		else {
+			update_EEPROM(eeprom_Storagearray, name, eepromname, (*score) + 5, 0, (*lives), 0);
 			lcd.drawText(50, 60, "YOU WIN!!", COLOR_WHITE, COLOR_BLACK, 3);
-		//}
-		lcd.drawText(120, 100, "Scores", COLOR_WHITE, COLOR_BLACK, 1);
-		a = lcd.drawText(120, 120, "Player ", COLOR_WHITE, COLOR_BLACK, 1);
-		b = lcd.drawInteger(a, 120, 1, 10, COLOR_WHITE, COLOR_BLACK, 1);
-		c = lcd.drawText(b, 120, ": ", COLOR_WHITE, COLOR_BLACK, 1);
-		lcd.drawInteger(c, 120, (*score), 10, COLOR_WHITE, COLOR_BLACK, 1);
+			lcd.drawText(120, 100, "Scores", COLOR_WHITE, COLOR_BLACK, 1);
+			a = lcd.drawText(120, 120, "Player ", COLOR_WHITE, COLOR_BLACK, 1);
+			b = lcd.drawInteger(a, 120, 1, 10, COLOR_WHITE, COLOR_BLACK, 1);
+			c = lcd.drawText(b, 120, ": ", COLOR_WHITE, COLOR_BLACK, 1);
+			lcd.drawInteger(c, 120, (*score) + 5, 10, COLOR_WHITE, COLOR_BLACK, 1);
+		}
 		/*
 		if ((*newHighscore)) {
 			lcd.drawText(110, 140, "NEW HIGHSCORE!!", COLOR_WHITE, COLOR_BLACK, 1);
