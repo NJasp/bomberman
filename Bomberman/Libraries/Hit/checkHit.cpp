@@ -57,7 +57,7 @@ void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t* score, ui
 			if(!(*lives)) {
 				sendDelay++;
 				if(sendDelay == 100) {
-					send_IR(isSendingIR, 0, 77, 7);
+					send_IR(isSendingIR, MISC, 77, 7);
 					sendDelay = 0;
 				}
 			}
