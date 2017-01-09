@@ -10,7 +10,6 @@ void checkPlayerHit(uint8_t player1_x, uint8_t player1_y, uint8_t *hit, uint8_t 
 			(*hit) = 1;
 		}
 		if ((*LivesCounter) == 750) {
-			(*hit) = 1;
 			(*LivesCounter) = 0;
 		}
 		(*LivesCounter)++;

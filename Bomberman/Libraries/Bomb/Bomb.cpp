@@ -9,6 +9,7 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 	for (row = 0; row < 12; row++) {
 		for (collumn = 0; collumn < 16; collumn++) {
 			if (grid[collumn][row] == 3) {
+				DDRD = (1 << PORTD4);
 				if ((player1_x == (*player1_x_bombdrop)) && (player1_y == (*player1_y_bombdrop))) {
 					(*player1_x_bombdrop) = 0;
 					(*player1_y_bombdrop) = 0;
@@ -88,6 +89,7 @@ void draw_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], 
 
 void clear_Explosion(MI0283QT9 screen, uint8_t bombradius, uint8_t grid[16][12], uint8_t player1_x, uint8_t player1_y)
 {
+	DDRD &= ~(1 << PORTD4);
 	uint8_t row, collumn, icollumn, irow;
 	for (row = 0; row < 12; row++) {
 		for (collumn = 0; collumn < 16; collumn++) {

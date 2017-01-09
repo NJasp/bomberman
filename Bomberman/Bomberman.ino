@@ -63,10 +63,8 @@ uint8_t player2isDead = 0;
 void init_Timer();
 
 int main() {
-	//DDRD = (1 << PORTD4); // speaker port
 	data_store player2_data;
 	init();
-	Serial.begin(9600);
 	init_Timer();
 	init_IR();
 	init_Nunchuck();
@@ -74,8 +72,8 @@ int main() {
 	init_Potmeter();
 	update_EEPROM(eeprom_Storagearray, name, eepromname, score, 0, lives);
 	uint8_t i;
-	for (i = 0; i < 5; i++) {
-		eepromname[i] = read_eeprom_word(&eeprom_Storagearray[i]);
+	for (i = 0; i < 3; i++) {
+		eepromname[i] = read_eeprom_word(&eeprom_Storagearray[i + 2]);
 	}
 	if (isPlayer2 == 1) {
 		lcd.setOrientation(180);
