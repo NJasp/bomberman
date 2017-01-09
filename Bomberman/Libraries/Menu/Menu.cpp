@@ -19,16 +19,16 @@ void startScherm(MI0283QT9 lcd, uint8_t* stage, uint8_t buffer[], uint8_t* x, ui
 	lcd.fillScreen(COLOR_BLACK);
 	lcd.drawText(15, 40, "B MBERMAN", COLOR_WHITE, COLOR_BLACK, 4);
 	//BOMB
-	lcd.drawCircle(60, 54, 16, RGB(102, 102, 102));
-	lcd.fillCircle(54, 46, 2, RGB(127, 127, 127));
-	lcd.fillCircle(52, 48, 2, RGB(127, 127, 127));
-	lcd.drawRect(53, 35, 15, 5, RGB(102, 102, 102));
+	lcd.drawCircle(60, 54, 16, Background);
+	lcd.fillCircle(54, 46, 2, COLOR_GREY);
+	lcd.fillCircle(52, 48, 2, COLOR_GREY);
+	lcd.drawRect(53, 35, 15, 5, Background);
 	lcd.fillRect(53, 35, 15, 5, COLOR_BLACK);
 	//Lont
-	lcd.fillRect(58, 30, 6, 5, RGB(127, 80, 0));
-	lcd.fillRect(56, 28, 6, 5, RGB(127, 80, 0));
-	lcd.fillRect(54, 26, 6, 5, RGB(127, 80, 0));
-	lcd.fillRect(52, 24, 6, 5, RGB(127, 80, 0));
+	lcd.fillRect(58, 30, 6, 5, COLOR_DARK_YELLOW);
+	lcd.fillRect(56, 28, 6, 5, COLOR_DARK_YELLOW);
+	lcd.fillRect(54, 26, 6, 5, COLOR_DARK_YELLOW);
+	lcd.fillRect(52, 24, 6, 5, COLOR_DARK_YELLOW);
 	//Lijnen
 	//lcd.drawLine(0, 70, lcd.width(), 70, COLOR_BLACK);
 	//lcd.fillRect(0, 115, 50, 50, COLOR_BLACK);
@@ -39,28 +39,28 @@ void startScherm(MI0283QT9 lcd, uint8_t* stage, uint8_t buffer[], uint8_t* x, ui
 	for (;;) {
 		read_Nunchuck(buffer, x, y, isPressed);
 		//if (toggle1) {//Elke loop toggle de animatie van het vuur naar een andere
-			//lcd.fillRect(44, 18, 14, 11, RGB(127, 127, 127));
+			//lcd.fillRect(44, 18, 14, 11, COLOR_GREY);
 			//lcd.fillRect(44, 18, 14, 11, COLOR_BLACK);
-			//lcd.fillRect(52, 24, 6, 5, RGB(127, 80, 0));
+			//lcd.fillRect(52, 24, 6, 5, COLOR_DARK_YELLOW);
 			//lcd.fillTriangle(48, 28, 48, 18, 57, 22, RGB(255, 127, 0));
 			//lcd.fillTriangle(53, 28, 53, 18, 44, 22, RGB(255, 0, 0));
 		//	toggle1 = 0;
 		//}
 		//else {
-		//	//lcd.fillRect(44, 18, 14, 11, RGB(127, 127, 127));
+		//	//lcd.fillRect(44, 18, 14, 11, COLOR_GREY);
 		//	lcd.fillRect(44, 18, 14, 11, COLOR_BLACK);
-		//	lcd.fillRect(52, 24, 6, 5, RGB(127, 80, 0));
+		//	lcd.fillRect(52, 24, 6, 5, COLOR_DARK_YELLOW);
 		//	lcd.fillTriangle(50, 18, 46, 25, 55, 25, RGB(255, 127, 0));
 		//	lcd.fillTriangle(50, 28, 46, 20, 55, 20, RGB(255, 0, 0));
 		//	toggle1 = 1;
 		//}
 		//if ((!toggle2) && redraw) {//Elke 10e loop toggle tekst aan en uit (en teken het maar 1 keer)
-			//lcd.drawText(25, 200, "Touch to continue", RGB(0, 0, 127), RGB(127, 127, 127), 2);
+			//lcd.drawText(25, 200, "Touch to continue", RGB(0, 0, 127), COLOR_GREY, 2);
 			lcd.drawText(25, 200, " 'Z' to continue", COLOR_WHITE, COLOR_BLACK, 2);
 		//	redraw = 0;
 		//}
 		//else if (toggle2 && redraw) {
-			//lcd.fillRect(25, 200, 268, 15, RGB(127, 127, 127));
+			//lcd.fillRect(25, 200, 268, 15, COLOR_GREY);
 		//	lcd.fillRect(25, 200, 268, 15, COLOR_BLACK);
 		//	redraw = 0;
 		//}

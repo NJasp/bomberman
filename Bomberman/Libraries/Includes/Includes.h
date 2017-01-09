@@ -7,6 +7,8 @@
 #define COLOR_FINE_BLUE RGB(100,100,140)
 #define COLOR_WHITE RGB(255,255,255)
 #define COLOR_BLACK RGB(0,0,0)
+#define COLOR_DARK_YELLOW RGB(127, 80, 0)
+#define COLOR_GREY RGB(127, 127, 127)
 #define read_eeprom_word(address) eeprom_read_word ((const uint16_t*)address)
 #define write_eeprom_word(address,value) eeprom_write_word ((uint16_t*)address,(uint16_t)value)
 //102,102,102 is de donkere
