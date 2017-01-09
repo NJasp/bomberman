@@ -100,7 +100,7 @@ int main() {
 				draw_Explosion(lcd, bombradius, grid, &livebombs, &score, player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop);
 				checkPlayerHit(player1_x, player1_y, &hit, grid, &LivesCounter);
 				updateLives(&hit, &lives, lcd, &score, &stage, grid, eeprom_Storagearray, &newHighscore, &isPressed, nunchuck_buf, &livebombs, &player2isDead, &isSendingIR, name, eepromname);
-				if (stage == 1) //If stage is set to 0 in gameover screen. break out main game loop
+				if (stage == 1)													//If stage is set to 0 in gameover screen. break out main game loop
 				{
 					break;
 				}
@@ -151,8 +151,6 @@ int main() {
 				}
 
 				draw_Bomb(player1_x, player1_y, &player1_x_bombdrop, &player1_y_bombdrop, lcd, grid);
-				//lcd.fillRect(player2_x_bombdrop * 20, player2_y_bombdrop * 20, 20, 20, RGB(255, 0, 0));
-				//checkPlayerHit(player1_x, player1_y, &hit, grid);
 
 				// Bomb update | IR send interval
 				if (interruptCounter >= 100 /*3906*/) {
@@ -182,7 +180,6 @@ int main() {
 				else {
 					interruptCounter++;
 				}
-				//sound();
 			}
 		}
 	}

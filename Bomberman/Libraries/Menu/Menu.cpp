@@ -2,13 +2,13 @@
 #include "../Nunchuck/Nunchuck.h"
 #include "../Eeprom/Eeprom.h"
 
-uint8_t margin = 10, boxSizeX = 145, boxSizeY = 52, middleSpace = 10, highlightMargin = 2;												//Sizes for menu buttons, highlightmargin is the margin between button and highlight
-uint8_t antiZhold = 0;																													//Variable so players cant move more than 1 button forward without going back to the center of the nunchuck
-uint8_t sensitivityRight = 140;																											//Variable to set minimal movement needed to move a menu button to the right
-uint8_t sensitivityLeft = 114;																											//Variable to set minimal movement needed to move a menu button to the left
-uint8_t sensitivityLaggScreenRight = 145;																								//Some menu's need some adjustments for optimalization: example 'LevelSelect'
-uint8_t sensitivityLaggScreenLeft = 110;																								//Some menu's need some adjustments for optimalization
-uint8_t charSelectSpeedCounter = 0;																										//Variable to decrease 
+uint8_t margin = 10, boxSizeX = 145, boxSizeY = 52, middleSpace = 10, highlightMargin = 2;									//Sizes for menu buttons, highlightmargin is the margin between button and highlight
+uint8_t antiZhold = 0;																										//Variable so players cant move more than 1 button forward without going back to the center of the nunchuck
+uint8_t sensitivityRight = 140;																								//Variable to set minimal movement needed to move a menu button to the right
+uint8_t sensitivityLeft = 114;																								//Variable to set minimal movement needed to move a menu button to the left
+uint8_t sensitivityLaggScreenRight = 145;																					//Some menu's need some adjustments for optimalization: example 'LevelSelect'
+uint8_t sensitivityLaggScreenLeft = 110;																					//Some menu's need some adjustments for optimalization
+uint8_t charSelectSpeedCounter = 0;																							//Variable to decrease 
 uint8_t lettercounter = 0;
 char currentChar = 'A';
 
