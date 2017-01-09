@@ -34,7 +34,7 @@ uint8_t tTimer = 0;																//Timer used to create an interval between se
 volatile uint8_t isSendingIR = 0;												//Is set when IR is being send over
 volatile uint16_t IRdata;														//Is used to store the data in that needs to be send
 volatile uint8_t interruptCounter = 0;											//Used to set sending interval
-volatile uint8_t menu_interruptCounter = 0;										//Used to set sending interval in menu
+volatile uint16_t menu_interruptCounter = 0;									//Used to set sending interval in menu
 uint8_t livebombs = 0;															//Number of bombs currently in the game from this player
 uint8_t hit = 0;																//Is set when a player is hit by an explosion
 uint8_t menucounter;															//Is used to select different menuscreens (each number represents a different menu screen)
@@ -70,7 +70,7 @@ int main() {
 	init_Nunchuck();
 	init_LCD(lcd);
 	init_Potmeter();
-	update_EEPROM(eeprom_Storagearray, name, eepromname, score, 0, lives);
+	update_EEPROM(eeprom_Storagearray, name, eepromname, score, 0, lives, 0);
 	uint8_t i;
 	for (i = 0; i < 3; i++) {													//Store the EEPROM values in an array
 		eepromname[i] = read_eeprom_word(&eeprom_Storagearray[i + 2]);
