@@ -250,7 +250,7 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 			}
 
 			// sending levels
-			if(*interruptCounter >= 200){
+			if(*interruptCounter >= MENU_INTERUPT_INTERVAL){
 				// random level
 				if(levelToSend == 0){
 					*seed = 0;
