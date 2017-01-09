@@ -30,49 +30,11 @@ void startScherm(MI0283QT9 lcd, uint8_t* stage, uint8_t buffer[], uint8_t* x, ui
 	lcd.fillRect(54, 26, 6, 5, COLOR_DARK_YELLOW);
 	lcd.fillRect(52, 24, 6, 5, COLOR_DARK_YELLOW);
 	//Lijnen
-	//lcd.drawLine(0, 70, lcd.width(), 70, COLOR_BLACK);
-	//lcd.fillRect(0, 115, 50, 50, COLOR_BLACK);
-	//lcd.fillRect((lcd.width()-50), 115, 50, 50, COLOR_BLACK);
-	//lcd.fillRect(50, 160, (lcd.width()-100), 5, RGB(0,0,255));
-	//lcd.drawLine(0, 199, lcd.width(), 199, COLOR_BLACK);
-	//lcd.drawLine(0, 30, 20, 0, COLOR_BLACK);
 	for (;;) {
 		read_Nunchuck(buffer, x, y, isPressed);
-		//if (toggle1) {//Elke loop toggle de animatie van het vuur naar een andere
-			//lcd.fillRect(44, 18, 14, 11, COLOR_GREY);
-			//lcd.fillRect(44, 18, 14, 11, COLOR_BLACK);
-			//lcd.fillRect(52, 24, 6, 5, COLOR_DARK_YELLOW);
-			//lcd.fillTriangle(48, 28, 48, 18, 57, 22, RGB(255, 127, 0));
-			//lcd.fillTriangle(53, 28, 53, 18, 44, 22, RGB(255, 0, 0));
-		//	toggle1 = 0;
-		//}
-		//else {
-		//	//lcd.fillRect(44, 18, 14, 11, COLOR_GREY);
-		//	lcd.fillRect(44, 18, 14, 11, COLOR_BLACK);
-		//	lcd.fillRect(52, 24, 6, 5, COLOR_DARK_YELLOW);
-		//	lcd.fillTriangle(50, 18, 46, 25, 55, 25, RGB(255, 127, 0));
-		//	lcd.fillTriangle(50, 28, 46, 20, 55, 20, RGB(255, 0, 0));
-		//	toggle1 = 1;
-		//}
-		//if ((!toggle2) && redraw) {//Elke 10e loop toggle tekst aan en uit (en teken het maar 1 keer)
-			//lcd.drawText(25, 200, "Touch to continue", RGB(0, 0, 127), COLOR_GREY, 2);
-			lcd.drawText(25, 200, " 'Z' to continue", COLOR_WHITE, COLOR_BLACK, 2);
-		//	redraw = 0;
-		//}
-		//else if (toggle2 && redraw) {
-			//lcd.fillRect(25, 200, 268, 15, COLOR_GREY);
-		//	lcd.fillRect(25, 200, 268, 15, COLOR_BLACK);
-		//	redraw = 0;
-		//}
-		//TOGGLE SETTINGS
-		/*if (drawfreq >    100) {//Als er 10 loops voorbij zijn, toggle tekst en reset counter
-			redraw = 1;
-			drawfreq = 0;
-			toggle2 = ~(toggle2);
-		}
-		else {
-			drawfreq++;
-		}*/
+		
+		lcd.drawText(25, 200, " 'Z' to continue", COLOR_WHITE, COLOR_BLACK, 2);
+
 		if ((*isPressed)) {
 			(*stage) = 1;
 			break;
@@ -81,8 +43,6 @@ void startScherm(MI0283QT9 lcd, uint8_t* stage, uint8_t buffer[], uint8_t* x, ui
 }
 
 void mainMenu(MI0283QT9 lcd) {
-	//lcd.fillRect(65, 180, 185, 50, (COLOR_BLACK));
-	//lcd.drawText(80, 195, "Options", (COLOR_WHITE), (COLOR_BLACK), 3);
 	lcd.fillScreen(COLOR_BLACK);
 	//Y row = 1
 	lcd.drawRect(margin, margin, boxSizeX, boxSizeY, COLOR_FINE_BLUE); // Upper-Bottom Rectangle
@@ -95,9 +55,6 @@ void mainMenu(MI0283QT9 lcd) {
 	lcd.drawText(margin + 25, margin + boxSizeY + middleSpace + 20, "SCORES", COLOR_WHITE, COLOR_BLACK, 2);
 	lcd.drawText(margin + boxSizeX + middleSpace + 30, margin + boxSizeY + middleSpace + 20, "ABOUT", COLOR_WHITE, COLOR_BLACK, 2);
 	//Y row = 3
-	//lcd.drawRect(margin, margin + boxSizeY + middleSpace + boxSizeY + middleSpace, boxSizeX, boxSizeY, COLOR_FINE_BLUE); // Upper-Bottom Rectangle
-	//lcd.drawRect(margin + boxSizeX + middleSpace, margin + boxSizeY + middleSpace + boxSizeY + middleSpace, boxSizeX, boxSizeY, COLOR_FINE_BLUE); // Upper-Bottom Rectangle
-	//lcd.drawText(margin + boxSizeX + middleSpace + 35, margin + boxSizeY + middleSpace + boxSizeY + middleSpace + 20, "BACK", COLOR_WHITE, COLOR_BLACK, 2);
 	lcd.drawText(0, 227, "Bomberman version 0.1", COLOR_WHITE, COLOR_BLACK, 1); // Version tekst
 }
 
@@ -844,26 +801,3 @@ void calculateSelectedMenu(MI0283QT9 lcd, uint8_t* menucounter, uint8_t* menuSel
 
 	*/
 }
-
-/*void keyboard(MI0283QT9 lcd, uint8_t beginx, uint8_t beginy, char b[], char c[]) {
-beginy = 150 - margin - boxSizeY - middleSpace;
-beginx = 6;
-lcd.fillScreen(COLOR_BLACK);
-lcd.drawRect(margin + (boxSizeX / 2) + (middleSpace / 2), margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace, boxSizeX, boxSizeY, COLOR_FINE_BLUE); // Upper-Bottom Rectangle
-lcd.drawText(margin + (boxSizeX / 2) + 45, margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace + 15, "BACK", COLOR_WHITE, COLOR_BLACK, 2);
-//lcd.drawText(beginx + 115, 120 - margin - boxSizeY, "..........", COLOR_FINE_ORANGE, COLOR_BLACK, 1);
-uint8_t a;
-for (a = 0; a < 10; a++) {
-lcd.drawChar(beginx + 115 + (a * 5), 120 - margin - boxSizeY, b[a], COLOR_WHITE, COLOR_BLACK, 1);
-}
-uint8_t i;
-for (uint8_t y = 0; y < 3; y++) {
-for (uint8_t x = 0; x < 10; x++) {
-
-lcd.fillRect(x * 32 + beginx, y * 32 + beginy, 20, 20, COLOR_BLACK);
-lcd.drawRect(x * 32 + beginx, y * 32 + beginy, 20, 20, COLOR_WHITE);
-lcd.drawChar((x * 32 + beginx) + 7, (y * 32 + beginy) + 7, c[i], COLOR_FINE_BLUE, COLOR_BLACK, 1);
-i++;
-}
-}
-}*/
