@@ -34,7 +34,8 @@ uint32_t nTimer = 0;
 uint8_t tTimer = 0;
 volatile uint8_t isSendingIR = 0;
 volatile uint16_t IRdata;
-volatile uint8_t interruptCounter = 0;				//used to count seconds in the interrupt
+volatile uint8_t interruptCounter = 0;				// used to set sending interval
+volatile uint8_t menu_interruptCounter = 0;			// used to set sending interval in menu
 uint16_t touchx = 0, touchy = 0;
 uint8_t livebombs = 0;
 uint8_t hit = 0;
@@ -93,7 +94,7 @@ int main() {
 		if (stage == 1)
 		{
 			menucounter = 0;
-			menu(lcd, &stage, &level, eeprom_Storagearray, &playerSpeed, &max_bombs, &newHighscore, &IRdata, &isSendingIR, &interruptCounter, &seed, &menucounter, nunchuck_buf, &joy_x_axis, &joy_y_axis, &isPressed, &menuSelect, &NunchuckReadCounter, name, eepromname, &score, &lives);
+			menu(lcd, &stage, &level, eeprom_Storagearray, &playerSpeed, &max_bombs, &newHighscore, &IRdata, &isSendingIR, &menu_interruptCounter, &seed, &menucounter, nunchuck_buf, &joy_x_axis, &joy_y_axis, &isPressed, &menuSelect, &NunchuckReadCounter, name, eepromname, &score, &lives);
 			player1_x_speed = playerSpeed;
 			player1_y_speed = playerSpeed;
 			if (!isPlayer2) {
@@ -243,5 +244,5 @@ ISR(TIMER2_COMPA_vect) {// timer for receiving/sending
 ISR(INT0_vect) { // receive interrupt
 	// only receive while not sending
 	if(!isSendingIR)
-		processRecieve_IR(nTimer, &IRdata, &interruptCounter);
+		processRecieve_IR(nTimer, &IRdata, &interruptCounter, &menu_interruptCounter);
 }

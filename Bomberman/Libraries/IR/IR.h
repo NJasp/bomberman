@@ -22,7 +22,7 @@ uint8_t dataReady_IR();
 data_store decode_IR(uint16_t data);
 uint16_t encode_IR(uint8_t type, uint8_t xData, uint8_t yData);
 void send_IR(volatile uint8_t *isSending, uint8_t type, uint8_t xData, uint8_t yData);
-void processRecieve_IR(uint32_t currentTime, volatile uint16_t *data, volatile uint8_t* interruptCounter);
+void processRecieve_IR(uint32_t currentTime, volatile uint16_t *data, volatile uint8_t* interruptCounter, volatile uint8_t* menu_interruptCounter);
 void processSend_IR(uint32_t currentTime, volatile uint8_t *isSending);
 uint8_t processMenuData_IR(uint8_t* stage, uint8_t* level, volatile uint16_t* IRdata, uint8_t* isPressed, uint16_t* seed);
 
