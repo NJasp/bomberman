@@ -191,7 +191,7 @@ int main() {
 				else {
 					interruptCounter++;
 				}
-				sound();
+				//sound();
 			}
 		}
 	}
