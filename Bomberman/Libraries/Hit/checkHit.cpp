@@ -29,6 +29,7 @@ void updateLives(uint8_t* hit, uint8_t* lives, MI0283QT9 lcd, uint8_t* score, ui
 		lcd.fillScreen(COLOR_BLACK);
 
 		if(!(*lives)) {
+			update_EEPROM(eeprom_Storagearray, name, eepromname, (*score), 0, (*lives), 0);
 			lcd.drawText(50, 60, "YOU LOSE!", COLOR_WHITE, COLOR_BLACK, 3);
 			lcd.drawText(120, 100, "Scores", COLOR_WHITE, COLOR_BLACK, 1);
 			a = lcd.drawText(120, 120, "Player ", COLOR_WHITE, COLOR_BLACK, 1);
