@@ -1,6 +1,6 @@
 #include "Levels.h"
 
-void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t* player1_y, uint8_t* player1_x_old, uint8_t* player1_y_old, uint8_t isPlayer2, uint32_t nTimer, volatile uint8_t* isSendingIR, uint16_t* seed)
+void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t* player1_y, uint8_t* player1_x_old, uint8_t* player1_y_old, uint8_t isPlayer2, uint32_t nTimer, volatile uint8_t* isSendingIR, uint16_t* seed, MI0283QT9 lcd)
 {
 	uint8_t j = 1;
 	if (level == 0) {
@@ -17,7 +17,7 @@ void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t
             // split seed into two 7 bit values stored in uint8_t vars
 			send_IR(isSendingIR, LEVEL, (uint8_t)((*seed) >> 7), (uint8_t)(*seed)&~(1 << 7));
 		}
-
+		lcd.fillScreen(Background);
 		srand(*seed);
 		uint8_t row, collumn, number, counter0 = 0, counter1 = 0, counter2 = 0;
 		init_OutsideWalls(grid);
@@ -68,6 +68,7 @@ void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t
 		grid[13][10] = 0;
 	}
 	if (level == 1) {
+		lcd.fillScreen(Background);
 		if(isPlayer2) {
 			*player1_x = 14;
 			*player1_y = 10;
@@ -229,6 +230,7 @@ void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t
 		grid[14][j] = 0;
 	}
 	if (level == 2) {
+		lcd.fillScreen(Background);
 		if (isPlayer2) {
 			*player1_x = 7;
 			*player1_y = 10;
@@ -393,6 +395,7 @@ void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t
 		grid[14][j] = 2;
 	}
 	if (level == 3) {
+		lcd.fillScreen(Background);
 		if (isPlayer2) {
 			*player1_x = 10;
 			*player1_y = 14;
@@ -557,6 +560,7 @@ void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t
 		grid[14][j] = 0;
 	}
 	if (level == 4) {
+		lcd.fillScreen(Background);
 		*player1_x = 2;
 		*player1_y = 2;
 		*player1_x_old = 2;
@@ -713,6 +717,7 @@ void init_Level(uint8_t grid[16][12], uint8_t level, uint8_t* player1_x, uint8_t
 		grid[14][j] = 2;
 	}
 	if (level == 5) {
+		lcd.fillScreen(Background);
 		uint8_t collumn, row;
 		if (isPlayer2) {
 			*player1_x = 14;
