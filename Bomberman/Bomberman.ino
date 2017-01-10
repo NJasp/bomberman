@@ -64,6 +64,7 @@ void init_Timer();
 
 int main() {
 	data_store player2_data;
+	Serial.begin(9600);
 	init();
 	init_Timer();
 	init_IR();
