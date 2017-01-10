@@ -14,7 +14,13 @@ void update_EEPROM(unsigned char eeprom_Storagearray[12], uint8_t name[3], uint8
 		(*newHighscore) = 1;
 	}
 	if (reset_EEPROM) {
-		write_eeprom_word(&eeprom_Storagearray[0], 0);
-		write_eeprom_word(&eeprom_Storagearray[1], 0);
+		Serial.println(eeprom_Storagearray[2]);
+		Serial.println(eeprom_Storagearray[3]);
+		Serial.println(eeprom_Storagearray[4]);
+		write_eeprom_word(&eeprom_Storagearray[0], '0');
+		write_eeprom_word(&eeprom_Storagearray[1], '0');
+		write_eeprom_word(&eeprom_Storagearray[2], '0');
+		write_eeprom_word(&eeprom_Storagearray[3], '0');
+		write_eeprom_word(&eeprom_Storagearray[4], '0');
 	}
 }
