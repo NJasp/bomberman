@@ -328,6 +328,7 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 			else if ((*buttonSelect) == 50 && (*isPressed)) {
 				(*isPressed) = 0;
 				update_EEPROM(eeprom_Storagearray, name, eepromname, 0, 0, 0, 1);
+				Serial.println("Kom ik hier");
 				(*menucounter) = 0;
 			}
 		}
