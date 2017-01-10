@@ -650,7 +650,7 @@ void calculateSelectedMenu(MI0283QT9 lcd, uint8_t* menucounter, uint8_t* buttonS
 
 			}
 			else if (joy_y_axis < sensitivityLeft && (*buttonSelect) == 13) {
-				(*buttonSelect) = 15;
+				(*buttonSelect) = 50;
 				lcd.drawRect(margin - highlightMargin, margin + boxSizeY + middleSpace + boxSizeY + middleSpace - highlightMargin, boxSizeX / 2 + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_BLACK); //buttonSelect 13
 				lcd.drawRect(margin - highlightMargin, margin + boxSizeY + middleSpace + boxSizeY + middleSpace + boxSizeY + middleSpace - highlightMargin, boxSizeX + (highlightMargin * 2), boxSizeY + (highlightMargin * 2), COLOR_FINE_ORANGE); //buttonSelect 50
 				antiZhold = 0;
