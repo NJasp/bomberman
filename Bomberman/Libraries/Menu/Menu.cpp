@@ -176,7 +176,6 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 		// receiving levels
 		if(dataReady_IR()) {
 			if(processMenuData_IR(stage, level, IRdata, isPressed, seed)) {
-				lcd.fillScreen(Background);
 				break;
 			}
 		}
@@ -258,7 +257,6 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 					*seed = 0;
 					*isPressed = 0;
 					*stage = 2;
-					lcd.fillScreen(Background);
 					break;
 				}
 				// normal level
@@ -267,7 +265,6 @@ void menu(MI0283QT9 lcd, uint8_t* stage, uint8_t* level, unsigned char eeprom_St
 					*stage = 2;
 					*level = levelToSend;
 					send_IR(isSendingIR, LEVEL, 127, levelToSend);
-					lcd.fillScreen(Background);
 					break;
 				}
 

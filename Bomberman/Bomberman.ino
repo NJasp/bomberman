@@ -91,7 +91,7 @@ int main() {
 			player1_y_speed = playerSpeed;
 		}
 		if (stage == 2) {	
-			init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old, isPlayer2, nTimer, &isSendingIR, &seed);			//Initialize the level selected in menu in stage 1
+			init_Level(grid, level, &player1_x, &player1_y, &player1_x_old, &player1_y_old, isPlayer2, nTimer, &isSendingIR, &seed, lcd);			//Initialize the level selected in menu in stage 1
 			draw_Sprites(lcd, grid);
 			init_Player(player1_x, player1_y, lcd);
 			for (;;) {

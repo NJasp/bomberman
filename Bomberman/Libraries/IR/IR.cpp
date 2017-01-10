@@ -187,6 +187,9 @@ uint8_t processMenuData_IR(uint8_t* stage, uint8_t* level, volatile uint16_t* IR
 
 	if(menuData.type == LEVEL) {
 		if(menuData.xData == 127) { // normal level
+			// filter out invalid levels
+			if(menuData.yData < 1 || menuData.yData > 4)
+				return 0;
 			*isPressed = 0;
 			*level = menuData.yData;
 			*stage = 2;
